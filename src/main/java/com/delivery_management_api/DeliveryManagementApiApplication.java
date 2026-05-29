@@ -1,4 +1,4 @@
-package delivery_management_api;
+package com.delivery_management_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
