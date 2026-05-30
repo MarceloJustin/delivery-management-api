@@ -17,6 +17,8 @@ import com.delivery_management_api.dto.UpdateCustomerRequest;
 import com.delivery_management_api.repository.CustomerRepository;
 import com.delivery_management_api.service.CustomerService;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 public class CustomerController {
@@ -31,7 +33,7 @@ public class CustomerController {
     }
 
 	@PostMapping("/api/customers")
-	public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request) {
+	public CustomerResponse createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
 		return customerService.createCustomer(request);
 	}
 
