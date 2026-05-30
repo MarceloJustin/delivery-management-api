@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.CreateCustomerRequest;
 import com.delivery_management_api.dto.CustomerResponse;
-import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.service.CustomerService;
 
 
@@ -27,7 +26,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/api/customers")
-	public List<Customer> findAllCustomers() {
+	public List<CustomerResponse> findAllCustomers() {
 		return customerService.findAllCustomers();
 	}
 }
