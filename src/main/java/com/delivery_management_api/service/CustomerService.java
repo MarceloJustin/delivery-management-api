@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.delivery_management_api.DeliveryManagementApiApplication;
 import com.delivery_management_api.dto.CreateCustomerRequest;
 import com.delivery_management_api.dto.CustomerResponse;
+import com.delivery_management_api.dto.UpdateCustomerRequest;
 import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.repository.CustomerRepository;
 
@@ -23,11 +24,8 @@ public class CustomerService {
 	}
 
 	public CustomerResponse createCustomer(CreateCustomerRequest request) {
-
 		Customer customer = new Customer(request.getName(), request.getEmail());
-
 		Customer savedCustomer = customerRepository.save(customer);
-
 		return new CustomerResponse(savedCustomer.getId(), savedCustomer.getName(), savedCustomer.getEmail());
 	}
 
@@ -35,5 +33,22 @@ public class CustomerService {
 		return customerRepository.findAll().stream()
 				.map(customer -> new CustomerResponse(customer.getId(), customer.getName(), customer.getEmail()))
 				.toList();
+	}
+
+	public CustomerResponse findCustomerById(Long id) {
+		Customer customer = customerRepository.findById(id).orElseThrow();
+		return new CustomerResponse(customer.getId(), customer.getName(), customer.getEmail());
+	}
+	
+	public CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request) {
+		Customer customer = customerRepository.findById(id).orElseThrow();
+		customer.setName(request.getName());
+		customer.setEmail(request.getEmail());
+		Customer updatedCustomer = customerRepository.save(customer);
+		return new CustomerResponse(updatedCustomer.getId(), updatedCustomer.getName(), updatedCustomer.getEmail());
+	}
+	
+	public void deleteCustomer(Long id) {
+		customerRepository.deleteById(id);
 	}
 }
