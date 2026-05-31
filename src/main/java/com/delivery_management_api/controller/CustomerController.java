@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.delivery_management_api.dto.CreateCustomerRequest;
 import com.delivery_management_api.dto.CustomerResponse;
 import com.delivery_management_api.dto.UpdateCustomerRequest;
-import com.delivery_management_api.repository.CustomerRepository;
 import com.delivery_management_api.service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -22,15 +21,9 @@ import jakarta.validation.Valid;
 
 @RestController
 public class CustomerController {
-
-    private final CustomerRepository customerRepository;
 	
 	@Autowired
 	private CustomerService customerService;
-
-    CustomerController(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
 	@PostMapping("/api/customers")
 	public CustomerResponse createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
@@ -47,38 +40,13 @@ public class CustomerController {
 		return customerService.findCustomerById(id);
 	}
 	
-	@PutMapping("/api/customer/{id}")
-	public CustomerResponse UpdateCustomerById(@PathVariable Long id, @RequestBody UpdateCustomerRequest request) {
+	@PutMapping("/api/customers/{id}")
+	public CustomerResponse updateCustomerById(@PathVariable Long id, @RequestBody UpdateCustomerRequest request) {
 		return customerService.updateCustomer(id, request);
 	}
 	
-	@DeleteMapping("/api/customer/{id}")
+	@DeleteMapping("/api/customers/{id}")
 	public void deleteCustomer(@PathVariable Long id) {
 		customerService.deleteCustomer(id);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
