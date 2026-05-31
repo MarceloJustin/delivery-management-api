@@ -16,6 +16,8 @@ import com.delivery_management_api.dto.RestaurantResponse;
 import com.delivery_management_api.dto.UpdateRestaurantRequest;
 import com.delivery_management_api.service.RestaurantService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class RestaurantController {
 
@@ -23,7 +25,7 @@ public class RestaurantController {
 	private RestaurantService restaurantService;
 
 	@PostMapping("/api/restaurants")
-	public RestaurantResponse creatRestaurant(@RequestBody CreateRestaurantRequest request) {
+	public RestaurantResponse creatRestaurant(@Valid @RequestBody CreateRestaurantRequest request) {
 		return restaurantService.createRestaurant(request);
 	}
 
@@ -38,7 +40,7 @@ public class RestaurantController {
 	}
 
 	@PutMapping("/api/restaurants/{id}")
-	public RestaurantResponse updateRestaurant(@PathVariable Long id, @RequestBody UpdateRestaurantRequest request) {
+	public RestaurantResponse updateRestaurant(@PathVariable Long id,@Valid @RequestBody UpdateRestaurantRequest request) {
 		return restaurantService.updateRestaurant(id, request);
 	}
 

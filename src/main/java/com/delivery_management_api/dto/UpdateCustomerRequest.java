@@ -1,8 +1,14 @@
 package com.delivery_management_api.dto;
 
-public class UpdateCustomerRequest {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
+public class UpdateCustomerRequest {
+	
+	@NotBlank
 	private String name;
+	
+	@Email
 	private String email;
 
 	public String getName() {
