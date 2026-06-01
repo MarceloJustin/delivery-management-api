@@ -1,11 +1,13 @@
 package com.delivery_management_api.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +20,9 @@ public class Restaurant {
 	private String name;
 	private String category;
 	private BigDecimal deliveryFee;
+	
+	@OneToMany(mappedBy = "restaurant")
+	private List<Product> products;
 	
 	public Restaurant() {
 	}
