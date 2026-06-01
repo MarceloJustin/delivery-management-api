@@ -17,7 +17,7 @@ public class ProductResponse {
 		this.restaurantId = restaurantId;
 		this.restaurantName = restaurantName;
 	}
-
+	
 	public String getName() {
 		return name;
 	}

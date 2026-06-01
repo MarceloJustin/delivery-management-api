@@ -26,6 +26,12 @@ public class Product {
 	public Product() {
 	}
 
+	public Product(String name, BigDecimal price, Restaurant restaurant) {
+		this.name = name;
+		this.price = price;
+		this.restaurant = restaurant;
+	}
+
 	public String getName() {
 		return name;
 	}
