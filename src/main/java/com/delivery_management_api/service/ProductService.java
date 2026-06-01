@@ -47,7 +47,7 @@ public class ProductService {
 				product.getRestaurant().getId(), product.getRestaurant().getName());
 	}
 
-	public ProductResponse updateProducts(Long id, UpdateProductRequest request) {
+	public ProductResponse updateProduct(Long id, UpdateProductRequest request) {
 		Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		Restaurant restaurant = restaurantRepository.findById(id)
 				.orElseThrow(() -> new RestaurantNotFoundException(request.getRestaurantId()));
