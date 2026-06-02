@@ -12,6 +12,7 @@ public class OrderResponse {
 	private String customerName;
 	private Long restaurantId;
 	private String restaurantName;
+	private BigDecimal deliveryFee;
 	private BigDecimal totalAmount;
 	private OrderStatus status;
 	private List<OrderItemResponse> items;
@@ -20,12 +21,13 @@ public class OrderResponse {
 	}
 	
 	public OrderResponse(Long id, Long customerId, String customerName, Long restaurantId, String restaurantName,
-			BigDecimal totalAmount, OrderStatus status, List<OrderItemResponse> items) {
+			BigDecimal deliveryFee, BigDecimal totalAmount, OrderStatus status, List<OrderItemResponse> items) {
 		this.id = id;
 		this.customerId = customerId;
 		this.customerName = customerName;
 		this.restaurantId = restaurantId;
 		this.restaurantName = restaurantName;
+		this.deliveryFee = deliveryFee;
 		this.totalAmount = totalAmount;
 		this.status = status;
 		this.items = items;
@@ -61,5 +63,9 @@ public class OrderResponse {
 
 	public List<OrderItemResponse> getItems() {
 		return items;
+	}
+
+	public BigDecimal getDeliveryFee() {
+		return deliveryFee;
 	}
 }

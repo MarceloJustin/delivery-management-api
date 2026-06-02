@@ -74,12 +74,15 @@ public class OrderService {
 			totalAmount = totalAmount.add(subtotal);
 			responseItems.add(new OrderItemResponse(product.getId(), product.getName(), itemRequest.getQuantity()));
 		}
+		
+		totalAmount = totalAmount.add(restaurant.getDeliveryFee());
+		
 		savedOrder.setTotalAmount(totalAmount);
 		
 		savedOrder = orderRepository.save(savedOrder);
 		
 		return new OrderResponse(savedOrder.getId(), customer.getId(), customer.getName(), restaurant.getId(), 
-				restaurant.getName(), savedOrder.getTotalAmount(), savedOrder.getStatus(), responseItems);
+				restaurant.getName(),restaurant.getDeliveryFee(), savedOrder.getTotalAmount(), savedOrder.getStatus(), responseItems);
 	}
 	
 	public List<OrderResponse> findAllOrders() {
@@ -88,7 +91,7 @@ public class OrderService {
 						item.getQuantity())).toList(); 
 		
 		return new OrderResponse(order.getId(), order.getCustomer().getId(), order.getCustomer().getName(),
-				order.getRestaurant().getId(), order.getRestaurant().getName(), order.getTotalAmount(), order.getStatus(), items);
+				order.getRestaurant().getId(), order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
 		})
 		.toList();
 	}
@@ -100,7 +103,7 @@ public class OrderService {
 				item.getProduct().getName(), item.getQuantity())).toList();
 		
 		return new OrderResponse(order.getId(), order.getCustomer().getId(), order.getCustomer().getName(), order.getRestaurant().getId(),
-				order.getRestaurant().getName(), order.getTotalAmount(), order.getStatus(), items);
+				order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
 	}
 	
 	public void deleteOrder(Long id) {
