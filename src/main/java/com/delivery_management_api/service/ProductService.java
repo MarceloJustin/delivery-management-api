@@ -34,7 +34,7 @@ public class ProductService {
 				savedProduct.getRestaurant().getId(), savedProduct.getRestaurant().getName());
 	}
 
-	public List<ProductResponse> findAllProduct() {
+	public List<ProductResponse> findAllProducts() {
 		return productRepository
 				.findAll().stream().map(product -> new ProductResponse(product.getId(), product.getName(),
 						product.getPrice(), product.getRestaurant().getId(), product.getRestaurant().getName()))
@@ -60,6 +60,7 @@ public class ProductService {
 	}
 
 	public void deleteProduct(Long id) {
+		productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		productRepository.deleteById(id);
 	}
 }

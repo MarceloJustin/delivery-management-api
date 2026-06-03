@@ -1,6 +1,7 @@
 package com.delivery_management_api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "Create order items")
@@ -12,6 +13,7 @@ public class CreateOrderItemRequest {
 	
 	@Schema(description = "Product quantity", example = "5")
 	@NotNull
+	@Min(1)
 	private Integer quantity;
 
 	public CreateOrderItemRequest() {

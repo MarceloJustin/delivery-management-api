@@ -3,6 +3,7 @@ package com.delivery_management_api.dto;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,6 +12,7 @@ public class CreateOrderRequest {
 	
 	@Schema(description = "Customer identifier", example = "1")
 	@NotNull
+	@Min(value = 1, message = "Quantity must be greater than zero")
 	private Long customerId;
 	
 	@Schema(description = "Restaurant identifier", example = "1")

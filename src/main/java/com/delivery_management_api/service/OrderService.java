@@ -106,7 +106,7 @@ public class OrderService {
 				order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
 	}
 	
-	public void deleteOrder(Long id) {
+	public void cancelOrder(Long id) {
 		Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
 		
 		if (order.getStatus() != OrderStatus.CREATED && order.getStatus() != OrderStatus.CONFIRMED) {

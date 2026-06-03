@@ -3,6 +3,7 @@ package com.delivery_management_api.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +22,7 @@ public class Restaurant {
 	private String category;
 	private BigDecimal deliveryFee;
 	
-	@OneToMany(mappedBy = "restaurant")
+	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Product> products;
 	
 	public Restaurant() {

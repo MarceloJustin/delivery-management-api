@@ -3,6 +3,8 @@ package com.delivery_management_api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,25 +37,25 @@ public class CustomerController {
 
 	@PostMapping("/api/customers")
 	@Operation(summary = "Create customer", description = "Creates a new customer")
-	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Customer created successfully"),
+	@ApiResponses({ @ApiResponse(responseCode = "201", description = "Customer created successfully"),
 			@ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))) })
-	public CustomerResponse createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
-		return customerService.createCustomer(request);
+	public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(request));
 	}
 
 	@GetMapping("/api/customers")
 	@Operation(summary = "List customers", description = "Returns all registered customers")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Customers found") })
-	public List<CustomerResponse> findAllCustomers() {
-		return customerService.findAllCustomers();
+	public ResponseEntity<List<CustomerResponse>> findAllCustomers() {
+		return ResponseEntity.ok(customerService.findAllCustomers());
 	}
 
 	@GetMapping("/api/customers/{id}")
 	@Operation(summary = "Find customer by ID", description = "Returns a customer by its ID")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Customer found"),
 			@ApiResponse(responseCode = "404", description = "Customer not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
-	public CustomerResponse findCustomerById(@PathVariable Long id) {
-		return customerService.findCustomerById(id);
+	public ResponseEntity<CustomerResponse> findCustomerById(@PathVariable Long id) {
+		return ResponseEntity.ok(customerService.findCustomerById(id));
 	}
 
 	@PutMapping("/api/customers/{id}")
@@ -61,16 +63,16 @@ public class CustomerController {
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Customer updated"),
 			@ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Customer not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
-	public CustomerResponse updateCustomerById(@PathVariable Long id,
-			@Valid @RequestBody UpdateCustomerRequest request) {
-		return customerService.updateCustomer(id, request);
+	public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request) {
+		return ResponseEntity.ok(customerService.updateCustomer(id, request));
 	}
 
 	@DeleteMapping("/api/customers/{id}")
 	@Operation(summary = "Delete customer", description = "Deletes a customer by ID")
-	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Customer deleted"),
+	@ApiResponses({ @ApiResponse(responseCode = "204", description = "Customer deleted"),
 			@ApiResponse(responseCode = "404", description = "Customer not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
-	public void deleteCustomer(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
 		customerService.deleteCustomer(id);
+		return ResponseEntity.noContent().build();
 	}
 }

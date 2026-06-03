@@ -41,12 +41,13 @@ public class RestaurantService {
 		restaurant.setName(request.getName());
 		restaurant.setCategory(request.getCategory());
 		restaurant.setDeliveryFee(request.getDeliveryFee());
-		Restaurant UpdateRestaurant = restaurantRepository.save(restaurant);
-		return new RestaurantResponse(UpdateRestaurant.getId(), UpdateRestaurant.getName(),
-				UpdateRestaurant.getCategory(), UpdateRestaurant.getDeliveryFee());
+		Restaurant updateRestaurant = restaurantRepository.save(restaurant);
+		return new RestaurantResponse(updateRestaurant.getId(), updateRestaurant.getName(),
+				updateRestaurant.getCategory(), updateRestaurant.getDeliveryFee());
 	}
 
 	public void deleteRestaurant(Long id) {
+		restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
 		restaurantRepository.deleteById(id);
 	}
 }
