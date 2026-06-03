@@ -11,6 +11,7 @@ import com.delivery_management_api.dto.CreateOrderItemRequest;
 import com.delivery_management_api.dto.CreateOrderRequest;
 import com.delivery_management_api.dto.OrderItemResponse;
 import com.delivery_management_api.dto.OrderResponse;
+import com.delivery_management_api.dto.UpdateOrderStatusRequest;
 import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.entity.Order;
 import com.delivery_management_api.entity.OrderItem;
@@ -18,6 +19,7 @@ import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;
 import com.delivery_management_api.enums.OrderStatus;
 import com.delivery_management_api.exception.CustomerNotFoundException;
+import com.delivery_management_api.exception.InvalidOrderStatusException;
 import com.delivery_management_api.exception.OrderCancellationNotAllowedException;
 import com.delivery_management_api.exception.OrderNotFoundException;
 import com.delivery_management_api.exception.ProductNotFoundException;
@@ -106,6 +108,23 @@ public class OrderService {
 				order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
 	}
 	
+	public OrderResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
+		Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+		OrderStatus currentStatus = order.getStatus();
+		OrderStatus newStatus = request.getStatus();
+		
+		if(!isValidTransition(currentStatus, newStatus)) {
+			throw new InvalidOrderStatusException(currentStatus.name(), newStatus.name());
+		}
+		order.setStatus(newStatus);
+		
+		Order savedStatus = orderRepository.save(order);
+		List<OrderItemResponse> items = order.getItems().stream().map(item -> new OrderItemResponse(item.getProduct().getId(),
+				item.getProduct().getName(), item.getQuantity())).toList();
+		return new OrderResponse(savedStatus.getId(), savedStatus.getCustomer().getId(),savedStatus.getCustomer().getName(), savedStatus.getRestaurant().getId(),
+				savedStatus.getRestaurant().getName(), savedStatus.getRestaurant().getDeliveryFee(), savedStatus.getTotalAmount(), savedStatus.getStatus(), items);
+	}
+
 	public void cancelOrder(Long id) {
 		Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
 		
@@ -115,5 +134,24 @@ public class OrderService {
 		
 		order.setStatus(OrderStatus.CANCELLED);
 		orderRepository.save(order);
+	}
+	
+	private boolean isValidTransition(OrderStatus current, OrderStatus next) {
+		switch (current) {
+		case CREATED:
+			return next == OrderStatus.CONFIRMED;
+		
+		case CONFIRMED:
+			return next == OrderStatus.PREPARING;
+			
+		case PREPARING:
+			return next == OrderStatus.OUT_FOR_DELIVERY;
+		
+		case OUT_FOR_DELIVERY:
+			return next == OrderStatus.DELIVERED;
+		
+		default:
+			return false;
+		}
 	}
 }

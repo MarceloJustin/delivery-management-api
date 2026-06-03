@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.delivery_management_api.dto.CreateOrderRequest;
 import com.delivery_management_api.dto.ErrorResponse;
 import com.delivery_management_api.dto.OrderResponse;
+import com.delivery_management_api.dto.UpdateOrderStatusRequest;
 import com.delivery_management_api.dto.ValidationErrorResponse;
 import com.delivery_management_api.service.OrderService;
 
@@ -54,6 +55,15 @@ public class OrderController {
 			@ApiResponse(responseCode = "404", description = "Order not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
 	public ResponseEntity<OrderResponse> findOrderById(@PathVariable Long id) {
 		return ResponseEntity.ok(orderService.findOrderById(id));
+	}
+	
+	@PatchMapping("/api/orders/{id}/status")
+	@Operation(summary = "Update order status", description = "Updates the status of an existing order")
+	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Order status updated successfully"),
+			@ApiResponse(responseCode = "404", description = "Order not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "409", description = "Invalid order status transition", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+	public ResponseEntity<OrderResponse> updateOrderStatus(@PathVariable Long id, @Valid @RequestBody UpdateOrderStatusRequest request) {
+		return ResponseEntity.ok(orderService.updateOrderStatus(id, request));
 	}
 
 	@PatchMapping("/api/orders/{id}/cancel")

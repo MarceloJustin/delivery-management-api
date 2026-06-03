@@ -12,7 +12,7 @@ public class CreateOrderRequest {
 	
 	@Schema(description = "Customer identifier", example = "1")
 	@NotNull
-	@Min(value = 1, message = "Quantity must be greater than zero")
+	@Min(value = 1, message = "Customer ID must be greater than zero")
 	private Long customerId;
 	
 	@Schema(description = "Restaurant identifier", example = "1")
