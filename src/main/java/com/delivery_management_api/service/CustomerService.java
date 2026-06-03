@@ -1,8 +1,8 @@
 package com.delivery_management_api.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.delivery_management_api.dto.CreateCustomerRequest;
@@ -24,10 +24,9 @@ public class CustomerService {
 		return new CustomerResponse(savedCustomer.getId(), savedCustomer.getName(), savedCustomer.getEmail());
 	}
 
-	public List<CustomerResponse> findAllCustomers() {
-		return customerRepository.findAll().stream()
-				.map(customer -> new CustomerResponse(customer.getId(), customer.getName(), customer.getEmail()))
-				.toList();
+	public Page<CustomerResponse> findAllCustomers(Pageable pageable) {
+		return customerRepository.findAll(pageable).map(customer -> 
+		new CustomerResponse(customer.getId(), customer.getName(), customer.getEmail()));
 	}
 
 	public CustomerResponse findCustomerById(Long id) {

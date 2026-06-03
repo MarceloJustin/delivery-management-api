@@ -1,8 +1,8 @@
 package com.delivery_management_api.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.delivery_management_api.dto.CreateRestaurantRequest;
@@ -25,9 +25,9 @@ public class RestaurantService {
 				savedRestaurant.getDeliveryFee());
 	}
 
-	public List<RestaurantResponse> findAllRestaurants() {
-		return restaurantRepository.findAll().stream().map(restaurant -> new RestaurantResponse(restaurant.getId(),
-				restaurant.getName(), restaurant.getCategory(), restaurant.getDeliveryFee())).toList();
+	public Page<RestaurantResponse> findAllRestaurants(Pageable pageable) {
+		return restaurantRepository.findAll(pageable).map(restaurant -> new RestaurantResponse(restaurant.getId(),
+				restaurant.getName(), restaurant.getCategory(), restaurant.getDeliveryFee()));
 	}
 
 	public RestaurantResponse findRestaurantById(Long id) {

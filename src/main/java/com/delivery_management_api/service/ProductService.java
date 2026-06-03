@@ -3,6 +3,8 @@ package com.delivery_management_api.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.delivery_management_api.dto.CreateProductRequest;
@@ -34,11 +36,10 @@ public class ProductService {
 				savedProduct.getRestaurant().getId(), savedProduct.getRestaurant().getName());
 	}
 
-	public List<ProductResponse> findAllProducts() {
+	public Page<ProductResponse> findAllProducts(Pageable pageable) {
 		return productRepository
-				.findAll().stream().map(product -> new ProductResponse(product.getId(), product.getName(),
-						product.getPrice(), product.getRestaurant().getId(), product.getRestaurant().getName()))
-				.toList();
+				.findAll(pageable).map(product -> new ProductResponse(product.getId(), product.getName(),
+						product.getPrice(), product.getRestaurant().getId(), product.getRestaurant().getName()));
 	}
 
 	public ProductResponse findProductById(Long id) {

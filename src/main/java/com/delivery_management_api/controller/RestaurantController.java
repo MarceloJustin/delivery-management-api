@@ -1,8 +1,9 @@
 package com.delivery_management_api.controller;
 
-import java.util.List;
-
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.CreateRestaurantRequest;
@@ -29,13 +31,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
+@RequestMapping("api/restaurants")
 @Tag(name = "Restaurants", description = "Operations related to restaurant management")
 public class RestaurantController {
 
 	@Autowired
 	private RestaurantService restaurantService;
 
-	@PostMapping("/api/restaurants")
+	@PostMapping
 	@Operation(summary = "Create restaurant", description = "Creates a new restaurant")
 	@ApiResponses({ @ApiResponse(responseCode = "201", description = "Restaurant created successfully"),
 			@ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))) })
@@ -43,14 +46,14 @@ public class RestaurantController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createRestaurant(request));
 	}
 
-	@GetMapping("/api/restaurants")
+	@GetMapping
 	@Operation(summary = "List restaurants", description = "Returns all registered restaurants")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Restaurants found") })
-	public ResponseEntity<List<RestaurantResponse>> findAllRestaurants() {
-		return ResponseEntity.ok(restaurantService.findAllRestaurants());
+	public ResponseEntity<Page<RestaurantResponse>> findAllRestaurants(Pageable pageable) {
+		return ResponseEntity.ok(restaurantService.findAllRestaurants(pageable));
 	}
 
-	@GetMapping("/api/restaurants/{id}")
+	@GetMapping("/{id}")
 	@Operation(summary = "Find restaurant by ID", description = "Returns a restaurant by its ID")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Restaurant found"),
 			@ApiResponse(responseCode = "404", description = "Restaurant not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
@@ -58,7 +61,7 @@ public class RestaurantController {
 		return ResponseEntity.ok(restaurantService.findRestaurantById(id));
 	}
 
-	@PutMapping("/api/restaurants/{id}")
+	@PutMapping("/{id}")
 	@Operation(summary = "Update restaurant", description = "Updates an existing restaurant")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Restaurant updated"),
 			@ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))),
@@ -67,7 +70,7 @@ public class RestaurantController {
 		return ResponseEntity.ok(restaurantService.updateRestaurant(id, request));
 	}
 
-	@DeleteMapping("/api/restaurants/{id}")
+	@DeleteMapping("/{id}")
 	@Operation(summary = "Delete restaurant", description = "Deletes a restaurant by ID")
 	@ApiResponses({ @ApiResponse(responseCode = "204", description = "Restaurant deleted successfully"),
 			@ApiResponse(responseCode = "404", description = "Restaurant not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })

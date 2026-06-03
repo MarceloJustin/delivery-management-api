@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.delivery_management_api.dto.CreateOrderItemRequest;
@@ -87,25 +89,13 @@ public class OrderService {
 				restaurant.getName(),restaurant.getDeliveryFee(), savedOrder.getTotalAmount(), savedOrder.getStatus(), responseItems);
 	}
 	
-	public List<OrderResponse> findAllOrders() {
-		return orderRepository.findAll().stream().map(order -> { List<OrderItemResponse> items = order.getItems()
-				.stream().map(item -> new OrderItemResponse(item.getProduct().getId(), item.getProduct().getName(),
-						item.getQuantity())).toList(); 
-		
-		return new OrderResponse(order.getId(), order.getCustomer().getId(), order.getCustomer().getName(),
-				order.getRestaurant().getId(), order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
-		})
-		.toList();
+	public Page<OrderResponse> findAllOrders(Pageable pageable) {
+		return orderRepository.findAll(pageable).map(this::buildOrderResponse);
 	}
-	
+
 	public OrderResponse findOrderById(Long id) {
 		Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
-		
-		List<OrderItemResponse> items = order.getItems().stream().map(item -> new OrderItemResponse(item.getProduct().getId(),
-				item.getProduct().getName(), item.getQuantity())).toList();
-		
-		return new OrderResponse(order.getId(), order.getCustomer().getId(), order.getCustomer().getName(), order.getRestaurant().getId(),
-				order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
+		return buildOrderResponse(order);
 	}
 	
 	public OrderResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
@@ -118,11 +108,8 @@ public class OrderService {
 		}
 		order.setStatus(newStatus);
 		
-		Order savedStatus = orderRepository.save(order);
-		List<OrderItemResponse> items = order.getItems().stream().map(item -> new OrderItemResponse(item.getProduct().getId(),
-				item.getProduct().getName(), item.getQuantity())).toList();
-		return new OrderResponse(savedStatus.getId(), savedStatus.getCustomer().getId(),savedStatus.getCustomer().getName(), savedStatus.getRestaurant().getId(),
-				savedStatus.getRestaurant().getName(), savedStatus.getRestaurant().getDeliveryFee(), savedStatus.getTotalAmount(), savedStatus.getStatus(), items);
+		orderRepository.save(order);
+		return buildOrderResponse(order);
 	}
 
 	public void cancelOrder(Long id) {
@@ -154,4 +141,16 @@ public class OrderService {
 			return false;
 		}
 	}
+	
+	private OrderResponse buildOrderResponse(Order order) {
+		List<OrderItemResponse> items = order.getItems().stream().map(item -> new OrderItemResponse(item.getProduct().getId(),
+				item.getProduct().getName(), item.getQuantity())).toList();
+		
+		return new OrderResponse(order.getId(), order.getCustomer().getId(), order.getCustomer().getName(), order.getRestaurant().getId(),
+				order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
+	}
 }
+
+
+
+
