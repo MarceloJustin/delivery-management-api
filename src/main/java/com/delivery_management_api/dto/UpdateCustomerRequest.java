@@ -1,13 +1,17 @@
 package com.delivery_management_api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+@Schema(description = "Customer update request")
 public class UpdateCustomerRequest {
 	
+	@Schema(description = "Customer full name", example = "João da Silva")
 	@NotBlank
 	private String name;
 	
+	@Schema(description = "Customer email address", example = "joaodasilva@email.com")
 	@Email
 	private String email;
 

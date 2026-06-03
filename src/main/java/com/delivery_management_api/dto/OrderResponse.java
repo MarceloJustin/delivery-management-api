@@ -5,16 +5,36 @@ import java.util.List;
 
 import com.delivery_management_api.enums.OrderStatus;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Order response data")
 public class OrderResponse {
 	
+	@Schema(description = "Order identifier", example = "1")
 	private Long id;
+	
+	@Schema(description = "Customer identifier", example = "1")
 	private Long customerId;
+	
+	@Schema(description = "Customer name", example = "João da Silva")
 	private String customerName;
+	
+	@Schema(description = "Restaurant identifier", example = "1")
 	private Long restaurantId;
+	
+	@Schema(description = "Restaurant name", example = "Burger King")
 	private String restaurantName;
+	
+	@Schema(description = "Delivery fee", example = "9.90")
 	private BigDecimal deliveryFee;
+	
+	@Schema(description = "Total order amount", example = "119.90")
 	private BigDecimal totalAmount;
+	
+	@Schema(description = "Current order status", example = "CREATED")
 	private OrderStatus status;
+	
+	@Schema(description = "Order items")
 	private List<OrderItemResponse> items;
 	
 	public OrderResponse() {

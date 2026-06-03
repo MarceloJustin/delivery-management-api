@@ -1,9 +1,17 @@
 package com.delivery_management_api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Customer response data")
 public class CustomerResponse {
 	
+	@Schema(description = "Customer identifier", example = "1")
 	private Long id;
+	
+	@Schema(description = "Customer full name", example = "Marcelo Justin")
 	private String name;
+	
+	@Schema(description = "Customer email address", example = "marcelo@email.com")
 	private String email;
 	
 	public CustomerResponse() {

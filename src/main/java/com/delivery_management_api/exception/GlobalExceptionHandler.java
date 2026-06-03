@@ -22,11 +22,9 @@ public class GlobalExceptionHandler {
 		RestaurantNotFoundException.class,
 		OrderNotFoundException.class
 	})
-	
 	public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException ex) {
 		
-		ErrorResponse error = new ErrorResponse(
-				LocalDateTime.now(),
+		ErrorResponse error = new ErrorResponse(LocalDateTime.now(),
 				HttpStatus.NOT_FOUND.value(),
 				HttpStatus.NOT_FOUND.getReasonPhrase(),
 				ex.getMessage());
@@ -36,39 +34,33 @@ public class GlobalExceptionHandler {
 	
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	
 	public ResponseEntity<ValidationErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
 
 	    Map<String, String> validationErrors = new HashMap<>();
 
-	    ex.getBindingResult()
-	            .getFieldErrors()
-	            .forEach(error -> validationErrors.put(
-	                    error.getField(),
-	                    error.getDefaultMessage()));
+	    ex.getBindingResult().getFieldErrors().forEach(error -> validationErrors.put(
+	            error.getField(),
+	            error.getDefaultMessage()));
 
-	    ValidationErrorResponse response =
-	            new ValidationErrorResponse(
-	                    LocalDateTime.now(),
-	                    HttpStatus.BAD_REQUEST.value(),
-	                    HttpStatus.BAD_REQUEST.getReasonPhrase(),
-	                    "Validation failed",
-	                    validationErrors);
+	    ValidationErrorResponse response = new ValidationErrorResponse(
+	            LocalDateTime.now(),
+	            HttpStatus.BAD_REQUEST.value(),
+	            HttpStatus.BAD_REQUEST.getReasonPhrase(),
+	            "Validation failed",
+	            validationErrors);
 
-	    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	            .body(response);
+	    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
 	
 	
 	@ExceptionHandler(OrderCancellationNotAllowedException.class)
-	
 	public ResponseEntity<ErrorResponse> handleOrderCancellation(OrderCancellationNotAllowedException ex) {
 		
 		ErrorResponse error = new ErrorResponse(
-				LocalDateTime.now(),
-				HttpStatus.CONFLICT.value(),
-				HttpStatus.CONFLICT.getReasonPhrase(),
-				ex.getMessage());
+			   LocalDateTime.now(),
+			   HttpStatus.CONFLICT.value(),
+			   HttpStatus.CONFLICT.getReasonPhrase(),
+		       ex.getMessage());
 		
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
 	}
