@@ -1,5 +1,7 @@
 package com.delivery_management_api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,12 @@ public class RestaurantService {
 		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
 		return new RestaurantResponse(restaurant.getId(), restaurant.getName(), restaurant.getCategory(),
 				restaurant.getDeliveryFee());
+	}
+	
+	public List<RestaurantResponse> findRestaurantsByName(String name){
+		return restaurantRepository.findByNameContainingIgnoreCase(name).stream()
+				.map(restaurant -> new RestaurantResponse(restaurant.getId(), restaurant.getName(), 
+						restaurant.getCategory(), restaurant.getDeliveryFee())).toList();
 	}
 
 	public RestaurantResponse updateRestaurant(Long id, UpdateRestaurantRequest request) {

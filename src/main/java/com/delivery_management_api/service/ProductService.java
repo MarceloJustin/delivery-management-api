@@ -1,5 +1,6 @@
 package com.delivery_management_api.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,18 @@ public class ProductService {
 	public List<ProductResponse> findProductsByRestaurant(Long restaurantId){
 		restaurantRepository.findById(restaurantId).orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 		return productRepository.findByRestaurantId(restaurantId).stream()
+				.map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(),
+						product.getRestaurant().getId(), product.getRestaurant().getName())).toList();
+	}
+	
+	public List<ProductResponse> findByPriceGreaterThan(BigDecimal price){
+		return productRepository.findByPriceGreaterThan(price).stream()
+				.map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(),
+						product.getRestaurant().getId(), product.getRestaurant().getName())).toList();
+	}
+	
+	public List<ProductResponse> findByPriceBetween(BigDecimal minPrice, BigDecimal maxprice){
+		return productRepository.findByPriceBetween(minPrice, maxprice).stream()
 				.map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(),
 						product.getRestaurant().getId(), product.getRestaurant().getName())).toList();
 	}

@@ -1,6 +1,7 @@
 package com.delivery_management_api.controller;
 
-import org.springdoc.core.annotations.ParameterObject;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.CreateRestaurantRequest;
 import com.delivery_management_api.dto.ErrorResponse;
+import com.delivery_management_api.dto.OrderResponse;
 import com.delivery_management_api.dto.RestaurantResponse;
 import com.delivery_management_api.dto.UpdateRestaurantRequest;
 import com.delivery_management_api.dto.ValidationErrorResponse;
+import com.delivery_management_api.repository.RestaurantRepository;
 import com.delivery_management_api.service.RestaurantService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +38,14 @@ import jakarta.validation.Valid;
 @Tag(name = "Restaurants", description = "Operations related to restaurant management")
 public class RestaurantController {
 
+    private final RestaurantRepository restaurantRepository;
+
 	@Autowired
 	private RestaurantService restaurantService;
+
+    RestaurantController(RestaurantRepository restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
+    }
 
 	@PostMapping
 	@Operation(summary = "Create restaurant", description = "Creates a new restaurant")
@@ -59,6 +68,13 @@ public class RestaurantController {
 			@ApiResponse(responseCode = "404", description = "Restaurant not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
 	public ResponseEntity<RestaurantResponse> findRestaurantById(@PathVariable Long id) {
 		return ResponseEntity.ok(restaurantService.findRestaurantById(id));
+	}
+	
+	@GetMapping("/search/{name}")
+	@Operation(summary = "Find restaurants by Name", description = "Returns restaurants matching the provided name")
+	@ApiResponses({@ApiResponse(responseCode = "200", description = "Restaurants found") })
+	public ResponseEntity<List<RestaurantResponse>> findRestaurantsByName(@PathVariable String name){
+		return ResponseEntity.ok(restaurantService.findRestaurantsByName(name));
 	}
 
 	@PutMapping("/{id}")

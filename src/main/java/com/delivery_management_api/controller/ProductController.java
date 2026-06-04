@@ -1,5 +1,6 @@
 package com.delivery_management_api.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.CreateProductRequest;
@@ -67,6 +69,20 @@ public class ProductController {
 			@ApiResponse(responseCode = "404", description = "Restaurant not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
 	public ResponseEntity<List<ProductResponse>> findProductsByRestaurant(@PathVariable Long restaurantId){
 		return ResponseEntity.ok(productService.findProductsByRestaurant(restaurantId));
+	}
+	
+	@GetMapping("/price/{price}")
+	@Operation(summary = "Find products by minimum price", description = "Returns products with price greater than the specified value")
+	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found") })
+	public ResponseEntity<List<ProductResponse>> findByPriceGreaterThan(@PathVariable BigDecimal price){
+		return ResponseEntity.ok(productService.findByPriceGreaterThan(price));
+	}
+	
+	@GetMapping("/price-range")
+	@Operation(summary = "Find products by price between min and max", description = "Returns products with price betweeb min and max")
+	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found") })
+	public ResponseEntity<List<ProductResponse>> findByPriceBetween(@RequestParam BigDecimal minPrice, @RequestParam BigDecimal maxPrice){
+		return ResponseEntity.ok(productService.findByPriceBetween(minPrice, maxPrice));
 	}
 
 	@GetMapping("/{id}")
