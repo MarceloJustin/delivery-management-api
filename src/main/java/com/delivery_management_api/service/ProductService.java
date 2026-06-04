@@ -1,7 +1,5 @@
 package com.delivery_management_api.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +48,7 @@ public class ProductService {
 
 	public ProductResponse updateProduct(Long id, UpdateProductRequest request) {
 		Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-		Restaurant restaurant = restaurantRepository.findById(id)
+		Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
 				.orElseThrow(() -> new RestaurantNotFoundException(request.getRestaurantId()));
 		product.setName(request.getName());
 		product.setPrice(request.getPrice());
