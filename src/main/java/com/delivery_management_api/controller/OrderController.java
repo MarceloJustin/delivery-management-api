@@ -1,6 +1,5 @@
 package com.delivery_management_api.controller;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +18,7 @@ import com.delivery_management_api.dto.ErrorResponse;
 import com.delivery_management_api.dto.OrderResponse;
 import com.delivery_management_api.dto.UpdateOrderStatusRequest;
 import com.delivery_management_api.dto.ValidationErrorResponse;
+import com.delivery_management_api.enums.OrderStatus;
 import com.delivery_management_api.service.OrderService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,6 +58,13 @@ public class OrderController {
 			@ApiResponse(responseCode = "404", description = "Order not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
 	public ResponseEntity<OrderResponse> findOrderById(@PathVariable Long id) {
 		return ResponseEntity.ok(orderService.findOrderById(id));
+	}
+	
+	@GetMapping("/status/{status}")
+	@Operation(summary = "Find orders by status", description = "Returns orders filtered by status")
+	@ApiResponses( @ApiResponse(responseCode = "200", description = "Orders found"))
+	public ResponseEntity<Page<OrderResponse>> findOrdersByStatus(@PathVariable OrderStatus status, Pageable pageable){
+		return ResponseEntity.ok(orderService.findByStatus(status, pageable));
 	}
 	
 	@PatchMapping("/{id}/status")

@@ -1,5 +1,7 @@
 package com.delivery_management_api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +47,14 @@ public class ProductService {
 		return new ProductResponse(product.getId(), product.getName(), product.getPrice(),
 				product.getRestaurant().getId(), product.getRestaurant().getName());
 	}
-
+	
+	public List<ProductResponse> findProductsByRestaurant(Long restaurantId){
+		restaurantRepository.findById(restaurantId).orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+		return productRepository.findByRestaurantId(restaurantId).stream()
+				.map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(),
+						product.getRestaurant().getId(), product.getRestaurant().getName())).toList();
+	}
+	
 	public ProductResponse updateProduct(Long id, UpdateProductRequest request) {
 		Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())

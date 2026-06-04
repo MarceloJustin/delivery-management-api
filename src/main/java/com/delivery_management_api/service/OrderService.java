@@ -98,6 +98,10 @@ public class OrderService {
 		return buildOrderResponse(order);
 	}
 	
+	public Page<OrderResponse> findByStatus(OrderStatus status, Pageable pageable) {
+		return orderRepository.findByStatus(status, pageable).map(this::buildOrderResponse);
+	}
+	
 	public OrderResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
 		Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
 		OrderStatus currentStatus = order.getStatus();
@@ -150,7 +154,3 @@ public class OrderService {
 				order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
 	}
 }
-
-
-
-

@@ -1,6 +1,7 @@
 package com.delivery_management_api.controller;
 
-import org.springdoc.core.annotations.ParameterObject;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import com.delivery_management_api.dto.ErrorResponse;
 import com.delivery_management_api.dto.ProductResponse;
 import com.delivery_management_api.dto.UpdateProductRequest;
 import com.delivery_management_api.dto.ValidationErrorResponse;
+import com.delivery_management_api.repository.ProductRepository;
 import com.delivery_management_api.service.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +37,14 @@ import jakarta.validation.Valid;
 @Tag(name = "Products", description = "Operations related to product management")
 public class ProductController {
 
+    private final ProductRepository productRepository;
+
 	@Autowired
 	private ProductService productService;
+
+    ProductController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
 	@PostMapping
 	@Operation(summary = "Create product", description = "Creates a new product")
@@ -51,6 +59,14 @@ public class ProductController {
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found") })
 	public ResponseEntity<Page<ProductResponse>> findAllProducts(Pageable pageable) {
 		return ResponseEntity.ok(productService.findAllProducts(pageable));
+	}
+	
+	@GetMapping("/restaurant/{restaurantId}")
+	@Operation(summary = "List of products by restaurant", description = "Returns all products from a specific restaurant")
+	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found"),
+			@ApiResponse(responseCode = "404", description = "Restaurant not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
+	public ResponseEntity<List<ProductResponse>> findProductsByRestaurant(@PathVariable Long restaurantId){
+		return ResponseEntity.ok(productService.findProductsByRestaurant(restaurantId));
 	}
 
 	@GetMapping("/{id}")
