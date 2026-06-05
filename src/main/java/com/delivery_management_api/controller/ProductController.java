@@ -39,14 +39,8 @@ import jakarta.validation.Valid;
 @Tag(name = "Products", description = "Operations related to product management")
 public class ProductController {
 
-    private final ProductRepository productRepository;
-
 	@Autowired
 	private ProductService productService;
-
-    ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
 	@PostMapping
 	@Operation(summary = "Create product", description = "Creates a new product")
@@ -74,10 +68,10 @@ public class ProductController {
 	@GetMapping("/price/{price}")
 	@Operation(summary = "Find products by minimum price", description = "Returns products with price greater than the specified value")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found") })
-	public ResponseEntity<List<ProductResponse>> findByPriceGreaterThan(@PathVariable BigDecimal price){
-		return ResponseEntity.ok(productService.findByPriceGreaterThan(price));
+	public ResponseEntity<List<ProductResponse>> findProductsAbovePrice(@PathVariable BigDecimal price){
+		return ResponseEntity.ok(productService.findProductsAbovePrice(price));
 	}
-	
+
 	@GetMapping("/price-range")
 	@Operation(summary = "Find products by price between min and max", description = "Returns products with price betweeb min and max")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found") })

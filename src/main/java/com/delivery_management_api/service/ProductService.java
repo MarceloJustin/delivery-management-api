@@ -33,39 +33,38 @@ public class ProductService {
 
 		Product product = new Product(request.getName(), request.getPrice(), restaurant);
 		Product savedProduct = productRepository.save(product);
-		return new ProductResponse(savedProduct.getId(), savedProduct.getName(), savedProduct.getPrice(),
-				savedProduct.getRestaurant().getId(), savedProduct.getRestaurant().getName());
+		return buildProductResponse(savedProduct);
 	}
 
 	public Page<ProductResponse> findAllProducts(Pageable pageable) {
 		return productRepository
-				.findAll(pageable).map(product -> new ProductResponse(product.getId(), product.getName(),
-						product.getPrice(), product.getRestaurant().getId(), product.getRestaurant().getName()));
+				.findAll(pageable).map(this::buildProductResponse);
 	}
 
 	public ProductResponse findProductById(Long id) {
 		Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-		return new ProductResponse(product.getId(), product.getName(), product.getPrice(),
-				product.getRestaurant().getId(), product.getRestaurant().getName());
+		return buildProductResponse(product);
 	}
 	
 	public List<ProductResponse> findProductsByRestaurant(Long restaurantId){
 		restaurantRepository.findById(restaurantId).orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 		return productRepository.findByRestaurantId(restaurantId).stream()
-				.map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(),
-						product.getRestaurant().getId(), product.getRestaurant().getName())).toList();
+				.map(this::buildProductResponse).toList();
 	}
 	
 	public List<ProductResponse> findByPriceGreaterThan(BigDecimal price){
 		return productRepository.findByPriceGreaterThan(price).stream()
-				.map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(),
-						product.getRestaurant().getId(), product.getRestaurant().getName())).toList();
+				.map(this::buildProductResponse).toList();
+	}
+	
+	public List<ProductResponse> findProductsAbovePrice(BigDecimal price){
+		return productRepository.findProductsAbovePrice(price).stream()
+				.map(this::buildProductResponse).toList();
 	}
 	
 	public List<ProductResponse> findByPriceBetween(BigDecimal minPrice, BigDecimal maxprice){
 		return productRepository.findByPriceBetween(minPrice, maxprice).stream()
-				.map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(),
-						product.getRestaurant().getId(), product.getRestaurant().getName())).toList();
+				.map(this::buildProductResponse).toList();
 	}
 	
 	public ProductResponse updateProduct(Long id, UpdateProductRequest request) {
@@ -76,12 +75,16 @@ public class ProductService {
 		product.setPrice(request.getPrice());
 		product.setRestaurant(restaurant);
 		Product updateProduct = productRepository.save(product);
-		return new ProductResponse(updateProduct.getId(), updateProduct.getName(), updateProduct.getPrice(),
-				updateProduct.getRestaurant().getId(), updateProduct.getRestaurant().getName());
+		return buildProductResponse(updateProduct);
 	}
 
 	public void deleteProduct(Long id) {
 		productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		productRepository.deleteById(id);
+	}
+	
+	private ProductResponse buildProductResponse(Product product) {
+		return new ProductResponse(product.getId(), product.getName(), product.getPrice(),
+				product.getRestaurant().getId(), product.getRestaurant().getName());
 	}
 }
