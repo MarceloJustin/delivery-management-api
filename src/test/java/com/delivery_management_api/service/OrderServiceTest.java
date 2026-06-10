@@ -2,7 +2,9 @@ package com.delivery_management_api.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,6 +29,9 @@ import com.delivery_management_api.entity.OrderItem;
 import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;
 import com.delivery_management_api.enums.OrderStatus;
+import com.delivery_management_api.exception.CustomerNotFoundException;
+import com.delivery_management_api.exception.ProductNotFoundException;
+import com.delivery_management_api.exception.RestaurantNotFoundException;
 import com.delivery_management_api.repository.CustomerRepository;
 import com.delivery_management_api.repository.OrderItemRepository;
 import com.delivery_management_api.repository.OrderRepository;
@@ -105,21 +110,115 @@ public class OrderServiceTest {
 		verify(orderRepository, times(2)).save(any(Order.class));
 	}
 	
-
+	@Test
+	void shouldThrowExceptionWhenCustomerNotFound() {
+		
+		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
+		requestItems.setProductId(999L);
+		requestItems.setQuantity(1);
+		
+		CreateOrderRequest requestOrder = new CreateOrderRequest();
+		requestOrder.setCustomerId(999L);
+		requestOrder.setRestaurantId(999L);
+		requestOrder.setItems(List.of(requestItems));
+		
+		when(customerRepository.findById(999L)).thenReturn(Optional.empty());
+		
+		assertThrows(CustomerNotFoundException.class, () -> orderService.createOrder(requestOrder));
+		
+		verify(orderRepository, never()).save(any(Order.class));
+		
+		verify(customerRepository).findById(999L);	
+	}
 	
+	@Test
+	void shouldThrowExceptionWhenRestaurantNotFound() {
+		
+		Customer customer = new Customer("Marcelo Justin", "marcelo@email.com");
+		ReflectionTestUtils.setField(customer, "id", 1L);
+		
+		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
+		requestItems.setProductId(999L);
+		requestItems.setQuantity(1);
+		
+		CreateOrderRequest requestOrder = new CreateOrderRequest();
+		requestOrder.setCustomerId(999L);
+		requestOrder.setRestaurantId(999L);
+		requestOrder.setItems(List.of(requestItems));
+		
+		when(customerRepository.findById(999L)).thenReturn(Optional.of(customer));
+		when(restaurantRepository.findById(999L)).thenReturn(Optional.empty());
+		
+		assertThrows(RestaurantNotFoundException.class, () -> orderService.createOrder(requestOrder));
+		
+		verify(orderRepository, never()).save(any(Order.class));
+		
+		verify(restaurantRepository).findById(999L);	
+	}
 	
+	@Test
+	void shouldThrowExceptionWhenProductNotFound() {
+		
+		Customer customer = new Customer("Marcelo Justin", "marcelo@email.com");
+		ReflectionTestUtils.setField(customer, "id", 1L);
+		
+		Restaurant restaurant = new Restaurant("Burger King", "Hamburger", BigDecimal.valueOf(8.00));
+		ReflectionTestUtils.setField(restaurant, "id", 1L);
+		
+		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
+		requestItems.setProductId(999L);
+		requestItems.setQuantity(1);
+		
+		CreateOrderRequest requestOrder = new CreateOrderRequest();
+		requestOrder.setCustomerId(999L);
+		requestOrder.setRestaurantId(999L);
+		requestOrder.setItems(List.of(requestItems));
+		
+		when(customerRepository.findById(999L)).thenReturn(Optional.of(customer));
+		when(restaurantRepository.findById(999L)).thenReturn(Optional.of(restaurant));
+		when(productRepository.findById(999L)).thenReturn(Optional.empty());
+		
+		assertThrows(ProductNotFoundException.class, () -> orderService.createOrder(requestOrder));
+		
+		verify(productRepository).findById(999L);		
+		verify(orderRepository).save(any(Order.class));
+		
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Test
+	void shouldFindOrderByIdSuccessfully() {
+		
+		Customer customer = new Customer("Marcelo Justin", "marcelo@email.com");
+		ReflectionTestUtils.setField(customer, "id", 1L);
+		
+		Restaurant restaurant = new Restaurant("Burger King", "Hamburger", BigDecimal.valueOf(8.00));
+		ReflectionTestUtils.setField(restaurant, "id", 1L);
+		
+		Product product = new Product("Hamburger Carne", BigDecimal.valueOf(15.00), restaurant);
+		ReflectionTestUtils.setField(product, "id", 1L);
+		
+		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
+		requestItems.setProductId(1L);
+		requestItems.setQuantity(1);
+		
+		CreateOrderRequest requestOrder = new CreateOrderRequest();
+		requestOrder.setCustomerId(1L);
+		requestOrder.setRestaurantId(1L);
+		requestOrder.setItems(List.of(requestItems));
+		
+		Order savedOrder = new Order(customer, restaurant, BigDecimal.ZERO , OrderStatus.CREATED);
+		ReflectionTestUtils.setField(savedOrder, "id", 1L);
+		
+		OrderItem orderItem = new OrderItem(savedOrder, product, 1);
+		
+		savedOrder.setItems(List.of(orderItem));
+		
+		when(orderRepository.findById(1L)).thenReturn(Optional.of(savedOrder));
+		
+		OrderResponse response = orderService.findOrderById(1L);
+		
+		assertEquals(1L, response.getId());
+		
+		verify(orderRepository).findById(1L);	
+	}
 }
