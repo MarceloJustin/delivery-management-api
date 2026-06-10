@@ -30,6 +30,7 @@ import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;
 import com.delivery_management_api.enums.OrderStatus;
 import com.delivery_management_api.exception.CustomerNotFoundException;
+import com.delivery_management_api.exception.OrderNotFoundException;
 import com.delivery_management_api.exception.ProductNotFoundException;
 import com.delivery_management_api.exception.RestaurantNotFoundException;
 import com.delivery_management_api.repository.CustomerRepository;
@@ -221,4 +222,32 @@ public class OrderServiceTest {
 		
 		verify(orderRepository).findById(1L);	
 	}
+	
+	@Test
+	void shouldThrowExceptionWhenOrderNotFoundById() {
+		
+		when(orderRepository.findById(999L)).thenReturn(Optional.empty());
+		
+		assertThrows(OrderNotFoundException.class, () -> orderService.findOrderById(999L));
+		
+		verify(orderRepository).findById(999L);		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
