@@ -23,6 +23,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.delivery_management_api.dto.CreateOrderItemRequest;
 import com.delivery_management_api.dto.CreateOrderRequest;
 import com.delivery_management_api.dto.OrderResponse;
+import com.delivery_management_api.dto.UpdateOrderStatusRequest;
 import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.entity.Order;
 import com.delivery_management_api.entity.OrderItem;
@@ -30,6 +31,8 @@ import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;
 import com.delivery_management_api.enums.OrderStatus;
 import com.delivery_management_api.exception.CustomerNotFoundException;
+import com.delivery_management_api.exception.InvalidOrderStatusException;
+import com.delivery_management_api.exception.OrderCancellationNotAllowedException;
 import com.delivery_management_api.exception.OrderNotFoundException;
 import com.delivery_management_api.exception.ProductNotFoundException;
 import com.delivery_management_api.exception.RestaurantNotFoundException;
@@ -62,15 +65,9 @@ public class OrderServiceTest {
 	
 	@Test
 	void shouldCreateOrderSuccessfully() {
-		
-		Customer customer = new Customer("Marcelo Justin", "marcelo@email.com");
-		ReflectionTestUtils.setField(customer, "id", 1L);
-		
-		Restaurant restaurant = new Restaurant("Burger King", "Hamburger", BigDecimal.valueOf(8.00));
-		ReflectionTestUtils.setField(restaurant, "id", 1L);
-		
-		Product product = new Product("Hamburger Carne", BigDecimal.valueOf(15.00), restaurant);
-		ReflectionTestUtils.setField(product, "id", 1L);
+		Customer customer = createCustomer();
+		Restaurant restaurant = createRestaurant();
+		Product product = createProduct(restaurant);
 		
 		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
 		requestItems.setProductId(1L);
@@ -113,7 +110,6 @@ public class OrderServiceTest {
 	
 	@Test
 	void shouldThrowExceptionWhenCustomerNotFound() {
-		
 		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
 		requestItems.setProductId(999L);
 		requestItems.setQuantity(1);
@@ -134,9 +130,7 @@ public class OrderServiceTest {
 	
 	@Test
 	void shouldThrowExceptionWhenRestaurantNotFound() {
-		
-		Customer customer = new Customer("Marcelo Justin", "marcelo@email.com");
-		ReflectionTestUtils.setField(customer, "id", 1L);
+		Customer customer = createCustomer();
 		
 		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
 		requestItems.setProductId(999L);
@@ -159,12 +153,8 @@ public class OrderServiceTest {
 	
 	@Test
 	void shouldThrowExceptionWhenProductNotFound() {
-		
-		Customer customer = new Customer("Marcelo Justin", "marcelo@email.com");
-		ReflectionTestUtils.setField(customer, "id", 1L);
-		
-		Restaurant restaurant = new Restaurant("Burger King", "Hamburger", BigDecimal.valueOf(8.00));
-		ReflectionTestUtils.setField(restaurant, "id", 1L);
+		Customer customer = createCustomer();
+		Restaurant restaurant = createRestaurant();
 		
 		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
 		requestItems.setProductId(999L);
@@ -183,29 +173,13 @@ public class OrderServiceTest {
 		
 		verify(productRepository).findById(999L);		
 		verify(orderRepository).save(any(Order.class));
-		
 	}
 	
 	@Test
 	void shouldFindOrderByIdSuccessfully() {
-		
-		Customer customer = new Customer("Marcelo Justin", "marcelo@email.com");
-		ReflectionTestUtils.setField(customer, "id", 1L);
-		
-		Restaurant restaurant = new Restaurant("Burger King", "Hamburger", BigDecimal.valueOf(8.00));
-		ReflectionTestUtils.setField(restaurant, "id", 1L);
-		
-		Product product = new Product("Hamburger Carne", BigDecimal.valueOf(15.00), restaurant);
-		ReflectionTestUtils.setField(product, "id", 1L);
-		
-		CreateOrderItemRequest requestItems = new CreateOrderItemRequest();
-		requestItems.setProductId(1L);
-		requestItems.setQuantity(1);
-		
-		CreateOrderRequest requestOrder = new CreateOrderRequest();
-		requestOrder.setCustomerId(1L);
-		requestOrder.setRestaurantId(1L);
-		requestOrder.setItems(List.of(requestItems));
+		Customer customer = createCustomer();
+		Restaurant restaurant = createRestaurant();
+		Product product = createProduct(restaurant);
 		
 		Order savedOrder = new Order(customer, restaurant, BigDecimal.ZERO , OrderStatus.CREATED);
 		ReflectionTestUtils.setField(savedOrder, "id", 1L);
@@ -233,21 +207,119 @@ public class OrderServiceTest {
 		verify(orderRepository).findById(999L);		
 	}
 	
+	@Test
+	void shouldUpdateOrderStatusSuccessfully() {
+		Customer customer = createCustomer();
+		Restaurant restaurant = createRestaurant();
+		Product product = createProduct(restaurant);	
+		Order order = createOrder(customer, restaurant, OrderStatus.CREATED);	
+		
+		UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
+		request.setStatus(OrderStatus.CONFIRMED);
+		
+		OrderItem orderItem = new OrderItem(order, product, 1);
+		
+		order.setItems(List.of(orderItem));
+		
+		when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+		
+		OrderResponse response = orderService.updateOrderStatus(1L, request);
+		
+		assertNotNull(response);
+		assertEquals(OrderStatus.CONFIRMED, order.getStatus());
+		
+		verify(orderRepository).findById(1L);
+		verify(orderRepository).save(order);	
+	}
 	
+	@Test
+	void shouldThrowExceptionWhenOrderStatusTransitionIsInvalid() {
+		Customer customer = createCustomer();
+		Restaurant restaurant = createRestaurant();
+		Product product = createProduct(restaurant);	
+		Order order = createOrder(customer, restaurant, OrderStatus.CREATED);	
+		
+		UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
+		request.setStatus(OrderStatus.DELIVERED);
+		
+		OrderItem orderItem = new OrderItem(order, product, 1);
+		
+		order.setItems(List.of(orderItem));
+		
+		when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+		
+		assertThrows(InvalidOrderStatusException.class, () -> orderService.updateOrderStatus(1L, request));
+		
+		verify(orderRepository).findById(1L);
+		verify(orderRepository, never()).save(any(Order.class));
+	}
 	
+	@Test
+	void shouldCancelOrderSuccessfully() {
+		Customer customer = createCustomer();
+		Restaurant restaurant = createRestaurant();
+		Order order = createOrder(customer, restaurant, OrderStatus.CREATED);
+		
+		when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+		
+		orderService.cancelOrder(1L);
+		
+		assertEquals(OrderStatus.CANCELLED, order.getStatus());
+		
+		verify(orderRepository).findById(1L);
+		verify(orderRepository).save(order);
+	}
 	
+	@Test
+	void shouldThrowExceptionWhenOrderNotFoundForCancellation() {
+		
+		when(orderRepository.findById(999L)).thenReturn(Optional.empty());
+		
+		assertThrows(OrderNotFoundException.class, () -> orderService.cancelOrder(999L));
+		
+		verify(orderRepository).findById(999L);
+		verify(orderRepository, never()).save(any(Order.class));
+	}
 	
+	@Test
+	void shouldThrowExceptionWhenCancellationIsNotAllowed() {
+		Customer customer = createCustomer();
+		Restaurant restaurant = createRestaurant();
+		Order order = createOrder(customer, restaurant, OrderStatus.PREPARING);		
+		
+		when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+		
+		assertThrows(OrderCancellationNotAllowedException.class, () -> orderService.cancelOrder(1L));
+		
+		verify(orderRepository).findById(1L);
+		verify(orderRepository, never()).save(any(Order.class));
+	}	
 	
+	private Customer createCustomer() {
+		Customer customer = new Customer("Marcelo Justin", "marcelo@email.com");
+		ReflectionTestUtils.setField(customer, "id", 1L);
+		
+		return customer;
+	}
 	
+	private Restaurant createRestaurant() {
+		Restaurant restaurant = new Restaurant("Burger King", "Hamburger", BigDecimal.valueOf(8.00));
+		ReflectionTestUtils.setField(restaurant, "id", 1L);
+		
+		return restaurant;
+	}
 	
+	private Product createProduct(Restaurant restaurant) {
+		Product product = new Product("Hamburger Carne", BigDecimal.valueOf(15.00), restaurant);
+		ReflectionTestUtils.setField(product, "id", 1L);
+		
+		return product;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	private Order createOrder(Customer customer, Restaurant restaurant, OrderStatus status) {
+		Order order = new Order(customer, restaurant, BigDecimal.valueOf(15.00) , status);
+		ReflectionTestUtils.setField(order, "id", 1L);
+		
+		return order;
+	}
 }
