@@ -23,7 +23,6 @@ import com.delivery_management_api.dto.ErrorResponse;
 import com.delivery_management_api.dto.ProductResponse;
 import com.delivery_management_api.dto.UpdateProductRequest;
 import com.delivery_management_api.dto.ValidationErrorResponse;
-import com.delivery_management_api.repository.ProductRepository;
 import com.delivery_management_api.service.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
