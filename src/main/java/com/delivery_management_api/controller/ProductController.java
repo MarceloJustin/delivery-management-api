@@ -55,26 +55,27 @@ public class ProductController {
 	public ResponseEntity<Page<ProductResponse>> findAllProducts(Pageable pageable) {
 		return ResponseEntity.ok(productService.findAllProducts(pageable));
 	}
-	
+
 	@GetMapping("/restaurant/{restaurantId}")
 	@Operation(summary = "List of products by restaurant", description = "Returns all products from a specific restaurant")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found"),
 			@ApiResponse(responseCode = "404", description = "Restaurant not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
-	public ResponseEntity<List<ProductResponse>> findProductsByRestaurant(@PathVariable Long restaurantId){
+	public ResponseEntity<List<ProductResponse>> findProductsByRestaurant(@PathVariable Long restaurantId) {
 		return ResponseEntity.ok(productService.findProductsByRestaurant(restaurantId));
 	}
-	
+
 	@GetMapping("/price/{price}")
 	@Operation(summary = "Find products by minimum price", description = "Returns products with price greater than the specified value")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found") })
-	public ResponseEntity<List<ProductResponse>> findProductsAbovePrice(@PathVariable BigDecimal price){
+	public ResponseEntity<List<ProductResponse>> findProductsAbovePrice(@PathVariable BigDecimal price) {
 		return ResponseEntity.ok(productService.findProductsAbovePrice(price));
 	}
 
 	@GetMapping("/price-range")
 	@Operation(summary = "Find products by price between min and max", description = "Returns products with price betweeb min and max")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Products found") })
-	public ResponseEntity<List<ProductResponse>> findByPriceBetween(@RequestParam BigDecimal minPrice, @RequestParam BigDecimal maxPrice){
+	public ResponseEntity<List<ProductResponse>> findByPriceBetween(@RequestParam BigDecimal minPrice,
+			@RequestParam BigDecimal maxPrice) {
 		return ResponseEntity.ok(productService.findByPriceBetween(minPrice, maxPrice));
 	}
 
@@ -91,7 +92,8 @@ public class ProductController {
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Product updated"),
 			@ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Product not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
-	public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody UpdateProductRequest request) {
+	public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id,
+			@Valid @RequestBody UpdateProductRequest request) {
 		return ResponseEntity.ok(productService.updateProduct(id, request));
 	}
 

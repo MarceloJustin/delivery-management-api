@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.CreateRestaurantRequest;
 import com.delivery_management_api.dto.ErrorResponse;
-import com.delivery_management_api.dto.OrderResponse;
 import com.delivery_management_api.dto.RestaurantResponse;
 import com.delivery_management_api.dto.UpdateRestaurantRequest;
 import com.delivery_management_api.dto.ValidationErrorResponse;
-import com.delivery_management_api.repository.RestaurantRepository;
 import com.delivery_management_api.service.RestaurantService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,14 +36,8 @@ import jakarta.validation.Valid;
 @Tag(name = "Restaurants", description = "Operations related to restaurant management")
 public class RestaurantController {
 
-    private final RestaurantRepository restaurantRepository;
-
 	@Autowired
 	private RestaurantService restaurantService;
-
-    RestaurantController(RestaurantRepository restaurantRepository) {
-        this.restaurantRepository = restaurantRepository;
-    }
 
 	@PostMapping
 	@Operation(summary = "Create restaurant", description = "Creates a new restaurant")
