@@ -55,49 +55,47 @@ public class ProductControllerIntegrationTest {
 
 	@Test
 	void shouldReturnProductWhenExisted() throws Exception {
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
-		Product product = productRepository.save(new Product("Pizza Calabresa", BigDecimal.valueOf(39.90), restaurant));
+		Restaurant restaurant = createRestaurant();
+		Product product = createProduct(restaurant);
 
 		mockMvc.perform(get("/api/products/" + product.getId())).andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(product.getId()))
-				.andExpect(jsonPath("$.name").value("Pizza Calabresa")).andExpect(jsonPath("$.price").value(39.90))
+				.andExpect(jsonPath("$.name").value("Pizza 4Queijos"))
+				.andExpect(jsonPath("$.price").value(38.80))
 				.andExpect(jsonPath("$.restaurantId").value(restaurant.getId()))
 				.andExpect(jsonPath("$.restaurantName").value("Pizzaria do Marcelo"));
 	}
 	
 	@Test
 	void shouldReturnProductByRestaurant() throws Exception {
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
-		Product product = productRepository.save(new Product("Pizza Calabresa", BigDecimal.valueOf(39.90), restaurant));
+		Restaurant restaurant = createRestaurant();
+		Product product = createProduct(restaurant);
 
 		mockMvc.perform(get("/api/products/restaurant/" + restaurant.getId())).andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].id").value(product.getId()))
-				.andExpect(jsonPath("$[0].name").value("Pizza Calabresa"))
-				.andExpect(jsonPath("$[0].price").value(39.90))
+				.andExpect(jsonPath("$[0].name").value("Pizza 4Queijos"))
+				.andExpect(jsonPath("$[0].price").value(38.80))
 				.andExpect(jsonPath("$[0].restaurantId").value(restaurant.getId()))
 				.andExpect(jsonPath("$[0].restaurantName").value("Pizzaria do Marcelo"));
 	}
 
 	@Test
 	void shouldReturnProductsAbovePrice() throws Exception {
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
-		Product product = productRepository.save(new Product("Pizza Calabresa", BigDecimal.valueOf(39.90), restaurant));
+		Restaurant restaurant = createRestaurant();
+		Product product = createProduct(restaurant);
 
 		mockMvc.perform(get("/api/products/price/" + 30)).andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].id").value(product.getId()))
-				.andExpect(jsonPath("$[0].name").value("Pizza Calabresa"))
-				.andExpect(jsonPath("$[0].price").value(39.90))
+				.andExpect(jsonPath("$[0].name").value("Pizza 4Queijos"))
+				.andExpect(jsonPath("$[0].price").value(38.80))
 				.andExpect(jsonPath("$[0].restaurantId").value(restaurant.getId()))
 				.andExpect(jsonPath("$[0].restaurantName").value("Pizzaria do Marcelo"));
 	}
 	
 	@Test
 	void shouldReturnProductsWithinPriceRange() throws Exception{
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
+		
 		Product product1 = productRepository.save(new Product("Pizza Calabresa", BigDecimal.valueOf(20.00), restaurant));
 		Product product2 = productRepository.save(new Product("Pizza Frango", BigDecimal.valueOf(40.00), restaurant));
 		Product product3 = productRepository.save(new Product("Pizza 4Queijos", BigDecimal.valueOf(60.00), restaurant));
@@ -114,13 +112,12 @@ public class ProductControllerIntegrationTest {
 	
 	@Test
 	void shouldCreateProduct() throws Exception {
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 
 		String requestBody = """
 				{
-				"name":"Pizza Calabresa",
-				"price": 39.90,
+				"name":"Pizza 4Queijos",
+				"price": 38.80,
 				"restaurantId": %d
 				}
 				""".formatted(restaurant.getId());
@@ -128,8 +125,8 @@ public class ProductControllerIntegrationTest {
 		mockMvc.perform(post("/api/products").contentType(MediaType.APPLICATION_JSON).content(requestBody))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id").exists())
-				.andExpect(jsonPath("$.name").value("Pizza Calabresa"))
-				.andExpect(jsonPath("$.price").value(39.90))
+				.andExpect(jsonPath("$.name").value("Pizza 4Queijos"))
+				.andExpect(jsonPath("$.price").value(38.80))
 				.andExpect(jsonPath("$.restaurantId").value(restaurant.getId()))
 				.andExpect(jsonPath("$.restaurantName").value("Pizzaria do Marcelo"));
 		
@@ -139,20 +136,19 @@ public class ProductControllerIntegrationTest {
 
 		Product savedProduct = products.getFirst();
 
-		assertEquals("Pizza Calabresa", savedProduct.getName());
-		assertEquals(0, new BigDecimal("39.90").compareTo(savedProduct.getPrice()));
+		assertEquals("Pizza 4Queijos", savedProduct.getName());
+		assertEquals(0, new BigDecimal("38.80").compareTo(savedProduct.getPrice()));
 		assertEquals(restaurant.getId(),savedProduct.getRestaurant().getId());
 	}
 	
 	@Test
 	void shouldReturnBadRequestWhenNameIsBlank() throws Exception{
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 
 		String requestBody = """
 				{
 				"name":" ",
-				"price": 39.90,
+				"price": 38.80,
 				"restaurantId": %d
 				}
 				""".formatted(restaurant.getId());
@@ -163,12 +159,11 @@ public class ProductControllerIntegrationTest {
 	
 	@Test
 	void shouldReturnBadRequestWhenPriceIsNull() throws Exception{
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 
 		String requestBody = """
 				{
-				"name":"Pizza Calabresa",
+				"name":"Pizza 4Queijos",
 				"price": null,
 				"restaurantId": %d
 				}
@@ -182,8 +177,8 @@ public class ProductControllerIntegrationTest {
 	void shouldReturnNotFoundWhenRestaurantDoesNotExist() throws Exception{	
 		String requestBody = """
 				{
-				"name":"Pizza Calabresa",
-				"price": 39.90,
+				"name":"Pizza 4Queijos",
+				"price": 38.80,
 				"restaurantId":999
 				}
 				""";
@@ -194,15 +189,14 @@ public class ProductControllerIntegrationTest {
 	
 	@Test
 	void shouldUpdateProduct() throws Exception {
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 		
-		Product product = productRepository.save(new Product("Pizza 4Queijos", BigDecimal.valueOf(38.80), restaurant));
+		Product product = createProduct(restaurant);
 
 		String requestBody = """
 				{
-				"name":"Pizza Calabresa",
-				"price": 39.90,
+				"name":"Pizza 4Queijos",
+				"price": 38.80,
 				"restaurantId": %d
 				}
 				""".formatted(restaurant.getId());
@@ -210,27 +204,26 @@ public class ProductControllerIntegrationTest {
 		mockMvc.perform(put("/api/products/" + product.getId()).contentType(MediaType.APPLICATION_JSON).content(requestBody))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").exists())
-				.andExpect(jsonPath("$.name").value("Pizza Calabresa"))
-				.andExpect(jsonPath("$.price").value(39.90))
+				.andExpect(jsonPath("$.name").value("Pizza 4Queijos"))
+				.andExpect(jsonPath("$.price").value(38.80))
 				.andExpect(jsonPath("$.restaurantId").value(restaurant.getId()))
 				.andExpect(jsonPath("$.restaurantName").value("Pizzaria do Marcelo"));
 		
 		Product updatedProduct = productRepository.findById(product.getId()).orElseThrow();
 
-		assertEquals("Pizza Calabresa", updatedProduct.getName());
-		assertEquals(0, new BigDecimal("39.90").compareTo(updatedProduct.getPrice()));
+		assertEquals("Pizza 4Queijos", updatedProduct.getName());
+		assertEquals(0, new BigDecimal("38.80").compareTo(updatedProduct.getPrice()));
 		assertEquals(restaurant.getId(), updatedProduct.getRestaurant().getId());
 	}
 	
 	@Test
 	void shouldReturnNotFoundWhenUpdatingNonExistingProduct() throws Exception {
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 		
 		String requestBody = """
 				{
-				"name":"Pizza Calabresa",
-				"price": 39.90,
+				"name":"Pizza 4Queijos",
+				"price": 38.80,
 				"restaurantId": %d
 				}
 				""".formatted(restaurant.getId());
@@ -241,15 +234,14 @@ public class ProductControllerIntegrationTest {
 	
 	@Test
 	void shouldReturnBadRequestWhenUpdatingProductWithBlankName() throws Exception{
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 		
-		Product product = productRepository.save(new Product("Pizza 4Queijos", BigDecimal.valueOf(38.80), restaurant));
+		Product product = createProduct(restaurant);
 
 		String requestBody = """
 				{
 				"name":" ",
-				"price": 39.90,
+				"price": 38.80,
 				"restaurantId": %d
 				}
 				""".formatted(restaurant.getId());
@@ -260,14 +252,13 @@ public class ProductControllerIntegrationTest {
 	
 	@Test
 	void shouldReturnBadRequestWhenUpdatingProductWithNullPrice() throws Exception {
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 		
-		Product product = productRepository.save(new Product("Pizza 4Queijos", BigDecimal.valueOf(38.80), restaurant));
+		Product product = createProduct(restaurant);
 
 		String requestBody = """
 				{
-				"name":"Pizza Calabresa ",
+				"name":"Pizza 4Queijos ",
 				"price": null,
 				"restaurantId": %d
 				}
@@ -279,15 +270,14 @@ public class ProductControllerIntegrationTest {
 	
 	@Test
 	void shouldReturnNotFoundWhenUpdatingProductWithNonExistingRestaurant() throws Exception {
-		Restaurant restaurant = restaurantRepository
-				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 		
-		Product product = productRepository.save(new Product("Pizza 4Queijos", BigDecimal.valueOf(38.80), restaurant));
+		Product product = createProduct(restaurant);
 		
 		String requestBody = """
 				{
-				"name":"Pizza Calabresa",
-				"price": 39.90,
+				"name":"Pizza 4Queijos",
+				"price": 38.80,
 				"restaurantId": 999
 				}
 				""";
@@ -298,9 +288,9 @@ public class ProductControllerIntegrationTest {
 	
 	@Test
 	void shouldDeleteProduct() throws Exception {
-		Restaurant restaurant = restaurantRepository.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		Restaurant restaurant = createRestaurant();
 		
-		Product product = productRepository.save(new Product("Pizza 4Queijos", BigDecimal.valueOf(38.80), restaurant));
+		Product product = createProduct(restaurant);
 
 		mockMvc.perform(delete("/api/products/" + product.getId())).andExpect(status().isNoContent());
 		
@@ -310,5 +300,16 @@ public class ProductControllerIntegrationTest {
 	@Test
 	void shouldReturnNotFoundWhenDeletingNonExistingProduct() throws Exception {
 		mockMvc.perform(delete("/api/products/" + 999)).andExpect(status().isNotFound());
+	}
+	
+	private Restaurant createRestaurant() {
+		Restaurant restaurant = restaurantRepository
+				.save(new Restaurant("Pizzaria do Marcelo", "Pizza", BigDecimal.valueOf(5.0)));
+		return restaurant;
+	}
+	
+	private Product createProduct(Restaurant restaurant) {
+		Product product = productRepository.save(new Product("Pizza 4Queijos", BigDecimal.valueOf(38.80), restaurant));
+		return product;
 	}
 }
