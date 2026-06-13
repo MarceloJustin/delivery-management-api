@@ -253,7 +253,178 @@ public class OrderServiceTest {
 		verify(orderRepository).findById(1L);
 		verify(orderRepository, never()).save(any(Order.class));
 	}
+
+	@Test
+	void shouldUpdateOrderStatusFromConfirmedToPreparing() {
+	    Customer customer = createCustomer();
+	    Restaurant restaurant = createRestaurant();
+	    Product product = createProduct(restaurant);
+	    Order order = createOrder(customer, restaurant, OrderStatus.CONFIRMED);
+
+	    UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
+	    request.setStatus(OrderStatus.PREPARING);
+
+	    OrderItem orderItem = new OrderItem(order, product, 1);
+	    order.setItems(List.of(orderItem));
+
+	    when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+	    OrderResponse response = orderService.updateOrderStatus(1L, request);
+
+	    assertNotNull(response);
+	    assertEquals(OrderStatus.PREPARING, order.getStatus());
+
+	    verify(orderRepository).findById(1L);
+	    verify(orderRepository).save(order);
+	}
 	
+	@Test
+	void shouldThrowExceptionWhenConfirmedTransitionIsInvalid() {
+	    Customer customer = createCustomer();
+	    Restaurant restaurant = createRestaurant();
+	    Product product = createProduct(restaurant);
+
+	    Order order = createOrder(customer, restaurant, OrderStatus.CONFIRMED);
+
+	    UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
+	    request.setStatus(OrderStatus.DELIVERED);
+
+	    OrderItem orderItem = new OrderItem(order, product, 1);
+	    order.setItems(List.of(orderItem));
+
+	    when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+	    assertThrows(InvalidOrderStatusException.class,() -> orderService.updateOrderStatus(1L, request));
+
+	    verify(orderRepository, never()).save(any(Order.class));
+	}
+	
+	@Test
+	void shouldUpdateOrderStatusFromPreparingToOutForDelivery() {
+	    Customer customer = createCustomer();
+	    Restaurant restaurant = createRestaurant();
+	    Product product = createProduct(restaurant);
+	    Order order = createOrder(customer, restaurant, OrderStatus.PREPARING);
+
+	    UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
+	    request.setStatus(OrderStatus.OUT_FOR_DELIVERY);
+
+	    OrderItem orderItem = new OrderItem(order, product, 1);
+	    order.setItems(List.of(orderItem));
+
+	    when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+	    OrderResponse response = orderService.updateOrderStatus(1L, request);
+
+	    assertNotNull(response);
+	    assertEquals(OrderStatus.OUT_FOR_DELIVERY, order.getStatus());
+
+	    verify(orderRepository).findById(1L);
+	    verify(orderRepository).save(order);
+	}
+	
+	@Test
+	void shouldThrowExceptionWhenPreparingTransitionIsInvalid() {
+	    Customer customer = createCustomer();
+	    Restaurant restaurant = createRestaurant();
+	    Product product = createProduct(restaurant);
+
+	    Order order = createOrder(customer, restaurant, OrderStatus.PREPARING);
+
+	    UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();request.setStatus(OrderStatus.DELIVERED);
+
+	    OrderItem orderItem = new OrderItem(order, product, 1);
+	    order.setItems(List.of(orderItem));
+
+	    when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+	    assertThrows(InvalidOrderStatusException.class,() -> orderService.updateOrderStatus(1L, request));
+
+	    verify(orderRepository, never()).save(any(Order.class));
+	}
+	
+	@Test
+	void shouldUpdateOrderStatusFromOutForDeliveryToDelivered() {
+	    Customer customer = createCustomer();
+	    Restaurant restaurant = createRestaurant();
+	    Product product = createProduct(restaurant);
+	    Order order = createOrder(customer, restaurant, OrderStatus.OUT_FOR_DELIVERY);
+
+	    UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
+	    request.setStatus(OrderStatus.DELIVERED);
+
+	    OrderItem orderItem = new OrderItem(order, product, 1);
+	    order.setItems(List.of(orderItem));
+
+	    when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+	    OrderResponse response = orderService.updateOrderStatus(1L, request);
+
+	    assertNotNull(response);
+	    assertEquals(OrderStatus.DELIVERED, order.getStatus());
+
+	    verify(orderRepository).findById(1L);
+	    verify(orderRepository).save(order);
+	}
+	
+	@Test
+	void shouldThrowExceptionWhenOutForDeliveryTransitionIsInvalid() {
+	    Customer customer = createCustomer();
+	    Restaurant restaurant = createRestaurant();
+	    Product product = createProduct(restaurant);
+
+	    Order order =createOrder(customer, restaurant, OrderStatus.OUT_FOR_DELIVERY);
+
+	    UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
+	    request.setStatus(OrderStatus.CONFIRMED);
+
+	    OrderItem orderItem = new OrderItem(order, product, 1);
+	    order.setItems(List.of(orderItem));
+
+	    when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+	    assertThrows(InvalidOrderStatusException.class,() -> orderService.updateOrderStatus(1L, request));
+
+	    verify(orderRepository, never()).save(any(Order.class));
+	}
+	
+	@Test
+	void shouldCancelConfirmedOrderSuccessfully() {
+	    Customer customer = createCustomer();
+	    Restaurant restaurant = createRestaurant();
+	    Order order = createOrder(customer, restaurant, OrderStatus.CONFIRMED);
+
+	    when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+	    orderService.cancelOrder(1L);
+
+	    assertEquals(OrderStatus.CANCELLED, order.getStatus());
+
+	    verify(orderRepository).findById(1L);
+	    verify(orderRepository).save(order);
+	}
+	
+	@Test
+	void shouldThrowExceptionWhenUpdatingCancelledOrder() {
+	    Customer customer = createCustomer();
+	    Restaurant restaurant = createRestaurant();
+	    Product product = createProduct(restaurant);
+
+	    Order order = createOrder(customer, restaurant, OrderStatus.CANCELLED);
+
+	    UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
+	    request.setStatus(OrderStatus.CONFIRMED);
+
+	    OrderItem orderItem = new OrderItem(order, product, 1);
+	    order.setItems(List.of(orderItem));
+
+	    when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+	    assertThrows(InvalidOrderStatusException.class,() -> orderService.updateOrderStatus(1L, request));
+
+	    verify(orderRepository, never()).save(any(Order.class));
+	}
+
 	@Test
 	void shouldCancelOrderSuccessfully() {
 		Customer customer = createCustomer();
