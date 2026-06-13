@@ -1,6 +1,6 @@
 # Delivery Management API
 
-![Build Status](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml/badge.svg)
+[![Build Status](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml/badge.svg)](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.6-green)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
@@ -367,7 +367,7 @@ A pipeline realiza:
 
 Status atual:
 
-![Build Status](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml/badge.svg)
+[![Build Status](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml/badge.svg)](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml)
 
 ## 📖 Documentação Swagger
 
