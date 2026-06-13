@@ -1,14 +1,15 @@
 # Delivery Management API
 
-API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring Boot, PostgreSQL, testes automatizados e documentação OpenAPI.
-
+![Build Status](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml/badge.svg)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.6-green)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![JUnit 5](https://img.shields.io/badge/JUnit-5-red)
 ![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-green)
+![CI/CD](https://img.shields.io/badge/CI-GitHub_Actions-success)
 
+API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring Boot, PostgreSQL, testes automatizados e documentação OpenAPI.
 
 ## 📌 Sobre o Projeto
 
@@ -32,6 +33,7 @@ O projeto foi desenvolvido com foco em boas práticas de arquitetura, tratamento
 * JUnit 5
 * Mockito
 * MockMvc
+* GitHub Actions (CI/CD)
 
 ---
 
@@ -352,6 +354,21 @@ Executar todos os testes:
 
 ---
 
+### Integração Contínua (CI)
+
+O projeto utiliza GitHub Actions para execução automática dos testes a cada push ou pull request na branch principal.
+
+A pipeline realiza:
+
+* Checkout do código
+* Configuração do Java 21
+* Execução dos testes automatizados
+* Validação da integridade da aplicação
+
+Status atual:
+
+![Build Status](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml/badge.svg)
+
 ## 📖 Documentação Swagger
 
 A documentação interativa da API está disponível após iniciar a aplicação:
@@ -372,7 +389,9 @@ Abaixo é possível visualizar a documentação do endpoint de atualização de 
 
 ---
 
-### Clonar o projeto
+## ▶️ Como Executar o Projeto
+
+### 1. Clonar o projeto
 
 ```bash
 git clone https://github.com/MarceloJustin/delivery-management-api.git
@@ -380,19 +399,22 @@ git clone https://github.com/MarceloJustin/delivery-management-api.git
 cd delivery-management-api
 ```
 
-## ▶️ Executando o Projeto
-
-### 1. Criar o banco de dados
+### 2. Criar o banco de dados
 
 ```sql
 CREATE DATABASE delivery_management_db;
 ```
 
-### 2. Configurar o application.properties
+### 3. Configurar o application.properties
 
-Defina as credenciais do PostgreSQL.
+Atualize as credenciais do PostgreSQL conforme seu ambiente:
 
-### 3. Executar a aplicação
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/delivery_management_db
+spring.datasource.username=postgres
+spring.datasource.password=sua_senha
+```
+### 4. Executar a aplicação
 
 ```bash
 .\mvnw spring-boot:run
@@ -404,7 +426,8 @@ Defina as credenciais do PostgreSQL.
 
 * Docker
 * Docker Compose
-* Integração contínua com GitHub Actions
+* Deploy em ambiente cloud
+* JaCoCo (cobertura de testes)
 * Spring Security
 * Autenticação e autorização
 * Versionamento da API
@@ -416,8 +439,9 @@ Defina as credenciais do PostgreSQL.
 
 Desenvolvido por **Marcelo da Silva Justin** como projeto de estudo e prática de desenvolvimento backend utilizando Java e Spring Boot.
 
-GitHub: https://github.com/MarceloJustin         
-LinkedIn: https://linkedin.com/in/marcelojustin
+GitHub: [MarceloJustin](https://github.com/MarceloJustin)
+
+LinkedIn: [marcelojustin](https://linkedin.com/in/marcelojustin)
 
 ---
 
