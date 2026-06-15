@@ -1,0 +1,36 @@
+services:
+
+  postgres:
+    image: postgres:17
+
+    container_name: postgres-db
+
+    environment:
+      POSTGRES_DB: delivery_management_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+
+    container_name: delivery-api
+
+    depends_on:
+      - postgres
+
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/delivery_management_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
