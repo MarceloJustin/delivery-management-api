@@ -36,6 +36,8 @@ O projeto foi desenvolvido com foco em boas práticas de arquitetura, tratamento
 * MockMvc
 * JaCoCo
 * GitHub Actions (CI/CD)
+* Docker
+* Docker Compose
 
 ---
 
@@ -420,36 +422,106 @@ git clone https://github.com/MarceloJustin/delivery-management-api.git
 cd delivery-management-api
 ```
 
-### 2. Criar o banco de dados
+## 🐳 Executando com Docker (Recomendado)
+
+O projeto possui suporte completo a Docker e Docker Compose, permitindo executar a API e o banco PostgreSQL com apenas um comando.
+
+### Serviços
+
+* delivery-api (Spring Boot)
+* postgres-db (PostgreSQL 17)
+
+### Subir a aplicação
+
+```bash
+docker compose up --build
+```
+
+### Executar em segundo plano
+
+```bash
+docker compose up -d
+```
+
+### Parar os containers
+
+```bash
+docker compose down
+```
+
+A API ficará disponível em:
+
+```text
+http://localhost:8080
+```
+
+Swagger:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+---
+
+## 🔧 Variáveis de Ambiente
+
+A aplicação utiliza variáveis de ambiente para configuração do banco de dados.
+
+| Variável | Descrição |
+|-----------|-----------|
+| DB_URL | URL de conexão com PostgreSQL |
+| DB_USERNAME | Usuário do banco |
+| DB_PASSWORD | Senha do banco |
+
+Exemplo:
+
+```env
+DB_URL=jdbc:postgresql://postgres:5432/delivery_management_db
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+```
+
+## 💻 Executando Localmente
+
+### Pré-requisitos
+
+* Java 21
+* Maven
+* PostgreSQL
+
+### 1. Criar o banco de dados
 
 ```sql
 CREATE DATABASE delivery_management_db;
 ```
 
-### 3. Configurar o application.properties
-
-Atualize as credenciais do PostgreSQL conforme seu ambiente:
+### 2. Configurar o application.properties
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/delivery_management_db
 spring.datasource.username=postgres
 spring.datasource.password=sua_senha
 ```
-### 4. Executar a aplicação
+
+### 3. Executar a aplicação
 
 ```bash
-.\mvnw spring-boot:run
+# Linux / macOS
+./mvnw spring-boot:run
+```
+
+```bash
+# Windows
+mvnw.cmd spring-boot:run
 ```
 
 ---
 
 ## 🔮 Melhorias Futuras
 
-* Docker
-* Docker Compose
-* Deploy em ambiente cloud
 * Spring Security
-* Autenticação e autorização
+* Autenticação e autorização JWT
+* Flyway para versionamento de banco
+* Deploy em ambiente cloud
 * Versionamento da API
 * Fluxo de pagamento dos pedidos
 
