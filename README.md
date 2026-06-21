@@ -433,6 +433,8 @@ O projeto possui suporte completo a Docker e Docker Compose, permitindo executar
 
 ### Subir a aplicação
 
+Antes de iniciar os containers, certifique-se de que o arquivo `.env` foi criado e configurado.
+
 ```bash
 docker compose up --build
 ```
@@ -460,25 +462,48 @@ Swagger:
 ```text
 http://localhost:8080/swagger-ui/index.html
 ```
----
 
-## 🔧 Variáveis de Ambiente
+> **Observação**
+>
+> O projeto utiliza variáveis de ambiente para evitar que credenciais sejam armazenadas no repositório.
+> O arquivo `.env` é ignorado pelo Git e o arquivo `.env.example` serve como modelo de configuração.
 
-A aplicação utiliza variáveis de ambiente para configuração do banco de dados.
 
-| Variável | Descrição |
-|-----------|-----------|
-| DB_URL | URL de conexão com PostgreSQL |
-| DB_USERNAME | Usuário do banco |
-| DB_PASSWORD | Senha do banco |
+## 🔧 Environment Variables
+
+O projeto utiliza variáveis de ambiente para configurar a conexão com o banco de dados.
+
+### 1. Crie um arquivo `.env`
+
+Linux / macOS
+
+```bash
+cp .env.example .env
+```
+
+Windows
+
+```text
+Copie o arquivo .env.example e renomeie para .env.
+```
+
+### 2. Configure as credenciais
 
 Exemplo:
 
 ```env
+# PostgreSQL
+POSTGRES_DB=delivery_management_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_password
+
+# Spring Boot
 DB_URL=jdbc:postgresql://postgres:5432/delivery_management_db
 DB_USERNAME=postgres
-DB_PASSWORD=postgres
+DB_PASSWORD=your_password
 ```
+
+> O arquivo `.env` não é versionado e deve permanecer apenas no ambiente local.
 
 ## 💻 Executando Localmente
 
@@ -494,13 +519,9 @@ DB_PASSWORD=postgres
 CREATE DATABASE delivery_management_db;
 ```
 
-### 2. Configurar o application.properties
+### 2. Configure o arquivo `.env`
 
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/delivery_management_db
-spring.datasource.username=postgres
-spring.datasource.password=sua_senha
-```
+Copie o arquivo `.env.example` para `.env` e configure as credenciais do PostgreSQL de acordo com o seu ambiente.
 
 ### 3. Executar a aplicação
 

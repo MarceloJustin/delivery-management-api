@@ -2,13 +2,12 @@ services:
 
   postgres:
     image: postgres:17
-
     container_name: postgres-db
 
     environment:
-      POSTGRES_DB: delivery_management_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
     ports:
       - "5432:5432"
@@ -18,16 +17,15 @@ services:
 
   api:
     build: .
-
     container_name: delivery-api
 
     depends_on:
       - postgres
 
     environment:
-      DB_URL: jdbc:postgresql://postgres:5432/delivery_management_db
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
 
     ports:
       - "8080:8080"
