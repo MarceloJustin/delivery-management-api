@@ -23,7 +23,7 @@ import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.repository.CustomerRepository;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 @Transactional
 public class CustomerControllerIntegrationTest {
