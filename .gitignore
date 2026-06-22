@@ -1,5 +1,10 @@
 HELP.md
 
+# Claude Code
+CLAUDE.md
+.claude/
+docs/
+
 # Maven
 target/
 .mvn/wrapper/maven-wrapper.jar

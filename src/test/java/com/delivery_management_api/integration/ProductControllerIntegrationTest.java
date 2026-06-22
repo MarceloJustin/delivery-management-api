@@ -26,10 +26,8 @@ import com.delivery_management_api.entity.Restaurant;
 import com.delivery_management_api.repository.ProductRepository;
 import com.delivery_management_api.repository.RestaurantRepository;
 
-
-
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 @Transactional
 public class ProductControllerIntegrationTest {

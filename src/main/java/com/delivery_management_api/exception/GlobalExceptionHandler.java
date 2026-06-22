@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -68,15 +70,51 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(InvalidOrderStatusException.class)
 	public ResponseEntity<ErrorResponse> handleInvalidStatus(InvalidOrderStatusException ex){
-		
+
 		ErrorResponse error = new ErrorResponse(
 				LocalDateTime.now(),
-				HttpStatus.CONFLICT.value(), 
+				HttpStatus.CONFLICT.value(),
 				HttpStatus.CONFLICT.getReasonPhrase(),
 				ex.getMessage());
-		
+
 		return ResponseEntity
 				.status(HttpStatus.CONFLICT)
 				.body(error);
+	}
+
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<ErrorResponse> handleAuthentication(AuthenticationException ex) {
+
+		ErrorResponse error = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.UNAUTHORIZED.value(),
+				HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+				ex.getMessage());
+
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex) {
+
+		ErrorResponse error = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.FORBIDDEN.value(),
+				HttpStatus.FORBIDDEN.getReasonPhrase(),
+				"You do not have permission to access this resource");
+
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+	}
+
+	@ExceptionHandler(UserAlreadyExistsException.class)
+	public ResponseEntity<ErrorResponse> handleUserAlreadyExists(UserAlreadyExistsException ex) {
+
+		ErrorResponse error = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.CONFLICT.value(),
+				HttpStatus.CONFLICT.getReasonPhrase(),
+				ex.getMessage());
+
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
 	}
 }

@@ -3,6 +3,7 @@
 [![Build Status](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml/badge.svg)](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.6-green)
+![Spring Security](https://img.shields.io/badge/Spring%20Security-JWT-brightgreen)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![JUnit 5](https://img.shields.io/badge/JUnit-5-red)
@@ -10,7 +11,7 @@
 ![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-green)
 ![CI/CD](https://img.shields.io/badge/CI-GitHub_Actions-success)
 
-API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring Boot, PostgreSQL, testes automatizados e documentação OpenAPI.
+API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring Boot, PostgreSQL, autenticação JWT, testes automatizados e documentação OpenAPI.
 
 ## 📌 Sobre o Projeto
 
@@ -18,7 +19,7 @@ A Delivery Management API é uma aplicação REST desenvolvida com Java e Spring
 
 O sistema permite o cadastro de clientes, restaurantes e produtos, além da criação e acompanhamento de pedidos, simulando funcionalidades presentes em plataformas de entrega de alimentos.
 
-O projeto foi desenvolvido com foco em boas práticas de arquitetura, tratamento de exceções, documentação da API e testes automatizados.
+O projeto foi desenvolvido com foco em boas práticas de arquitetura, segurança com autenticação JWT, tratamento de exceções, documentação da API e testes automatizados.
 
 ---
 
@@ -26,6 +27,8 @@ O projeto foi desenvolvido com foco em boas práticas de arquitetura, tratamento
 
 * Java 21
 * Spring Boot 4.0.6
+* Spring Security
+* JWT (JJWT 0.12.6)
 * Spring Data JPA
 * Hibernate
 * PostgreSQL
@@ -79,9 +82,71 @@ Database
 
 * Centraliza o tratamento de erros da aplicação.
 
+**Security**
+
+* Filtro JWT que intercepta todas as requisições.
+* Valida o token e autentica o usuário no contexto de segurança.
+
+---
+
+## 🔐 Segurança e Autenticação
+
+A API utiliza autenticação stateless com **JWT (JSON Web Token)** via Spring Security.
+
+### Como funciona
+
+1. O usuário se registra em `POST /api/auth/register` e recebe um token JWT
+2. O usuário faz login em `POST /api/auth/login` e recebe um token JWT
+3. O token deve ser enviado no header de todas as requisições protegidas:
+
+```
+Authorization: Bearer <token>
+```
+
+O token expira em **24 horas**. Após a expiração, é necessário fazer login novamente.
+
+### Roles
+
+O sistema possui dois níveis de acesso:
+
+| Role | Descrição |
+| --- | --- |
+| `ADMIN` | Acesso total à API |
+| `CUSTOMER` | Acesso restrito a pedidos e consulta de dados |
+
+### Autorização por Endpoint
+
+| Endpoint | Método | ADMIN | CUSTOMER | Público |
+| --- | --- | :---: | :---: | :---: |
+| `/api/auth/**` | POST | ✅ | ✅ | ✅ |
+| `/api/health` | GET | ✅ | ✅ | ✅ |
+| `/api/restaurants/**` | GET | ✅ | ✅ | ✅ |
+| `/api/products/**` | GET | ✅ | ✅ | ✅ |
+| `/api/restaurants/**` | POST / PUT / DELETE | ✅ | ❌ | ❌ |
+| `/api/products/**` | POST / PUT / DELETE | ✅ | ❌ | ❌ |
+| `/api/customers/**` | GET | ✅ | ✅ | ❌ |
+| `/api/customers/**` | PUT / DELETE | ✅ | ❌ | ❌ |
+| `/api/orders/**` | GET / POST | ✅ | ✅ | ❌ |
+
+### Usuário ADMIN padrão
+
+Ao subir a aplicação pela primeira vez, um usuário ADMIN é criado automaticamente com as credenciais definidas no arquivo `.env`:
+
+```env
+ADMIN_EMAIL=admin@admin.com
+ADMIN_PASSWORD=your_admin_password
+```
+
+Nas inicializações seguintes, se o usuário já existir, nenhuma ação é realizada.
+
 ---
 
 ## 📋 Funcionalidades
+
+### Autenticação
+
+* Registrar usuário
+* Fazer login e obter token JWT
 
 ### Clientes
 
@@ -209,6 +274,13 @@ Tentativas de cancelamento inválidas retornam erro de negócio.
 
 ## 🔗 Principais Endpoints
 
+### Autenticação
+
+| Método | Endpoint | Descrição |
+| --- | --- | --- |
+| POST | /api/auth/register | Registrar novo usuário |
+| POST | /api/auth/login | Fazer login e obter token JWT |
+
 ### Clientes
 
 | Método | Endpoint            |
@@ -257,6 +329,49 @@ Tentativas de cancelamento inválidas retornam erro de negócio.
 ---
 
 ## 📨 Exemplos de Requisição
+
+### Registrar Usuário
+
+```json
+{
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "password": "senha123"
+}
+```
+
+Resposta:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzM4NCJ9...",
+  "type": "Bearer",
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "role": "CUSTOMER"
+}
+```
+
+### Fazer Login
+
+```json
+{
+  "email": "joao@email.com",
+  "password": "senha123"
+}
+```
+
+Resposta:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzM4NCJ9...",
+  "type": "Bearer",
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "role": "CUSTOMER"
+}
+```
 
 ### Criar Cliente
 
@@ -316,6 +431,14 @@ Tentativas de cancelamento inválidas retornam erro de negócio.
 
 A API utiliza tratamento global de exceções através de um GlobalExceptionHandler.
 
+| Status | Descrição |
+| --- | --- |
+| 400 | Dados inválidos na requisição |
+| 401 | Não autenticado — token ausente ou inválido |
+| 403 | Sem permissão — role insuficiente |
+| 404 | Recurso não encontrado |
+| 409 | Conflito — e-mail já cadastrado ou transição de status inválida |
+
 Exemplo de resposta:
 
 ```json
@@ -353,6 +476,7 @@ A cobertura inclui:
 
 * ProductServiceTest
 * OrderServiceTest
+* AuthServiceTest
 
 ### Testes de Integração
 
@@ -361,6 +485,7 @@ A cobertura inclui:
 * RestaurantControllerIntegrationTest
 * ProductControllerIntegrationTest
 * OrderControllerIntegrationTest
+* AuthControllerIntegrationTest
 
 Os testes utilizam:
 
@@ -368,6 +493,7 @@ Os testes utilizam:
 * Mockito
 * Spring Boot Test
 * MockMvc
+* Spring Security Test
 
 Executar todos os testes:
 
@@ -399,6 +525,18 @@ A documentação interativa da API está disponível após iniciar a aplicação
 ```text
 http://localhost:8080/swagger-ui/index.html
 ```
+
+### Como autenticar no Swagger
+
+1. Inicie a aplicação
+2. Acesse o Swagger UI
+3. Chame `POST /api/auth/login` com as credenciais do ADMIN
+4. Copie o valor do campo `token` da resposta
+5. Clique no botão **Authorize** (cadeado) no topo da página
+6. Cole o token no formato: `Bearer <token>`
+7. Confirme clicando em **Authorize**
+
+A partir desse momento todos os endpoints protegidos estarão disponíveis.
 
 ### Visão Geral da API
 
@@ -469,9 +607,9 @@ http://localhost:8080/swagger-ui/index.html
 > O arquivo `.env` é ignorado pelo Git e o arquivo `.env.example` serve como modelo de configuração.
 
 
-## 🔧 Environment Variables
+## 🔧 Variáveis de Ambiente
 
-O projeto utiliza variáveis de ambiente para configurar a conexão com o banco de dados.
+O projeto utiliza variáveis de ambiente para configurar banco de dados, JWT e o usuário administrador padrão.
 
 ### 1. Crie um arquivo `.env`
 
@@ -487,9 +625,7 @@ Windows
 Copie o arquivo .env.example e renomeie para .env.
 ```
 
-### 2. Configure as credenciais
-
-Exemplo:
+### 2. Configure as variáveis
 
 ```env
 # PostgreSQL
@@ -501,7 +637,32 @@ POSTGRES_PASSWORD=your_password
 DB_URL=jdbc:postgresql://postgres:5432/delivery_management_db
 DB_USERNAME=postgres
 DB_PASSWORD=your_password
+
+# JWT
+JWT_SECRET=your_jwt_secret_key_must_be_at_least_32_characters_long
+JWT_EXPIRATION=86400000
+
+# Admin padrão (criado automaticamente na primeira inicialização)
+ADMIN_NAME=Admin
+ADMIN_EMAIL=admin@admin.com
+ADMIN_PASSWORD=your_admin_password
 ```
+
+### Descrição das variáveis
+
+| Variável | Descrição | Obrigatória |
+| --- | --- | :---: |
+| `POSTGRES_DB` | Nome do banco de dados | ✅ |
+| `POSTGRES_USER` | Usuário do PostgreSQL | ✅ |
+| `POSTGRES_PASSWORD` | Senha do PostgreSQL | ✅ |
+| `DB_URL` | URL de conexão JDBC | ✅ |
+| `DB_USERNAME` | Usuário da aplicação | ✅ |
+| `DB_PASSWORD` | Senha da aplicação | ✅ |
+| `JWT_SECRET` | Chave secreta para assinar os tokens JWT | ✅ |
+| `JWT_EXPIRATION` | Tempo de expiração do token em ms (padrão: 86400000 = 24h) | ❌ |
+| `ADMIN_NAME` | Nome do usuário administrador padrão | ❌ |
+| `ADMIN_EMAIL` | E-mail do administrador padrão | ❌ |
+| `ADMIN_PASSWORD` | Senha do administrador padrão | ✅ |
 
 > O arquivo `.env` não é versionado e deve permanecer apenas no ambiente local.
 
@@ -539,9 +700,8 @@ mvnw.cmd spring-boot:run
 
 ## 🔮 Melhorias Futuras
 
-* Spring Security
-* Autenticação e autorização JWT
-* Flyway para versionamento de banco
+* Refresh Token
+* Versionamento de banco com Flyway
 * Deploy em ambiente cloud
 * Versionamento da API
 * Fluxo de pagamento dos pedidos
