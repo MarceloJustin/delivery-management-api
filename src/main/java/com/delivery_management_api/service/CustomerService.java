@@ -1,49 +1,48 @@
 package com.delivery_management_api.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.delivery_management_api.dto.CreateCustomerRequest;
 import com.delivery_management_api.dto.CustomerResponse;
 import com.delivery_management_api.dto.UpdateCustomerRequest;
 import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.exception.CustomerNotFoundException;
 import com.delivery_management_api.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
 
-	@Autowired
-	private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
-	public CustomerResponse createCustomer(CreateCustomerRequest request) {
-		Customer customer = new Customer(request.getName(), request.getEmail());
-		Customer savedCustomer = customerRepository.save(customer);
-		return new CustomerResponse(savedCustomer.getId(), savedCustomer.getName(), savedCustomer.getEmail());
-	}
+    public CustomerResponse createCustomer(CreateCustomerRequest request) {
+        Customer customer = new Customer(request.getName(), request.getEmail());
+        Customer savedCustomer = customerRepository.save(customer);
+        return new CustomerResponse(savedCustomer.getId(), savedCustomer.getName(), savedCustomer.getEmail());
+    }
 
-	public Page<CustomerResponse> findAllCustomers(Pageable pageable) {
-		return customerRepository.findAll(pageable).map(customer -> 
-		new CustomerResponse(customer.getId(), customer.getName(), customer.getEmail()));
-	}
+    public Page<CustomerResponse> findAllCustomers(Pageable pageable) {
+        return customerRepository.findAll(pageable).map(customer -> new CustomerResponse(customer.getId(),
+                customer.getName(), customer.getEmail()));
+    }
 
-	public CustomerResponse findCustomerById(Long id) {
-		Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
-		return new CustomerResponse(customer.getId(), customer.getName(), customer.getEmail());
-	}
+    public CustomerResponse findCustomerById(Long id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        return new CustomerResponse(customer.getId(), customer.getName(), customer.getEmail());
+    }
 
-	public CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request) {
-		Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
-		customer.setName(request.getName());
-		customer.setEmail(request.getEmail());
-		Customer updatedCustomer = customerRepository.save(customer);
-		return new CustomerResponse(updatedCustomer.getId(), updatedCustomer.getName(), updatedCustomer.getEmail());
-	}
+    public CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        customer.setName(request.getName());
+        customer.setEmail(request.getEmail());
+        Customer updatedCustomer = customerRepository.save(customer);
+        return new CustomerResponse(updatedCustomer.getId(), updatedCustomer.getName(), updatedCustomer.getEmail());
+    }
 
-	public void deleteCustomer(Long id) {
-		customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
-		customerRepository.deleteById(id);
-	}
+    public void deleteCustomer(Long id) {
+        customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        customerRepository.deleteById(id);
+    }
 }

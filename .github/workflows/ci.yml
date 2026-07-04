@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/**
 
   pull_request:
     branches:
@@ -11,11 +12,9 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
