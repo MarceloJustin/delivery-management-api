@@ -89,6 +89,7 @@ class AuthServiceTest {
 
 		verify(userRepository).existsByEmail("joao@email.com");
 		verify(userRepository, never()).save(any(User.class));
+		verify(passwordEncoder, never()).encode(any());
 		verify(jwtService, never()).generateToken(any());
 	}
 

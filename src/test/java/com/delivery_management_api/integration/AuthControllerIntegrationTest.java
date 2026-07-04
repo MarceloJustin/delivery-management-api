@@ -1,6 +1,6 @@
 package com.delivery_management_api.integration;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,6 +54,9 @@ public class AuthControllerIntegrationTest {
 				.andExpect(jsonPath("$.name").value("João da Silva"))
 				.andExpect(jsonPath("$.email").value("joao@email.com"))
 				.andExpect(jsonPath("$.role").value("CUSTOMER"));
+
+		User saved = userRepository.findByEmail("joao@email.com").orElseThrow();
+		assertTrue(saved.getPassword().startsWith("$2a$"));
 	}
 
 	@Test
