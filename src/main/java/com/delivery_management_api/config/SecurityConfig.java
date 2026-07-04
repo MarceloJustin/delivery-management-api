@@ -3,6 +3,7 @@ package com.delivery_management_api.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -49,7 +50,7 @@ public class SecurityConfig {
 				.requestMatchers(org.springframework.http.HttpMethod.POST, "/api/products/**").hasRole("ADMIN")
 				.requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
 				.requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
-				.requestMatchers(org.springframework.http.HttpMethod.GET, "/api/customers/**").hasAnyRole("ADMIN", "CUSTOMER")
+				.requestMatchers(org.springframework.http.HttpMethod.GET, "/api/customers/**").hasAnyRole("ADMIN")
 				.requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/customers/**").hasRole("ADMIN")
 				.requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/customers/**").hasRole("ADMIN")
 				.requestMatchers("/api/orders/**").hasAnyRole("ADMIN", "CUSTOMER")
@@ -57,6 +58,9 @@ public class SecurityConfig {
 			)
 			.exceptionHandling(ex -> ex
 				.authenticationEntryPoint(new HttpStatusEntryPoint(org.springframework.http.HttpStatus.UNAUTHORIZED))
+				.accessDeniedHandler((request, response, accessDeniedException) ->
+							response.setStatus(HttpStatus.FORBIDDEN.value()))
+
 			)
 			.authenticationProvider(authenticationProvider())
 			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
