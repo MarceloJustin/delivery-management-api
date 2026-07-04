@@ -723,4 +723,4 @@ LinkedIn: [marcelojustin](https://linkedin.com/in/marcelojustin)
 
 Este projeto está licenciado sob a licença MIT.
 
-Consulte o arquivo LICENSE para mais informações.
+Consulte o arquivo [LICENSE](LICENSE) para mais informações.
