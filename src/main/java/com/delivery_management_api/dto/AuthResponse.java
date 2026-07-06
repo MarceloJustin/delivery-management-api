@@ -11,6 +11,9 @@ public class AuthResponse {
 	@Schema(description = "Token type", example = "Bearer")
 	private String type;
 
+	@Schema(description = "Refresh token used to obtain a new access token", example = "b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a")
+	private String refreshToken;
+
 	@Schema(description = "User full name", example = "João da Silva")
 	private String name;
 
@@ -24,8 +27,13 @@ public class AuthResponse {
 	}
 
 	public AuthResponse(String token, String name, String email, String role) {
+		this(token, null, name, email, role);
+	}
+
+	public AuthResponse(String token, String refreshToken, String name, String email, String role) {
 		this.token = token;
 		this.type = "Bearer";
+		this.refreshToken = refreshToken;
 		this.name = name;
 		this.email = email;
 		this.role = role;
@@ -37,6 +45,10 @@ public class AuthResponse {
 
 	public String getType() {
 		return type;
+	}
+
+	public String getRefreshToken() {
+		return refreshToken;
 	}
 
 	public String getName() {
