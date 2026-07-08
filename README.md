@@ -7,7 +7,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![JUnit 5](https://img.shields.io/badge/JUnit-5-red)
-![JaCoCo](https://img.shields.io/badge/Coverage-98%25-brightgreen)
+![JaCoCo](https://img.shields.io/badge/Coverage-92%25-brightgreen)
 ![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-green)
 ![CI/CD](https://img.shields.io/badge/CI-GitHub_Actions-success)
 
@@ -496,7 +496,7 @@ O projeto utiliza JaCoCo para análise de cobertura de código.
 
 Resultados atuais:
 
-- Cobertura total: 98%
+- Cobertura total: 92%
 - Cobertura de branches da camada Service: 100%
 - Fluxo completo de status de pedidos testado
 - Testes de exceções e regras de negócio implementados
