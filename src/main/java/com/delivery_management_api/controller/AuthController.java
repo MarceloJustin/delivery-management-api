@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.AuthResponse;
 import com.delivery_management_api.dto.LoginRequest;
+import com.delivery_management_api.dto.RefreshTokenRequest;
 import com.delivery_management_api.dto.RegisterRequest;
 import com.delivery_management_api.dto.ErrorResponse;
 import com.delivery_management_api.dto.ValidationErrorResponse;
@@ -51,6 +52,17 @@ public class AuthController {
 	})
 	public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
 		return ResponseEntity.ok(authService.login(request));
+	}
+
+	@PostMapping("/refresh")
+	@Operation(summary = "Refresh access token", description = "Exchanges a valid refresh token for a new access token and refresh token")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "Token refreshed successfully"),
+		@ApiResponse(responseCode = "400", description = "Invalid request data", content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))),
+		@ApiResponse(responseCode = "401", description = "Invalid, expired or revoked refresh token", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+	})
+	public ResponseEntity<AuthResponse> refresh(@Valid @RequestBody RefreshTokenRequest request) {
+		return ResponseEntity.ok(authService.refresh(request));
 	}
 
 }
