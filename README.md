@@ -95,15 +95,25 @@ A API utiliza autenticação stateless com **JWT (JSON Web Token)** via Spring S
 
 ### Como funciona
 
-1. O usuário se registra em `POST /api/auth/register` e recebe um token JWT
-2. O usuário faz login em `POST /api/auth/login` e recebe um token JWT
-3. O token deve ser enviado no header de todas as requisições protegidas:
+1. O usuário se registra em `POST /api/auth/register` e recebe um access token (JWT) e um refresh token
+2. O usuário faz login em `POST /api/auth/login` e recebe um access token (JWT) e um refresh token
+3. O access token deve ser enviado no header de todas as requisições protegidas:
 
 ```
 Authorization: Bearer <token>
 ```
 
-O token expira em **24 horas**. Após a expiração, é necessário fazer login novamente.
+O access token expira em **24 horas** (configurável via `JWT_EXPIRATION`). Após a expiração, em vez de fazer login novamente, o cliente pode obter um novo access token através do refresh token.
+
+### Refresh Token
+
+Para evitar que o usuário precise fazer login toda vez que o access token expira, a API implementa o fluxo de **Refresh Token**:
+
+1. O cliente envia o refresh token para `POST /api/auth/refresh`
+2. A API valida o token (existe, não expirou, não foi revogado) e retorna um **novo access token e um novo refresh token**
+3. O refresh token antigo é automaticamente revogado (**rotação de token**) — ele não pode ser reutilizado, mesmo que ainda não tenha expirado
+
+O refresh token expira em **7 dias** (configurável via `REFRESH_TOKEN_EXPIRATION`) e é armazenado no banco de dados, o que permite revogação (diferente do access token, que é stateless). Uma tarefa agendada (`RefreshTokenCleanupJob`) remove diariamente do banco os tokens expirados ou já revogados.
 
 ### Roles
 
@@ -147,6 +157,7 @@ Nas inicializações seguintes, se o usuário já existir, nenhuma ação é rea
 
 * Registrar usuário
 * Fazer login e obter token JWT
+* Renovar access token através de refresh token
 
 ### Clientes
 
@@ -280,6 +291,7 @@ Tentativas de cancelamento inválidas retornam erro de negócio.
 | --- | --- | --- |
 | POST | /api/auth/register | Registrar novo usuário |
 | POST | /api/auth/login | Fazer login e obter token JWT |
+| POST | /api/auth/refresh | Renovar access token através de refresh token |
 
 ### Clientes
 
@@ -346,6 +358,7 @@ Resposta:
 {
   "token": "eyJhbGciOiJIUzM4NCJ9...",
   "type": "Bearer",
+  "refreshToken": "b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a",
   "name": "João Silva",
   "email": "joao@email.com",
   "role": "CUSTOMER"
@@ -367,11 +380,35 @@ Resposta:
 {
   "token": "eyJhbGciOiJIUzM4NCJ9...",
   "type": "Bearer",
+  "refreshToken": "b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a",
   "name": "João Silva",
   "email": "joao@email.com",
   "role": "CUSTOMER"
 }
 ```
+
+### Renovar Access Token
+
+```json
+{
+  "refreshToken": "b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a"
+}
+```
+
+Resposta:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzM4NCJ9...",
+  "type": "Bearer",
+  "refreshToken": "c7a2d0f3-4b5e-4f3c-8d2b-6a7f8e9d0c1b",
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "role": "CUSTOMER"
+}
+```
+
+> O refresh token retornado é **novo** — o token antigo é revogado automaticamente (rotação) e não pode ser reutilizado.
 
 ### Criar Cliente
 
@@ -478,6 +515,7 @@ A cobertura inclui:
 * ProductServiceTest
 * OrderServiceTest
 * AuthServiceTest
+* RefreshTokenServiceTest
 
 ### Testes de Integração
 
@@ -643,6 +681,10 @@ DB_PASSWORD=your_password
 JWT_SECRET=your_jwt_secret_key_must_be_at_least_32_characters_long
 JWT_EXPIRATION=86400000
 
+# Refresh Token
+REFRESH_TOKEN_EXPIRATION=604800000
+REFRESH_TOKEN_CLEANUP_CRON=0 0 3 * * *
+
 # Admin padrão (criado automaticamente na primeira inicialização)
 ADMIN_NAME=Admin
 ADMIN_EMAIL=admin@admin.com
@@ -661,6 +703,8 @@ ADMIN_PASSWORD=your_admin_password
 | `DB_PASSWORD` | Senha da aplicação | ✅ |
 | `JWT_SECRET` | Chave secreta para assinar os tokens JWT | ✅ |
 | `JWT_EXPIRATION` | Tempo de expiração do token em ms (padrão: 86400000 = 24h) | ❌ |
+| `REFRESH_TOKEN_EXPIRATION` | Tempo de expiração do refresh token em ms (padrão: 604800000 = 7 dias) | ❌ |
+| `REFRESH_TOKEN_CLEANUP_CRON` | Expressão cron da limpeza de refresh tokens expirados/revogados (padrão: `0 0 3 * * *`, todo dia às 3h) | ❌ |
 | `ADMIN_NAME` | Nome do usuário administrador padrão | ❌ |
 | `ADMIN_EMAIL` | E-mail do administrador padrão | ❌ |
 | `ADMIN_PASSWORD` | Senha do administrador padrão | ✅ |
@@ -701,7 +745,6 @@ mvnw.cmd spring-boot:run
 
 ## 🔮 Melhorias Futuras
 
-* Refresh Token
 * Versionamento de banco com Flyway
 * Deploy em ambiente cloud
 * Versionamento da API
