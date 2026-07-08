@@ -23,10 +23,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.delivery_management_api.dto.AuthResponse;
 import com.delivery_management_api.dto.LoginRequest;
+import com.delivery_management_api.dto.RefreshTokenRequest;
 import com.delivery_management_api.dto.RegisterRequest;
 import com.delivery_management_api.entity.RefreshToken;
 import com.delivery_management_api.entity.User;
 import com.delivery_management_api.enums.Role;
+import com.delivery_management_api.exception.InvalidRefreshTokenException;
 import com.delivery_management_api.exception.UserAlreadyExistsException;
 import com.delivery_management_api.repository.UserRepository;
 import com.delivery_management_api.security.JwtService;
@@ -167,6 +169,47 @@ class AuthServiceTest {
 
 		verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
 		verify(userRepository, never()).findByEmail(any());
+		verify(jwtService, never()).generateToken(any());
+	}
+
+	@Test
+	void shouldRefreshTokenSuccessfully() {
+		RefreshTokenRequest request = new RefreshTokenRequest();
+		request.setRefreshToken("old-refresh-token");
+
+		User user = new User("João", "joao@email.com", "$2a$10$hashedpassword", Role.CUSTOMER);
+		RefreshToken oldToken = new RefreshToken("old-refresh-token", user, Instant.now().plusSeconds(3600));
+		RefreshToken newToken = new RefreshToken("new-refresh-token", user, Instant.now().plusSeconds(3600));
+
+		when(refreshTokenService.validate("old-refresh-token")).thenReturn(oldToken);
+		when(refreshTokenService.rotate(oldToken)).thenReturn(newToken);
+		when(jwtService.generateToken(user)).thenReturn("new-jwt-token");
+
+		AuthResponse response = authService.refresh(request);
+
+		assertNotNull(response);
+		assertEquals("new-jwt-token", response.getToken());
+		assertEquals("new-refresh-token", response.getRefreshToken());
+		assertEquals("João", response.getName());
+		assertEquals("joao@email.com", response.getEmail());
+		assertEquals("CUSTOMER", response.getRole());
+
+		verify(refreshTokenService).validate("old-refresh-token");
+		verify(refreshTokenService).rotate(oldToken);
+		verify(jwtService).generateToken(user);
+	}
+
+	@Test
+	void shouldPropagateExceptionWhenRefreshTokenIsInvalid() {
+		RefreshTokenRequest request = new RefreshTokenRequest();
+		request.setRefreshToken("invalid-token");
+
+		when(refreshTokenService.validate("invalid-token"))
+				.thenThrow(new InvalidRefreshTokenException("Refresh token not found"));
+
+		assertThrows(InvalidRefreshTokenException.class, () -> authService.refresh(request));
+
+		verify(refreshTokenService, never()).rotate(any());
 		verify(jwtService, never()).generateToken(any());
 	}
 
