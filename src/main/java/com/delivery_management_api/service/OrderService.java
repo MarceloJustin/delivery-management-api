@@ -26,6 +26,7 @@ import com.delivery_management_api.exception.OrderCancellationNotAllowedExceptio
 import com.delivery_management_api.exception.OrderNotFoundException;
 import com.delivery_management_api.exception.ProductNotFoundException;
 import com.delivery_management_api.exception.RestaurantNotFoundException;
+import com.delivery_management_api.mapper.OrderMapper;
 import com.delivery_management_api.repository.CustomerRepository;
 import com.delivery_management_api.repository.OrderItemRepository;
 import com.delivery_management_api.repository.OrderRepository;
@@ -51,7 +52,10 @@ public class OrderService {
 	
 	@Autowired
 	private OrderItemRepository orderItemRepository;
-	
+
+	@Autowired
+	private OrderMapper orderMapper;
+
 	@Transactional
 	public OrderResponse createOrder(CreateOrderRequest request) {
 		Customer customer = customerRepository.findById(request.getCustomerId())
@@ -76,7 +80,7 @@ public class OrderService {
 			orderItemRepository.save(orderItem);
 			BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
 			totalAmount = totalAmount.add(subtotal);
-			responseItems.add(new OrderItemResponse(product.getId(), product.getName(), itemRequest.getQuantity()));
+			responseItems.add(orderMapper.toItemResponse(orderItem));
 		}
 		
 		totalAmount = totalAmount.add(restaurant.getDeliveryFee());
@@ -90,16 +94,16 @@ public class OrderService {
 	}
 	
 	public Page<OrderResponse> findAllOrders(Pageable pageable) {
-		return orderRepository.findAll(pageable).map(this::buildOrderResponse);
+		return orderRepository.findAll(pageable).map(orderMapper::toResponse);
 	}
 
 	public OrderResponse findOrderById(Long id) {
 		Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
-		return buildOrderResponse(order);
+		return orderMapper.toResponse(order);
 	}
-	
+
 	public Page<OrderResponse> findByStatus(OrderStatus status, Pageable pageable) {
-		return orderRepository.findByStatus(status, pageable).map(this::buildOrderResponse);
+		return orderRepository.findByStatus(status, pageable).map(orderMapper::toResponse);
 	}
 	
 	public OrderResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
@@ -113,7 +117,7 @@ public class OrderService {
 		order.setStatus(newStatus);
 		
 		orderRepository.save(order);
-		return buildOrderResponse(order);
+		return orderMapper.toResponse(order);
 	}
 
 	public void cancelOrder(Long id) {
@@ -144,13 +148,5 @@ public class OrderService {
 		default:
 			return false;
 		}
-	}
-	
-	private OrderResponse buildOrderResponse(Order order) {
-		List<OrderItemResponse> items = order.getItems().stream().map(item -> new OrderItemResponse(item.getProduct().getId(),
-				item.getProduct().getName(), item.getQuantity())).toList();
-		
-		return new OrderResponse(order.getId(), order.getCustomer().getId(), order.getCustomer().getName(), order.getRestaurant().getId(),
-				order.getRestaurant().getName(), order.getRestaurant().getDeliveryFee(), order.getTotalAmount(), order.getStatus(), items);
 	}
 }
