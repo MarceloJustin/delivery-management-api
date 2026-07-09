@@ -1,4 +1,4 @@
-package com.delivery_management_api.dto;
+package com.delivery_management_api.dto.request;
 
 import com.delivery_management_api.enums.OrderStatus;
 

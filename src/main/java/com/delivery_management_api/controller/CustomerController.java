@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.delivery_management_api.dto.CreateCustomerRequest;
-import com.delivery_management_api.dto.CustomerResponse;
-import com.delivery_management_api.dto.ErrorResponse;
-import com.delivery_management_api.dto.UpdateCustomerRequest;
-import com.delivery_management_api.dto.ValidationErrorResponse;
+import com.delivery_management_api.dto.request.CreateCustomerRequest;
+import com.delivery_management_api.dto.response.CustomerResponse;
+import com.delivery_management_api.dto.response.ErrorResponse;
+import com.delivery_management_api.dto.request.UpdateCustomerRequest;
+import com.delivery_management_api.dto.response.ValidationErrorResponse;
 import com.delivery_management_api.service.CustomerService;
 
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,4 +1,4 @@
-package com.delivery_management_api.dto;
+package com.delivery_management_api.dto.request;
 
 import java.math.BigDecimal;
 
@@ -7,10 +7,10 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Restaurant update request")
-public class UpdateRestaurantRequest {
+@Schema(description = "Restaurant creation request")
+public class CreateRestaurantRequest {
 	
-	@Schema(description = "Restaurant name", example = "Burger King")
+	@Schema(description = "Restaurant full name", example = "Burger King")
 	@NotBlank
 	private String name;
 	

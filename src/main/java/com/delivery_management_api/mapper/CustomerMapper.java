@@ -2,7 +2,7 @@ package com.delivery_management_api.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.delivery_management_api.dto.CustomerResponse;
+import com.delivery_management_api.dto.response.CustomerResponse;
 import com.delivery_management_api.entity.Customer;
 
 @Component
