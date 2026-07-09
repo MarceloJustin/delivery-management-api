@@ -12,11 +12,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +30,9 @@ import com.delivery_management_api.entity.Order;
 import com.delivery_management_api.entity.OrderItem;
 import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;
+import com.delivery_management_api.entity.User;
 import com.delivery_management_api.enums.OrderStatus;
+import com.delivery_management_api.enums.Role;
 import com.delivery_management_api.repository.CustomerRepository;
 import com.delivery_management_api.repository.OrderItemRepository;
 import com.delivery_management_api.repository.OrderRepository;
@@ -56,6 +62,18 @@ public class OrderControllerIntegrationTest {
 
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+
+	@BeforeEach
+	void setUpSecurityContext() {
+		User adminUser = new User("Admin", "admin@email.com", "$2a$10$hashedpassword", Role.ADMIN);
+		var authentication = new UsernamePasswordAuthenticationToken(adminUser, null, adminUser.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+
+	@AfterEach
+	void clearSecurityContext() {
+		SecurityContextHolder.clearContext();
+	}
 
 	@Test
 	void shouldCreateOrder() throws Exception {
