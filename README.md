@@ -77,6 +77,11 @@ Database
 **DTO**
 
 * Responsável pela transferência de dados entre as camadas.
+* Organizado em `dto/request` e `dto/response`, separando dados de entrada e saída da API.
+
+**Mapper**
+
+* Converte Entities em DTOs de resposta, centralizando essa lógica fora dos Services.
 
 **Exception**
 
