@@ -77,24 +77,27 @@ public class OrderService {
 		Order savedOrder = orderRepository.save(order);
 		
 		BigDecimal totalAmount = BigDecimal.ZERO;
-		
+
+		List<OrderItem> orderItems = new ArrayList<>();
 		List<OrderItemResponse> responseItems = new ArrayList<>();
-		
+
 		for(CreateOrderItemRequest itemRequest : request.getItems()) {
 			Product product = productRepository.findById(itemRequest.getProductId())
 					.orElseThrow(() -> new ProductNotFoundException(itemRequest.getProductId()));
-			
+
 			OrderItem orderItem = new OrderItem(savedOrder, product, itemRequest.getQuantity());
 			orderItemRepository.save(orderItem);
 			BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
 			totalAmount = totalAmount.add(subtotal);
+			orderItems.add(orderItem);
 			responseItems.add(orderMapper.toItemResponse(orderItem));
 		}
-		
+
 		totalAmount = totalAmount.add(restaurant.getDeliveryFee());
-		
+
 		savedOrder.setTotalAmount(totalAmount);
-		
+		savedOrder.setItems(orderItems);
+
 		savedOrder = orderRepository.save(savedOrder);
 		
 		return new OrderResponse(savedOrder.getId(), customer.getId(), customer.getName(), restaurant.getId(), 
