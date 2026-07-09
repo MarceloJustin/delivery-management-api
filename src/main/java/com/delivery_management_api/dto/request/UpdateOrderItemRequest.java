@@ -1,22 +1,20 @@
-package com.delivery_management_api.dto;
+package com.delivery_management_api.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Create order items")
-public class CreateOrderItemRequest {
+@Schema(description = "Order item update request")
+public class UpdateOrderItemRequest {
 	
-	@Schema(description = "Product identifier", example = "1")
+	@Schema(description = "Product identifier",example = "1")
 	@NotNull
 	private Long productId;
 	
-	@Schema(description = "Product quantity", example = "5")
+	@Schema(description = "Product quantity",example = "5")
 	@NotNull
-	@Min(1)
 	private Integer quantity;
 
-	public CreateOrderItemRequest() {
+	public UpdateOrderItemRequest() {
 	}
 
 	public Long getProductId() {

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.AuthResponse;
-import com.delivery_management_api.dto.LoginRequest;
-import com.delivery_management_api.dto.RefreshTokenRequest;
-import com.delivery_management_api.dto.RegisterRequest;
+import com.delivery_management_api.dto.request.LoginRequest;
+import com.delivery_management_api.dto.request.RefreshTokenRequest;
+import com.delivery_management_api.dto.request.RegisterRequest;
 import com.delivery_management_api.dto.ErrorResponse;
 import com.delivery_management_api.dto.ValidationErrorResponse;
 import com.delivery_management_api.service.AuthService;

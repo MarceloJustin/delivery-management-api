@@ -1,4 +1,4 @@
-package com.delivery_management_api.dto;
+package com.delivery_management_api.dto.request;
 
 import java.math.BigDecimal;
 
@@ -7,8 +7,8 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(description = "Product creation request")
-public class CreateProductRequest {
+@Schema(description = "Product update request")
+public class UpdateProductRequest {
 	
 	@Schema(description = "Product name", example = "Hambúrguer")
 	@NotBlank
@@ -23,7 +23,7 @@ public class CreateProductRequest {
 	@NotNull
 	private Long restaurantId;
 	
-	public CreateProductRequest() {
+	public UpdateProductRequest() {
 	}
 
 	public String getName() {
@@ -43,10 +43,10 @@ public class CreateProductRequest {
 	}
 
 	public Long getRestaurantId() {
-		return restaurantId;
+	    return restaurantId;
 	}
 
 	public void setRestaurantId(Long restaurantId) {
-		this.restaurantId = restaurantId;
+	    this.restaurantId = restaurantId;
 	}
 }

@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.delivery_management_api.dto.CreateRestaurantRequest;
+import com.delivery_management_api.dto.request.CreateRestaurantRequest;
 import com.delivery_management_api.dto.RestaurantResponse;
-import com.delivery_management_api.dto.UpdateRestaurantRequest;
+import com.delivery_management_api.dto.request.UpdateRestaurantRequest;
 import com.delivery_management_api.entity.Restaurant;
 import com.delivery_management_api.exception.RestaurantNotFoundException;
 import com.delivery_management_api.mapper.RestaurantMapper;

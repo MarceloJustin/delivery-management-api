@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.delivery_management_api.dto.CreateOrderRequest;
+import com.delivery_management_api.dto.request.CreateOrderRequest;
 import com.delivery_management_api.dto.ErrorResponse;
 import com.delivery_management_api.dto.OrderResponse;
-import com.delivery_management_api.dto.UpdateOrderStatusRequest;
+import com.delivery_management_api.dto.request.UpdateOrderStatusRequest;
 import com.delivery_management_api.dto.ValidationErrorResponse;
 import com.delivery_management_api.enums.OrderStatus;
 import com.delivery_management_api.service.OrderService;
