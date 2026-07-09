@@ -23,7 +23,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.delivery_management_api.dto.request.CreateOrderItemRequest;
 import com.delivery_management_api.dto.request.CreateOrderRequest;
-import com.delivery_management_api.dto.OrderResponse;
+import com.delivery_management_api.dto.response.OrderResponse;
 import com.delivery_management_api.dto.request.UpdateOrderStatusRequest;
 import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.entity.Order;

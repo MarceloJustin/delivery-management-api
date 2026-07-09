@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.request.CreateRestaurantRequest;
-import com.delivery_management_api.dto.ErrorResponse;
-import com.delivery_management_api.dto.RestaurantResponse;
+import com.delivery_management_api.dto.response.ErrorResponse;
+import com.delivery_management_api.dto.response.RestaurantResponse;
 import com.delivery_management_api.dto.request.UpdateRestaurantRequest;
-import com.delivery_management_api.dto.ValidationErrorResponse;
+import com.delivery_management_api.dto.response.ValidationErrorResponse;
 import com.delivery_management_api.service.RestaurantService;
 
 import io.swagger.v3.oas.annotations.Operation;

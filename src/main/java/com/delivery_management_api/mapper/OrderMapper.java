@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.delivery_management_api.dto.OrderItemResponse;
-import com.delivery_management_api.dto.OrderResponse;
+import com.delivery_management_api.dto.response.OrderItemResponse;
+import com.delivery_management_api.dto.response.OrderResponse;
 import com.delivery_management_api.entity.Order;
 import com.delivery_management_api.entity.OrderItem;
 

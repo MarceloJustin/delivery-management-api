@@ -12,8 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.delivery_management_api.dto.ErrorResponse;
-import com.delivery_management_api.dto.ValidationErrorResponse;
+import com.delivery_management_api.dto.response.ErrorResponse;
+import com.delivery_management_api.dto.response.ValidationErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

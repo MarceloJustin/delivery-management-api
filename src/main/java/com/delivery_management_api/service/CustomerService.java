@@ -1,7 +1,7 @@
 package com.delivery_management_api.service;
 
 import com.delivery_management_api.dto.request.CreateCustomerRequest;
-import com.delivery_management_api.dto.CustomerResponse;
+import com.delivery_management_api.dto.response.CustomerResponse;
 import com.delivery_management_api.dto.request.UpdateCustomerRequest;
 import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.exception.CustomerNotFoundException;

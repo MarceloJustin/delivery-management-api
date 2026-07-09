@@ -19,7 +19,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.delivery_management_api.dto.request.CreateProductRequest;
-import com.delivery_management_api.dto.ProductResponse;
+import com.delivery_management_api.dto.response.ProductResponse;
 import com.delivery_management_api.dto.request.UpdateProductRequest;
 import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;

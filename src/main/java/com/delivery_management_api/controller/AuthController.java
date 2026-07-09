@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.delivery_management_api.dto.AuthResponse;
+import com.delivery_management_api.dto.response.AuthResponse;
 import com.delivery_management_api.dto.request.LoginRequest;
 import com.delivery_management_api.dto.request.RefreshTokenRequest;
 import com.delivery_management_api.dto.request.RegisterRequest;
-import com.delivery_management_api.dto.ErrorResponse;
-import com.delivery_management_api.dto.ValidationErrorResponse;
+import com.delivery_management_api.dto.response.ErrorResponse;
+import com.delivery_management_api.dto.response.ValidationErrorResponse;
 import com.delivery_management_api.service.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;

@@ -6,7 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.delivery_management_api.dto.AuthResponse;
+import com.delivery_management_api.dto.response.AuthResponse;
 import com.delivery_management_api.dto.request.LoginRequest;
 import com.delivery_management_api.dto.request.RefreshTokenRequest;
 import com.delivery_management_api.dto.request.RegisterRequest;

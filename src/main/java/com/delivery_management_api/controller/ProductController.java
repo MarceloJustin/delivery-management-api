@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.delivery_management_api.dto.request.CreateProductRequest;
-import com.delivery_management_api.dto.ErrorResponse;
-import com.delivery_management_api.dto.ProductResponse;
+import com.delivery_management_api.dto.response.ErrorResponse;
+import com.delivery_management_api.dto.response.ProductResponse;
 import com.delivery_management_api.dto.request.UpdateProductRequest;
-import com.delivery_management_api.dto.ValidationErrorResponse;
+import com.delivery_management_api.dto.response.ValidationErrorResponse;
 import com.delivery_management_api.service.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
