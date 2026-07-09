@@ -13,12 +13,16 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.delivery_management_api.dto.request.CreateOrderItemRequest;
@@ -30,7 +34,9 @@ import com.delivery_management_api.entity.Order;
 import com.delivery_management_api.entity.OrderItem;
 import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;
+import com.delivery_management_api.entity.User;
 import com.delivery_management_api.enums.OrderStatus;
+import com.delivery_management_api.enums.Role;
 import com.delivery_management_api.exception.CustomerNotFoundException;
 import com.delivery_management_api.exception.InvalidOrderStatusException;
 import com.delivery_management_api.exception.OrderCancellationNotAllowedException;
@@ -67,7 +73,19 @@ public class OrderServiceTest {
 
 	@InjectMocks
 	private OrderService orderService;
-	
+
+	@BeforeEach
+	void setUpSecurityContext() {
+		User adminUser = new User("Admin", "admin@email.com", "$2a$10$hashedpassword", Role.ADMIN);
+		var authentication = new UsernamePasswordAuthenticationToken(adminUser, null, adminUser.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+
+	@AfterEach
+	void clearSecurityContext() {
+		SecurityContextHolder.clearContext();
+	}
+
 	@Test
 	void shouldCreateOrderSuccessfully() {
 		Customer customer = createCustomer();
