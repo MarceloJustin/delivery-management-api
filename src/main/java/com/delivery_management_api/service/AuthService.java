@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.delivery_management_api.dto.AuthResponse;
 import com.delivery_management_api.dto.LoginRequest;
+import com.delivery_management_api.dto.RefreshTokenRequest;
 import com.delivery_management_api.dto.RegisterRequest;
+import com.delivery_management_api.entity.RefreshToken;
 import com.delivery_management_api.entity.User;
 import com.delivery_management_api.enums.Role;
 import com.delivery_management_api.exception.UserAlreadyExistsException;
@@ -30,6 +32,9 @@ public class AuthService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@Autowired
+	private RefreshTokenService refreshTokenService;
+
 	public AuthResponse register(RegisterRequest request) {
 		if (userRepository.existsByEmail(request.getEmail())) {
 			throw new UserAlreadyExistsException(request.getEmail());
@@ -45,8 +50,9 @@ public class AuthService {
 		userRepository.save(user);
 
 		String token = jwtService.generateToken(user);
+		RefreshToken refreshToken = refreshTokenService.create(user);
 
-		return new AuthResponse(token, user.getName(), user.getEmail(), user.getRole().name());
+		return new AuthResponse(token, refreshToken.getToken(), user.getName(), user.getEmail(), user.getRole().name());
 	}
 
 	public AuthResponse login(LoginRequest request) {
@@ -58,7 +64,18 @@ public class AuthService {
 				.orElseThrow();
 
 		String token = jwtService.generateToken(user);
+		RefreshToken refreshToken = refreshTokenService.create(user);
 
-		return new AuthResponse(token, user.getName(), user.getEmail(), user.getRole().name());
+		return new AuthResponse(token, refreshToken.getToken(), user.getName(), user.getEmail(), user.getRole().name());
+	}
+
+	public AuthResponse refresh(RefreshTokenRequest request) {
+		RefreshToken oldToken = refreshTokenService.validate(request.getRefreshToken());
+		RefreshToken newToken = refreshTokenService.rotate(oldToken);
+
+		User user = oldToken.getUser();
+		String token = jwtService.generateToken(user);
+
+		return new AuthResponse(token, newToken.getToken(), user.getName(), user.getEmail(), user.getRole().name());
 	}
 }

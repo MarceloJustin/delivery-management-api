@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.delivery_management_api.dto.CreateProductRequest;
@@ -24,18 +25,22 @@ import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;
 import com.delivery_management_api.exception.ProductNotFoundException;
 import com.delivery_management_api.exception.RestaurantNotFoundException;
+import com.delivery_management_api.mapper.ProductMapper;
 import com.delivery_management_api.repository.ProductRepository;
 import com.delivery_management_api.repository.RestaurantRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
-	
+
 	@Mock
 	private ProductRepository productRepository;
-	
+
 	@Mock
 	private RestaurantRepository restaurantRepository;
-	
+
+	@Spy
+	private ProductMapper productMapper = new ProductMapper();
+
 	@InjectMocks
 	private ProductService productService;
 	
@@ -83,17 +88,17 @@ class ProductServiceTest {
 		Product product = new Product("Pizza 4Queijos", BigDecimal.valueOf(15.00), restaurant);
 		
 		when(restaurantRepository.findById(1L)).thenReturn(Optional.of(restaurant));
-		
+
 		when(productRepository.save(any(Product.class))).thenReturn(product);
-		
+
 		ProductResponse response = productService.createProduct(request);
-		
+
 		assertEquals("Pizza 4Queijos", response.getName());
-		
+
 		assertEquals(BigDecimal.valueOf(15.00), response.getPrice());
-		
+
 		verify(productRepository).save(any(Product.class));
-		
+
 		verify(restaurantRepository).findById(1L);
 	}
 	
@@ -130,9 +135,9 @@ class ProductServiceTest {
 		when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 		
 		when(restaurantRepository.findById(1L)).thenReturn(Optional.of(restaurant));
-		
+
 		when(productRepository.save(any(Product.class))).thenReturn(product);
-		
+
 		ProductResponse response = productService.updateProduct(1L, request);
 		
 		assertEquals("Pizza 4Queijos", response.getName());

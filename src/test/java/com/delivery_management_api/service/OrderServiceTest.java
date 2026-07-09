@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -36,6 +37,7 @@ import com.delivery_management_api.exception.OrderCancellationNotAllowedExceptio
 import com.delivery_management_api.exception.OrderNotFoundException;
 import com.delivery_management_api.exception.ProductNotFoundException;
 import com.delivery_management_api.exception.RestaurantNotFoundException;
+import com.delivery_management_api.mapper.OrderMapper;
 import com.delivery_management_api.repository.CustomerRepository;
 import com.delivery_management_api.repository.OrderItemRepository;
 import com.delivery_management_api.repository.OrderRepository;
@@ -44,22 +46,25 @@ import com.delivery_management_api.repository.RestaurantRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
-	
+
 	@Mock
 	private RestaurantRepository restaurantRepository;
-	
+
 	@Mock
 	private ProductRepository productRepository;
-	
+
 	@Mock
 	private OrderRepository orderRepository;
-	
+
 	@Mock
 	private CustomerRepository customerRepository;
-	
+
 	@Mock
 	private OrderItemRepository orderItemRepository;
-	
+
+	@Spy
+	private OrderMapper orderMapper = new OrderMapper();
+
 	@InjectMocks
 	private OrderService orderService;
 	

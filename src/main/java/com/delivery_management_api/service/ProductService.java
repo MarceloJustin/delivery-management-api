@@ -15,6 +15,7 @@ import com.delivery_management_api.entity.Product;
 import com.delivery_management_api.entity.Restaurant;
 import com.delivery_management_api.exception.ProductNotFoundException;
 import com.delivery_management_api.exception.RestaurantNotFoundException;
+import com.delivery_management_api.mapper.ProductMapper;
 import com.delivery_management_api.repository.ProductRepository;
 import com.delivery_management_api.repository.RestaurantRepository;
 
@@ -27,44 +28,47 @@ public class ProductService {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 
+	@Autowired
+	private ProductMapper productMapper;
+
 	public ProductResponse createProduct(CreateProductRequest request) {
 		Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
 				.orElseThrow(() -> new RestaurantNotFoundException(request.getRestaurantId()));
 
 		Product product = new Product(request.getName(), request.getPrice(), restaurant);
 		Product savedProduct = productRepository.save(product);
-		return buildProductResponse(savedProduct);
+		return productMapper.toResponse(savedProduct);
 	}
 
 	public Page<ProductResponse> findAllProducts(Pageable pageable) {
 		return productRepository
-				.findAll(pageable).map(this::buildProductResponse);
+				.findAll(pageable).map(productMapper::toResponse);
 	}
 
 	public ProductResponse findProductById(Long id) {
 		Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-		return buildProductResponse(product);
+		return productMapper.toResponse(product);
 	}
 	
 	public List<ProductResponse> findProductsByRestaurant(Long restaurantId){
 		restaurantRepository.findById(restaurantId).orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 		return productRepository.findByRestaurantId(restaurantId).stream()
-				.map(this::buildProductResponse).toList();
+				.map(productMapper::toResponse).toList();
 	}
 	
 	public List<ProductResponse> findByPriceGreaterThan(BigDecimal price){
 		return productRepository.findByPriceGreaterThan(price).stream()
-				.map(this::buildProductResponse).toList();
+				.map(productMapper::toResponse).toList();
 	}
 	
 	public List<ProductResponse> findProductsAbovePrice(BigDecimal price){
 		return productRepository.findProductsAbovePrice(price).stream()
-				.map(this::buildProductResponse).toList();
+				.map(productMapper::toResponse).toList();
 	}
 	
 	public List<ProductResponse> findByPriceBetween(BigDecimal minPrice, BigDecimal maxprice){
 		return productRepository.findByPriceBetween(minPrice, maxprice).stream()
-				.map(this::buildProductResponse).toList();
+				.map(productMapper::toResponse).toList();
 	}
 	
 	public ProductResponse updateProduct(Long id, UpdateProductRequest request) {
@@ -75,16 +79,11 @@ public class ProductService {
 		product.setPrice(request.getPrice());
 		product.setRestaurant(restaurant);
 		Product updateProduct = productRepository.save(product);
-		return buildProductResponse(updateProduct);
+		return productMapper.toResponse(updateProduct);
 	}
 
 	public void deleteProduct(Long id) {
 		productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		productRepository.deleteById(id);
-	}
-	
-	private ProductResponse buildProductResponse(Product product) {
-		return new ProductResponse(product.getId(), product.getName(), product.getPrice(),
-				product.getRestaurant().getId(), product.getRestaurant().getName());
 	}
 }

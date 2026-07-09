@@ -1,5 +1,6 @@
 package com.delivery_management_api.integration;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -199,6 +200,79 @@ public class AuthControllerIntegrationTest {
 				.andExpect(status().isCreated());
 	}
 
+	@Test
+	void shouldRefreshTokenSuccessfully() throws Exception {
+		userRepository.save(new User("João", "joao@email.com", passwordEncoder.encode("senha123"), Role.CUSTOMER));
+
+		String refreshToken = loginAndGetRefreshToken("joao@email.com", "senha123");
+
+		String requestBody = """
+				{
+				  "refreshToken": "%s"
+				}
+				""".formatted(refreshToken);
+
+		mockMvc.perform(post("/api/auth/refresh")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.token").exists())
+				.andExpect(jsonPath("$.refreshToken").exists())
+				.andExpect(jsonPath("$.refreshToken").value(not(refreshToken)))
+				.andExpect(jsonPath("$.email").value("joao@email.com"));
+	}
+
+	@Test
+	void shouldReturnUnauthorizedWhenRefreshTokenIsInvalid() throws Exception {
+		String requestBody = """
+				{
+				  "refreshToken": "token-que-nunca-foi-emitido"
+				}
+				""";
+
+		mockMvc.perform(post("/api/auth/refresh")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	void shouldReturnBadRequestWhenRefreshTokenFieldIsBlank() throws Exception {
+		String requestBody = """
+				{
+				  "refreshToken": ""
+				}
+				""";
+
+		mockMvc.perform(post("/api/auth/refresh")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	void shouldReturnUnauthorizedWhenReusingRotatedRefreshToken() throws Exception {
+		userRepository.save(new User("João", "joao@email.com", passwordEncoder.encode("senha123"), Role.CUSTOMER));
+
+		String refreshToken = loginAndGetRefreshToken("joao@email.com", "senha123");
+
+		String requestBody = """
+				{
+				  "refreshToken": "%s"
+				}
+				""".formatted(refreshToken);
+
+		mockMvc.perform(post("/api/auth/refresh")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(post("/api/auth/refresh")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody))
+				.andExpect(status().isUnauthorized());
+	}
+
 	private String loginAndGetToken(String email, String password) throws Exception {
 		String loginBody = """
 				{
@@ -215,6 +289,24 @@ public class AuthControllerIntegrationTest {
 
 		String responseBody = result.getResponse().getContentAsString();
 		return responseBody.split("\"token\":\"")[1].split("\"")[0];
+	}
+
+	private String loginAndGetRefreshToken(String email, String password) throws Exception {
+		String loginBody = """
+				{
+				  "email": "%s",
+				  "password": "%s"
+				}
+				""".formatted(email, password);
+
+		MvcResult result = mockMvc.perform(post("/api/auth/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(loginBody))
+				.andExpect(status().isOk())
+				.andReturn();
+
+		String responseBody = result.getResponse().getContentAsString();
+		return responseBody.split("\"refreshToken\":\"")[1].split("\"")[0];
 	}
 
 }
