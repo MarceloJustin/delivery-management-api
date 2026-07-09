@@ -25,11 +25,13 @@ import com.delivery_management_api.dto.response.AuthResponse;
 import com.delivery_management_api.dto.request.LoginRequest;
 import com.delivery_management_api.dto.request.RefreshTokenRequest;
 import com.delivery_management_api.dto.request.RegisterRequest;
+import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.entity.RefreshToken;
 import com.delivery_management_api.entity.User;
 import com.delivery_management_api.enums.Role;
 import com.delivery_management_api.exception.InvalidRefreshTokenException;
 import com.delivery_management_api.exception.UserAlreadyExistsException;
+import com.delivery_management_api.repository.CustomerRepository;
 import com.delivery_management_api.repository.UserRepository;
 import com.delivery_management_api.security.JwtService;
 
@@ -38,6 +40,9 @@ class AuthServiceTest {
 
 	@Mock
 	private UserRepository userRepository;
+
+	@Mock
+	private CustomerRepository customerRepository;
 
 	@Mock
 	private PasswordEncoder passwordEncoder;
@@ -83,6 +88,7 @@ class AuthServiceTest {
 		verify(userRepository).existsByEmail("joao@email.com");
 		verify(passwordEncoder).encode("senha123");
 		verify(userRepository).save(any(User.class));
+		verify(customerRepository).save(any(Customer.class));
 		verify(jwtService).generateToken(any(User.class));
 		verify(refreshTokenService).create(any(User.class));
 	}
