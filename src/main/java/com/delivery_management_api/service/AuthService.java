@@ -10,10 +10,12 @@ import com.delivery_management_api.dto.response.AuthResponse;
 import com.delivery_management_api.dto.request.LoginRequest;
 import com.delivery_management_api.dto.request.RefreshTokenRequest;
 import com.delivery_management_api.dto.request.RegisterRequest;
+import com.delivery_management_api.entity.Customer;
 import com.delivery_management_api.entity.RefreshToken;
 import com.delivery_management_api.entity.User;
 import com.delivery_management_api.enums.Role;
 import com.delivery_management_api.exception.UserAlreadyExistsException;
+import com.delivery_management_api.repository.CustomerRepository;
 import com.delivery_management_api.repository.UserRepository;
 import com.delivery_management_api.security.JwtService;
 
@@ -22,6 +24,9 @@ public class AuthService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private CustomerRepository customerRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -48,6 +53,9 @@ public class AuthService {
 		);
 
 		userRepository.save(user);
+
+		Customer customer = new Customer(request.getName(), request.getEmail(), user);
+		customerRepository.save(customer);
 
 		String token = jwtService.generateToken(user);
 		RefreshToken refreshToken = refreshTokenService.create(user);
