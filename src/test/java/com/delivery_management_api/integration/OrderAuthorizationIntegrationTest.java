@@ -1,6 +1,8 @@
 package com.delivery_management_api.integration;
 
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,6 +56,81 @@ public class OrderAuthorizationIntegrationTest {
 				.andExpect(jsonPath("$.totalElements").value(1));
 	}
 
+	@Test
+	void customerCannotViewAnotherCustomersOrder() throws Exception {
+		Restaurant restaurant = restaurantRepository.save(new Restaurant("Burger King", "Fast Food", BigDecimal.valueOf(5.0)));
+		Product product = productRepository.save(new Product("Burger", BigDecimal.valueOf(20.0), restaurant));
+
+		String tokenA = registerAndGetToken("joaoA@email.com");
+		String tokenB = registerAndGetToken("joaoB@email.com");
+
+		Long orderIdFromB = createOrder(tokenB, restaurant.getId(), product.getId());
+
+		mockMvc.perform(get("/api/orders/" + orderIdFromB).header("Authorization", "Bearer " + tokenA))
+				.andExpect(status().isForbidden());
+	}
+
+	@Test
+	void customerCreateOrderIgnoresProvidedCustomerId() throws Exception {
+		Restaurant restaurant = restaurantRepository.save(new Restaurant("Burger King", "Fast Food", BigDecimal.valueOf(5.0)));
+		Product product = productRepository.save(new Product("Burger", BigDecimal.valueOf(20.0), restaurant));
+
+		String tokenA = registerAndGetToken("joaoA@email.com");
+
+		String body = """
+				{
+				  "customerId": 999999,
+				  "restaurantId": %d,
+				  "items": [
+				    { "productId": %d, "quantity": 1 }
+				  ]
+				}
+				""".formatted(restaurant.getId(), product.getId());
+
+		mockMvc.perform(post("/api/orders")
+				.header("Authorization", "Bearer " + tokenA)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body))
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$.customerId").value(not(999999)));
+	}
+
+	@Test
+	void customerCannotCancelAnotherCustomersOrder() throws Exception {
+		Restaurant restaurant = restaurantRepository.save(new Restaurant("Burger King", "Fast Food", BigDecimal.valueOf(5.0)));
+		Product product = productRepository.save(new Product("Burger", BigDecimal.valueOf(20.0), restaurant));
+
+		String tokenA = registerAndGetToken("joaoA@email.com");
+		String tokenB = registerAndGetToken("joaoB@email.com");
+
+		Long orderIdFromB = createOrder(tokenB, restaurant.getId(), product.getId());
+
+		mockMvc.perform(patch("/api/orders/" + orderIdFromB + "/cancel").header("Authorization", "Bearer " + tokenA))
+				.andExpect(status().isForbidden());
+	}
+
+	@Test
+	void customerCannotUpdateOrderStatus() throws Exception {
+		Restaurant restaurant = restaurantRepository.save(new Restaurant("Burger King", "Fast Food", BigDecimal.valueOf(5.0)));
+		Product product = productRepository.save(new Product("Burger", BigDecimal.valueOf(20.0), restaurant));
+
+		String tokenA = registerAndGetToken("joaoA@email.com");
+
+		Long orderId = createOrder(tokenA, restaurant.getId(), product.getId());
+
+		String body = """
+				{
+				  "status": "CONFIRMED"
+				}
+				""";
+
+		mockMvc.perform(patch("/api/orders/" + orderId + "/status")
+				.header("Authorization", "Bearer " + tokenA)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body))
+				.andExpect(status().isForbidden());
+	}
+
 	private String registerAndGetToken(String email) throws Exception {
 		String body = """
 				{
@@ -73,7 +150,7 @@ public class OrderAuthorizationIntegrationTest {
 		return responseBody.split("\"token\":\"")[1].split("\"")[0];
 	}
 
-	private void createOrder(String token, Long restaurantId, Long productId) throws Exception {
+	private Long createOrder(String token, Long restaurantId, Long productId) throws Exception {
 		String body = """
 				{
 				  "customerId": 1,
@@ -84,10 +161,14 @@ public class OrderAuthorizationIntegrationTest {
 				}
 				""".formatted(restaurantId, productId);
 
-		mockMvc.perform(post("/api/orders")
+		MvcResult result = mockMvc.perform(post("/api/orders")
 				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(body))
-				.andExpect(status().isCreated());
+				.andExpect(status().isCreated())
+				.andReturn();
+
+		String responseBody = result.getResponse().getContentAsString();
+		return Long.valueOf(responseBody.split("\"id\":")[1].split(",")[0].trim());
 	}
 }
