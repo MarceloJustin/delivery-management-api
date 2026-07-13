@@ -4,12 +4,16 @@ import com.delivery_management_api.dto.request.CreateCustomerRequest;
 import com.delivery_management_api.dto.response.CustomerResponse;
 import com.delivery_management_api.dto.request.UpdateCustomerRequest;
 import com.delivery_management_api.entity.Customer;
+import com.delivery_management_api.entity.User;
+import com.delivery_management_api.enums.Role;
 import com.delivery_management_api.exception.CustomerNotFoundException;
 import com.delivery_management_api.mapper.CustomerMapper;
 import com.delivery_management_api.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,11 +37,13 @@ public class CustomerService {
 
     public CustomerResponse findCustomerById(Long id) {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        checkOwnership(customer);
         return customerMapper.toResponse(customer);
     }
 
     public CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request) {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        checkOwnership(customer);
         customer.setName(request.getName());
         customer.setEmail(request.getEmail());
         Customer updatedCustomer = customerRepository.save(customer);
@@ -47,5 +53,21 @@ public class CustomerService {
     public void deleteCustomer(Long id) {
         customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
         customerRepository.deleteById(id);
+    }
+
+    private User getCurrentUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    private void checkOwnership(Customer customer) {
+        User currentUser = getCurrentUser();
+
+        if (currentUser.getRole() == Role.ADMIN) {
+            return;
+        }
+
+        if (customer.getUser() == null || !customer.getUser().getId().equals(currentUser.getId())) {
+            throw new AccessDeniedException("You do not have permission to access this resource");
+        }
     }
 }

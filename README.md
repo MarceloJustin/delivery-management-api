@@ -127,7 +127,7 @@ O sistema possui dois níveis de acesso:
 | Role | Descrição |
 | --- | --- |
 | `ADMIN` | Acesso total à API |
-| `CUSTOMER` | Acesso restrito a pedidos e consulta de dados |
+| `CUSTOMER` | Acesso restrito aos próprios pedidos e ao próprio perfil de cliente |
 
 ### Autorização por Endpoint
 
@@ -139,9 +139,20 @@ O sistema possui dois níveis de acesso:
 | `/api/products/**` | GET | ✅ | ✅ | ✅ |
 | `/api/restaurants/**` | POST / PUT / DELETE | ✅ | ❌ | ❌ |
 | `/api/products/**` | POST / PUT / DELETE | ✅ | ❌ | ❌ |
-| `/api/customers/**` | GET | ✅ | ❌ | ❌ |
-| `/api/customers/**` | PUT / DELETE | ✅ | ❌ | ❌ |
-| `/api/orders/**` | GET / POST | ✅ | ✅ | ❌ |
+| `/api/customers` | GET (listar todos) | ✅ | ❌ | ❌ |
+| `/api/customers` | POST | ✅ | ❌ | ❌ |
+| `/api/customers/{id}` | GET / PUT | ✅ (qualquer) | ⚠️ apenas o próprio perfil | ❌ |
+| `/api/customers/{id}` | DELETE | ✅ | ❌ | ❌ |
+| `/api/orders` | POST | ✅ (em nome de qualquer cliente) | ⚠️ sempre em nome próprio (`customerId` do corpo é ignorado) | ❌ |
+| `/api/orders` | GET (listar) | ✅ (todos os pedidos) | ⚠️ apenas os próprios pedidos | ❌ |
+| `/api/orders/{id}` | GET | ✅ (qualquer) | ⚠️ apenas o próprio pedido | ❌ |
+| `/api/orders/status/{status}` | GET | ✅ (todos) | ⚠️ apenas os próprios | ❌ |
+| `/api/orders/{id}/status` | PATCH | ✅ | ❌ | ❌ |
+| `/api/orders/{id}/cancel` | PATCH | ✅ (qualquer) | ⚠️ apenas o próprio (e somente em `CREATED`/`CONFIRMED`) | ❌ |
+
+⚠️ = **autorização por propriedade do recurso** (resource ownership): a role `CUSTOMER` dá acesso ao endpoint, mas o `Service` verifica se o recurso (pedido ou perfil) pertence ao usuário autenticado antes de liberar. Uma tentativa de acessar recurso de outro cliente retorna **403 Forbidden**.
+
+Essa verificação depende do vínculo `Customer ↔ User`: todo `CUSTOMER` que se registra em `POST /api/auth/register` ganha automaticamente um perfil de `Customer` vinculado à sua conta.
 
 ### Usuário ADMIN padrão
 

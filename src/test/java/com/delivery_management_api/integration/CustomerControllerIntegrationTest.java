@@ -10,16 +10,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.delivery_management_api.entity.Customer;
+import com.delivery_management_api.entity.User;
+import com.delivery_management_api.enums.Role;
 import com.delivery_management_api.repository.CustomerRepository;
 
 @SpringBootTest
@@ -33,6 +39,18 @@ public class CustomerControllerIntegrationTest {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+
+	@BeforeEach
+	void setUpSecurityContext() {
+		User adminUser = new User("Admin", "admin@email.com", "$2a$10$hashedpassword", Role.ADMIN);
+		var authentication = new UsernamePasswordAuthenticationToken(adminUser, null, adminUser.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+
+	@AfterEach
+	void clearSecurityContext() {
+		SecurityContextHolder.clearContext();
+	}
 
 	@Test
 	void shouldCreateCustomer() throws Exception {
