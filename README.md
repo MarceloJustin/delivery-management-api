@@ -14,32 +14,33 @@
 
 API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring Boot, PostgreSQL, autenticação JWT, testes automatizados e documentação OpenAPI.
 
-🔗 **API em produção:** [delivery-management-api-sgex.onrender.com](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) (veja detalhes e limitações em [☁️ Deploy em Produção](#️-deploy-em-produção-render))
+🔗 **API em produção:** [delivery-management-api-sgex.onrender.com](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) (veja detalhes e limitações em [☁️ Deploy em Produção](#deploy-em-producao-render))
 
 ## 📑 Índice
 
 * [📌 Sobre o Projeto](#sobre-o-projeto)
 * [🚀 Tecnologias Utilizadas](#tecnologias-utilizadas)
-* [🏗️ Arquitetura](#️-arquitetura)
-* [🔐 Segurança e Autenticação](#segurança-e-autenticação)
+* [🏗️ Arquitetura](#arquitetura)
+* [🔐 Segurança e Autenticação](#seguranca-e-autenticacao)
 * [📋 Funcionalidades](#funcionalidades)
-* [📦 Regras de Negócio](#regras-de-negócio)
+* [📦 Regras de Negócio](#regras-de-negocio)
 * [🔗 Principais Endpoints](#principais-endpoints)
-* [📨 Exemplos de Requisição](#exemplos-de-requisição)
-* [⚠️ Tratamento de Erros](#️-tratamento-de-erros)
+* [📨 Exemplos de Requisição](#exemplos-de-requisicao)
+* [⚠️ Tratamento de Erros](#tratamento-de-erros)
 * [🧪 Testes](#testes)
-* [📖 Documentação Swagger](#documentação-swagger)
-* [☁️ Deploy em Produção (Render)](#️-deploy-em-produção-render)
-* [▶️ Como Executar o Projeto](#️-como-executar-o-projeto)
+* [📖 Documentação Swagger](#documentacao-swagger)
+* [☁️ Deploy em Produção (Render)](#deploy-em-producao-render)
+* [▶️ Como Executar o Projeto](#como-executar-o-projeto)
 * [🐳 Executando com Docker (Recomendado)](#executando-com-docker-recomendado)
-* [🔧 Variáveis de Ambiente](#variáveis-de-ambiente)
+* [🔧 Variáveis de Ambiente](#variaveis-de-ambiente)
 * [💻 Executando Localmente](#executando-localmente)
 * [🔮 Melhorias Futuras](#melhorias-futuras)
 * [👨‍💻 Autor](#autor)
-* [📄 Licença](#licença)
+* [📄 Licença](#licenca)
 
 ---
 
+<a id="sobre-o-projeto"></a>
 ## 📌 Sobre o Projeto
 
 A Delivery Management API é uma aplicação REST desenvolvida com Java e Spring Boot para gerenciamento de pedidos de delivery.
@@ -50,6 +51,7 @@ O projeto foi desenvolvido com foco em boas práticas de arquitetura, segurança
 
 ---
 
+<a id="tecnologias-utilizadas"></a>
 ## 🚀 Tecnologias Utilizadas
 
 * Java 21
@@ -71,6 +73,7 @@ O projeto foi desenvolvido com foco em boas práticas de arquitetura, segurança
 
 ---
 
+<a id="arquitetura"></a>
 ## 🏗️ Arquitetura
 
 O projeto segue uma arquitetura em camadas:
@@ -245,6 +248,7 @@ delivery-management-api/
 
 ---
 
+<a id="seguranca-e-autenticacao"></a>
 ## 🔐 Segurança e Autenticação
 
 A API utiliza autenticação stateless com **JWT (JSON Web Token)** via Spring Security.
@@ -280,6 +284,7 @@ O sistema possui dois níveis de acesso:
 | `ADMIN` | Acesso total à API |
 | `CUSTOMER` | Acesso restrito aos próprios pedidos e ao próprio perfil de cliente |
 
+<a id="autorizacao-por-endpoint"></a>
 ### Autorização por Endpoint
 
 | Endpoint | Método | ADMIN | CUSTOMER | Público |
@@ -318,6 +323,7 @@ Nas inicializações seguintes, se o usuário já existir, nenhuma ação é rea
 
 ---
 
+<a id="funcionalidades"></a>
 ## 📋 Funcionalidades
 
 ### Autenticação
@@ -363,6 +369,7 @@ Nas inicializações seguintes, se o usuário já existir, nenhuma ação é rea
 
 ---
 
+<a id="regras-de-negocio"></a>
 ## 📦 Regras de Negócio
 
 ### Fluxo de Status do Pedido
@@ -450,6 +457,7 @@ Tentativas de cancelamento inválidas retornam erro de negócio.
 
 ---
 
+<a id="principais-endpoints"></a>
 ## 🔗 Principais Endpoints
 
 ### Autenticação
@@ -507,6 +515,7 @@ Tentativas de cancelamento inválidas retornam erro de negócio.
 
 ---
 
+<a id="exemplos-de-requisicao"></a>
 ## 📨 Exemplos de Requisição
 
 ### Registrar Usuário
@@ -631,6 +640,7 @@ Resposta:
 
 ---
 
+<a id="tratamento-de-erros"></a>
 ## ⚠️ Tratamento de Erros
 
 A API utiliza tratamento global de exceções através de um GlobalExceptionHandler.
@@ -655,6 +665,7 @@ Exemplo de resposta:
 
 ---
 
+<a id="testes"></a>
 ## 🧪 Testes
 
 ### Cobertura de Testes
@@ -724,6 +735,7 @@ Status atual:
 
 [![Build Status](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml/badge.svg)](https://github.com/MarceloJustin/delivery-management-api/actions/workflows/ci.yml)
 
+<a id="documentacao-swagger"></a>
 ## 📖 Documentação Swagger
 
 A documentação interativa da API está disponível após iniciar a aplicação:
@@ -732,6 +744,7 @@ A documentação interativa da API está disponível após iniciar a aplicação
 http://localhost:8080/swagger-ui/index.html
 ```
 
+<a id="como-autenticar-no-swagger"></a>
 ### Como autenticar no Swagger
 
 1. Inicie a aplicação
@@ -765,6 +778,7 @@ Além do Swagger, a API também pode ser testada via [Postman](https://www.postm
 
 ---
 
+<a id="deploy-em-producao-render"></a>
 ## ☁️ Deploy em Produção (Render)
 
 A API está publicada em produção no [Render](https://render.com), usando o Blueprint declarado em [`render.yaml`](render.yaml): um Web Service (Docker, a partir do mesmo `Dockerfile` usado localmente) e um banco PostgreSQL gerenciado, provisionados juntos e conectados automaticamente via variáveis de ambiente.
@@ -776,7 +790,7 @@ A API está publicada em produção no [Render](https://render.com), usando o Bl
 
 ### Como testar agora
 
-> ⏱️ **No plano free do Render, a primeira requisição após ~15 minutos de inatividade pode levar de 30 a 60 segundos para responder (cold start).** Se a página parecer travada no primeiro acesso, é isso — não é um erro. Detalhes em [Limitações do plano Free do Render](#limitações-do-plano-free-do-render).
+> ⏱️ **No plano free do Render, a primeira requisição após ~15 minutos de inatividade pode levar de 30 a 60 segundos para responder (cold start).** Se a página parecer travada no primeiro acesso, é isso — não é um erro. Detalhes em [Limitações do plano Free do Render](#limitacoes-do-plano-free-do-render).
 
 1. Abra o [Swagger](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) ou importe a [collection do Postman](postman/delivery-management-api.postman_collection.json).
 2. Sem precisar de login, já dá pra ver o catálogo público: `GET /api/restaurants` e `GET /api/products`.
@@ -785,13 +799,14 @@ A API está publicada em produção no [Render](https://render.com), usando o Bl
 
 ### O que fica público em produção
 
-Como a aplicação está exposta na internet, é importante deixar claro **o que qualquer pessoa consegue acessar sem token** e o que continua protegido — as mesmas regras da seção [Autorização por Endpoint](#autorização-por-endpoint) valem em produção, sem exceção:
+Como a aplicação está exposta na internet, é importante deixar claro **o que qualquer pessoa consegue acessar sem token** e o que continua protegido — as mesmas regras da seção [Autorização por Endpoint](#autorizacao-por-endpoint) valem em produção, sem exceção:
 
 * **Público, sem token:** `/api/health`, `/swagger-ui/**`, `/api/auth/register`, `/api/auth/login` (é assim que alguém vira usuário) e a leitura (`GET`) de `/api/restaurants` e `/api/products` — um catálogo público, como em qualquer app de delivery real.
 * **Nunca público:** `/api/customers` e `/api/orders`. Diferente do que se poderia supor, o cadastro de clientes é o recurso **mais** protegido, não o mais aberto — listar/criar clientes exige role `ADMIN`, e buscar/editar um cliente específico exige ser o próprio `ADMIN` ou o `CUSTOMER` dono daquele perfil.
 
 Qualquer pessoa pode se registrar como `CUSTOMER` (endpoint público, por desenho), mas a autorização por propriedade de recurso (v1.5) garante que cada `CUSTOMER` só enxerga e altera o próprio perfil e os próprios pedidos — nunca dados de outro cliente. As credenciais do usuário `ADMIN` padrão não ficam no repositório: são definidas manualmente no dashboard do Render (`ADMIN_EMAIL` / `ADMIN_PASSWORD` com `sync: false` no `render.yaml`).
 
+<a id="limitacoes-do-plano-free-do-render"></a>
 ### Limitações do plano Free do Render
 
 * O Web Service **dorme após ~15 minutos de inatividade**. A primeira requisição depois disso pode levar de 30 a 60 segundos para responder (cold start) — se parecer que a API "não está funcionando", tente novamente após esse tempo antes de investigar outra causa.
@@ -799,6 +814,7 @@ Qualquer pessoa pode se registrar como `CUSTOMER` (endpoint público, por desenh
 
 ---
 
+<a id="como-executar-o-projeto"></a>
 ## ▶️ Como Executar o Projeto
 
 ### 1. Clonar o projeto
@@ -809,6 +825,7 @@ git clone https://github.com/MarceloJustin/delivery-management-api.git
 cd delivery-management-api
 ```
 
+<a id="executando-com-docker-recomendado"></a>
 ## 🐳 Executando com Docker (Recomendado)
 
 O projeto possui suporte completo a Docker e Docker Compose, permitindo executar a API e o banco PostgreSQL com apenas um comando.
@@ -856,6 +873,7 @@ http://localhost:8080/swagger-ui/index.html
 > O arquivo `.env` é ignorado pelo Git e o arquivo `.env.example` serve como modelo de configuração.
 
 
+<a id="variaveis-de-ambiente"></a>
 ## 🔧 Variáveis de Ambiente
 
 O projeto utiliza variáveis de ambiente para configurar banco de dados, JWT e o usuário administrador padrão.
@@ -921,6 +939,7 @@ ADMIN_PASSWORD=your_admin_password
 
 > O arquivo `.env` não é versionado e deve permanecer apenas no ambiente local.
 
+<a id="executando-localmente"></a>
 ## 💻 Executando Localmente
 
 ### Pré-requisitos
@@ -953,6 +972,7 @@ mvnw.cmd spring-boot:run
 
 ---
 
+<a id="melhorias-futuras"></a>
 ## 🔮 Melhorias Futuras
 
 * Versionamento de banco com Flyway
@@ -961,6 +981,7 @@ mvnw.cmd spring-boot:run
 
 ---
 
+<a id="autor"></a>
 ## 👨‍💻 Autor
 
 Desenvolvido por **Marcelo da Silva Justin** como projeto de estudo e prática de desenvolvimento backend utilizando Java e Spring Boot.
@@ -971,6 +992,7 @@ LinkedIn: [marcelojustin](https://linkedin.com/in/marcelojustin)
 
 ---
 
+<a id="licenca"></a>
 ## 📄 Licença
 
 Este projeto está licenciado sob a licença MIT.
