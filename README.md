@@ -10,8 +10,11 @@
 ![JaCoCo](https://img.shields.io/badge/Coverage-92%25-brightgreen)
 ![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-green)
 ![CI/CD](https://img.shields.io/badge/CI-GitHub_Actions-success)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-46E3B7)](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html)
 
 API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring Boot, PostgreSQL, autenticação JWT, testes automatizados e documentação OpenAPI.
+
+🔗 **API em produção:** [delivery-management-api-sgex.onrender.com](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) (veja detalhes e limitações em [☁️ Deploy em Produção](#️-deploy-em-produção-render))
 
 ## 📌 Sobre o Projeto
 
@@ -91,6 +94,130 @@ Database
 
 * Filtro JWT que intercepta todas as requisições.
 * Valida o token e autentica o usuário no contexto de segurança.
+
+### Estrutura do Projeto
+
+<details>
+<summary>Ver estrutura completa de pastas e arquivos</summary>
+
+```text
+delivery-management-api/
+├── src/
+│   ├── main/
+│   │   ├── java/com/delivery_management_api/
+│   │   │   ├── config/
+│   │   │   │   ├── DataInitializer.java
+│   │   │   │   ├── OpenApiConfig.java
+│   │   │   │   ├── RefreshTokenCleanupJob.java
+│   │   │   │   └── SecurityConfig.java
+│   │   │   ├── controller/
+│   │   │   │   ├── AuthController.java
+│   │   │   │   ├── CustomerController.java
+│   │   │   │   ├── HealthController.java
+│   │   │   │   ├── OrderController.java
+│   │   │   │   ├── ProductController.java
+│   │   │   │   └── RestaurantController.java
+│   │   │   ├── dto/
+│   │   │   │   ├── request/
+│   │   │   │   │   ├── CreateCustomerRequest.java
+│   │   │   │   │   ├── CreateOrderItemRequest.java
+│   │   │   │   │   ├── CreateOrderRequest.java
+│   │   │   │   │   ├── CreateProductRequest.java
+│   │   │   │   │   ├── CreateRestaurantRequest.java
+│   │   │   │   │   ├── LoginRequest.java
+│   │   │   │   │   ├── RefreshTokenRequest.java
+│   │   │   │   │   ├── RegisterRequest.java
+│   │   │   │   │   ├── UpdateCustomerRequest.java
+│   │   │   │   │   ├── UpdateOrderItemRequest.java
+│   │   │   │   │   ├── UpdateOrderRequest.java
+│   │   │   │   │   ├── UpdateOrderStatusRequest.java
+│   │   │   │   │   ├── UpdateProductRequest.java
+│   │   │   │   │   └── UpdateRestaurantRequest.java
+│   │   │   │   └── response/
+│   │   │   │       ├── AuthResponse.java
+│   │   │   │       ├── CustomerResponse.java
+│   │   │   │       ├── ErrorResponse.java
+│   │   │   │       ├── OrderItemResponse.java
+│   │   │   │       ├── OrderResponse.java
+│   │   │   │       ├── ProductResponse.java
+│   │   │   │       ├── RestaurantResponse.java
+│   │   │   │       └── ValidationErrorResponse.java
+│   │   │   ├── entity/
+│   │   │   │   ├── Customer.java
+│   │   │   │   ├── Order.java
+│   │   │   │   ├── OrderItem.java
+│   │   │   │   ├── Product.java
+│   │   │   │   ├── RefreshToken.java
+│   │   │   │   ├── Restaurant.java
+│   │   │   │   └── User.java
+│   │   │   ├── enums/
+│   │   │   │   ├── OrderStatus.java
+│   │   │   │   └── Role.java
+│   │   │   ├── exception/
+│   │   │   │   ├── CustomerNotFoundException.java
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   ├── InvalidOrderStatusException.java
+│   │   │   │   ├── InvalidRefreshTokenException.java
+│   │   │   │   ├── OrderCancellationNotAllowedException.java
+│   │   │   │   ├── OrderNotFoundException.java
+│   │   │   │   ├── ProductNotFoundException.java
+│   │   │   │   ├── RestaurantNotFoundException.java
+│   │   │   │   └── UserAlreadyExistsException.java
+│   │   │   ├── mapper/
+│   │   │   │   ├── CustomerMapper.java
+│   │   │   │   ├── OrderMapper.java
+│   │   │   │   ├── ProductMapper.java
+│   │   │   │   └── RestaurantMapper.java
+│   │   │   ├── repository/
+│   │   │   │   ├── CustomerRepository.java
+│   │   │   │   ├── OrderItemRepository.java
+│   │   │   │   ├── OrderRepository.java
+│   │   │   │   ├── ProductRepository.java
+│   │   │   │   ├── RefreshTokenRepository.java
+│   │   │   │   ├── RestaurantRepository.java
+│   │   │   │   └── UserRepository.java
+│   │   │   ├── security/
+│   │   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │   ├── JwtService.java
+│   │   │   │   └── UserDetailsServiceImpl.java
+│   │   │   └── service/
+│   │   │       ├── AuthService.java
+│   │   │       ├── CustomerService.java
+│   │   │       ├── OrderService.java
+│   │   │       ├── ProductService.java
+│   │   │       ├── RefreshTokenService.java
+│   │   │       └── RestaurantService.java
+│   │   └── resources/
+│   │       ├── application-render.properties
+│   │       └── application.properties
+│   └── test/
+│       ├── java/com/delivery_management_api/
+│       │   ├── integration/
+│       │   │   ├── AuthControllerIntegrationTest.java
+│       │   │   ├── CustomerAuthorizationIntegrationTest.java
+│       │   │   ├── CustomerControllerIntegrationTest.java
+│       │   │   ├── HealthControllerIntegrationTest.java
+│       │   │   ├── OrderAuthorizationIntegrationTest.java
+│       │   │   ├── OrderControllerIntegrationTest.java
+│       │   │   ├── ProductControllerIntegrationTest.java
+│       │   │   └── RestaurantControllerIntegrationTest.java
+│       │   └── service/
+│       │       ├── AuthServiceTest.java
+│       │       ├── OrderServiceTest.java
+│       │       ├── ProductServiceTest.java
+│       │       └── RefreshTokenServiceTest.java
+│       └── resources/
+│           └── application-test.properties
+├── postman/
+│   └── delivery-management-api.postman_collection.json
+├── Dockerfile
+├── docker-compose.yml
+├── render.yaml
+├── pom.xml
+└── README.md
+```
+
+</details>
 
 ---
 
@@ -603,6 +730,49 @@ Abaixo é possível visualizar a documentação do endpoint de atualização de 
 
 ![Documentação de Pedidos](images/swagger-orders.png)
 
+### Collection do Postman
+
+Além do Swagger, a API também pode ser testada via [Postman](https://www.postman.com/), usando a collection disponível em [`postman/delivery-management-api.postman_collection.json`](postman/delivery-management-api.postman_collection.json):
+
+1. No Postman, clique em **Import** e selecione o arquivo acima.
+2. A collection já vem com a variável `baseUrl` apontando para a API em produção (Render). Para testar localmente, edite essa variável para `http://localhost:8080`.
+3. Chame `POST /api/auth/login` com as credenciais do ADMIN e copie o `token` da resposta.
+4. Salve o token na variável de collection `bearerToken` — os endpoints protegidos já usam essa variável automaticamente (autenticação Bearer configurada por request).
+
+---
+
+## ☁️ Deploy em Produção (Render)
+
+A API está publicada em produção no [Render](https://render.com), usando o Blueprint declarado em [`render.yaml`](render.yaml): um Web Service (Docker, a partir do mesmo `Dockerfile` usado localmente) e um banco PostgreSQL gerenciado, provisionados juntos e conectados automaticamente via variáveis de ambiente.
+
+* **API / Swagger:** [delivery-management-api-sgex.onrender.com/swagger-ui/index.html](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html)
+* **Health check:** [delivery-management-api-sgex.onrender.com/api/health](https://delivery-management-api-sgex.onrender.com/api/health)
+
+> Acessar a raiz do domínio (`/`) diretamente retorna **401**, propositalmente — não existe nenhum endpoint mapeado em `/`, e a regra padrão de segurança (`anyRequest().authenticated()`) exige autenticação para qualquer rota não listada explicitamente como pública. Use sempre um caminho da API (`/api/...`) ou o Swagger.
+
+### Como testar agora
+
+> ⏱️ **No plano free do Render, a primeira requisição após ~15 minutos de inatividade pode levar de 30 a 60 segundos para responder (cold start).** Se a página parecer travada no primeiro acesso, é isso — não é um erro. Detalhes em [Limitações do plano Free do Render](#limitações-do-plano-free-do-render).
+
+1. Abra o [Swagger](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) ou importe a [collection do Postman](postman/delivery-management-api.postman_collection.json).
+2. Sem precisar de login, já dá pra ver o catálogo público: `GET /api/restaurants` e `GET /api/products`.
+3. Para testar endpoints protegidos (pedidos, clientes), registre-se como `CUSTOMER` em `POST /api/auth/register` — é público, qualquer pessoa pode criar uma conta de teste.
+4. Copie o `token` retornado e siga [Como autenticar no Swagger](#como-autenticar-no-swagger) para autorizar as próximas requisições (o mesmo token serve para a variável `bearerToken` da collection do Postman).
+
+### O que fica público em produção
+
+Como a aplicação está exposta na internet, é importante deixar claro **o que qualquer pessoa consegue acessar sem token** e o que continua protegido — as mesmas regras da seção [Autorização por Endpoint](#autorização-por-endpoint) valem em produção, sem exceção:
+
+* **Público, sem token:** `/api/health`, `/swagger-ui/**`, `/api/auth/register`, `/api/auth/login` (é assim que alguém vira usuário) e a leitura (`GET`) de `/api/restaurants` e `/api/products` — um catálogo público, como em qualquer app de delivery real.
+* **Nunca público:** `/api/customers` e `/api/orders`. Diferente do que se poderia supor, o cadastro de clientes é o recurso **mais** protegido, não o mais aberto — listar/criar clientes exige role `ADMIN`, e buscar/editar um cliente específico exige ser o próprio `ADMIN` ou o `CUSTOMER` dono daquele perfil.
+
+Qualquer pessoa pode se registrar como `CUSTOMER` (endpoint público, por desenho), mas a autorização por propriedade de recurso (v1.5) garante que cada `CUSTOMER` só enxerga e altera o próprio perfil e os próprios pedidos — nunca dados de outro cliente. As credenciais do usuário `ADMIN` padrão não ficam no repositório: são definidas manualmente no dashboard do Render (`ADMIN_EMAIL` / `ADMIN_PASSWORD` com `sync: false` no `render.yaml`).
+
+### Limitações do plano Free do Render
+
+* O Web Service **dorme após ~15 minutos de inatividade**. A primeira requisição depois disso pode levar de 30 a 60 segundos para responder (cold start) — se parecer que a API "não está funcionando", tente novamente após esse tempo antes de investigar outra causa.
+* O banco PostgreSQL gerenciado no plano free **expira automaticamente 30 dias após a criação**.
+
 ---
 
 ## ▶️ Como Executar o Projeto
@@ -762,7 +932,6 @@ mvnw.cmd spring-boot:run
 ## 🔮 Melhorias Futuras
 
 * Versionamento de banco com Flyway
-* Deploy em ambiente cloud
 * Versionamento da API
 * Fluxo de pagamento dos pedidos
 

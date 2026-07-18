@@ -20,6 +20,10 @@ WORKDIR /app
 
 COPY --from=builder /app/target/*.jar app.jar
 
-EXPOSE 8080
+RUN addgroup --system spring && adduser --system --ingroup spring spring
+USER spring:spring
+
+ENV PORT=8080
+EXPOSE $PORT
 
 ENTRYPOINT ["java","-jar","app.jar"]
