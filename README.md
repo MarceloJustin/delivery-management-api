@@ -97,7 +97,7 @@ Database
 
 ### Estrutura do Projeto
 
-<details>
+<details open>
 <summary>Ver estrutura completa de pastas e arquivos</summary>
 
 ```text
