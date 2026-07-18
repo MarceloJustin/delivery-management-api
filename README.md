@@ -16,8 +16,6 @@ API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring
 
 🔗 **API em produção:** [delivery-management-api-sgex.onrender.com](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) (veja detalhes e limitações em [☁️ Deploy em Produção](#deploy-em-producao-render))
 
-![Demonstração do Swagger: login e criação de restaurante](images/swagger-demo.gif)
-
 ## 📑 Índice
 
 * [📌 Sobre o Projeto](#sobre-o-projeto)
