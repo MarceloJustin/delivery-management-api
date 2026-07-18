@@ -95,6 +95,130 @@ Database
 * Filtro JWT que intercepta todas as requisições.
 * Valida o token e autentica o usuário no contexto de segurança.
 
+### Estrutura do Projeto
+
+<details>
+<summary>Ver estrutura completa de pastas e arquivos</summary>
+
+```text
+delivery-management-api/
+├── src/
+│   ├── main/
+│   │   ├── java/com/delivery_management_api/
+│   │   │   ├── config/
+│   │   │   │   ├── DataInitializer.java
+│   │   │   │   ├── OpenApiConfig.java
+│   │   │   │   ├── RefreshTokenCleanupJob.java
+│   │   │   │   └── SecurityConfig.java
+│   │   │   ├── controller/
+│   │   │   │   ├── AuthController.java
+│   │   │   │   ├── CustomerController.java
+│   │   │   │   ├── HealthController.java
+│   │   │   │   ├── OrderController.java
+│   │   │   │   ├── ProductController.java
+│   │   │   │   └── RestaurantController.java
+│   │   │   ├── dto/
+│   │   │   │   ├── request/
+│   │   │   │   │   ├── CreateCustomerRequest.java
+│   │   │   │   │   ├── CreateOrderItemRequest.java
+│   │   │   │   │   ├── CreateOrderRequest.java
+│   │   │   │   │   ├── CreateProductRequest.java
+│   │   │   │   │   ├── CreateRestaurantRequest.java
+│   │   │   │   │   ├── LoginRequest.java
+│   │   │   │   │   ├── RefreshTokenRequest.java
+│   │   │   │   │   ├── RegisterRequest.java
+│   │   │   │   │   ├── UpdateCustomerRequest.java
+│   │   │   │   │   ├── UpdateOrderItemRequest.java
+│   │   │   │   │   ├── UpdateOrderRequest.java
+│   │   │   │   │   ├── UpdateOrderStatusRequest.java
+│   │   │   │   │   ├── UpdateProductRequest.java
+│   │   │   │   │   └── UpdateRestaurantRequest.java
+│   │   │   │   └── response/
+│   │   │   │       ├── AuthResponse.java
+│   │   │   │       ├── CustomerResponse.java
+│   │   │   │       ├── ErrorResponse.java
+│   │   │   │       ├── OrderItemResponse.java
+│   │   │   │       ├── OrderResponse.java
+│   │   │   │       ├── ProductResponse.java
+│   │   │   │       ├── RestaurantResponse.java
+│   │   │   │       └── ValidationErrorResponse.java
+│   │   │   ├── entity/
+│   │   │   │   ├── Customer.java
+│   │   │   │   ├── Order.java
+│   │   │   │   ├── OrderItem.java
+│   │   │   │   ├── Product.java
+│   │   │   │   ├── RefreshToken.java
+│   │   │   │   ├── Restaurant.java
+│   │   │   │   └── User.java
+│   │   │   ├── enums/
+│   │   │   │   ├── OrderStatus.java
+│   │   │   │   └── Role.java
+│   │   │   ├── exception/
+│   │   │   │   ├── CustomerNotFoundException.java
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   ├── InvalidOrderStatusException.java
+│   │   │   │   ├── InvalidRefreshTokenException.java
+│   │   │   │   ├── OrderCancellationNotAllowedException.java
+│   │   │   │   ├── OrderNotFoundException.java
+│   │   │   │   ├── ProductNotFoundException.java
+│   │   │   │   ├── RestaurantNotFoundException.java
+│   │   │   │   └── UserAlreadyExistsException.java
+│   │   │   ├── mapper/
+│   │   │   │   ├── CustomerMapper.java
+│   │   │   │   ├── OrderMapper.java
+│   │   │   │   ├── ProductMapper.java
+│   │   │   │   └── RestaurantMapper.java
+│   │   │   ├── repository/
+│   │   │   │   ├── CustomerRepository.java
+│   │   │   │   ├── OrderItemRepository.java
+│   │   │   │   ├── OrderRepository.java
+│   │   │   │   ├── ProductRepository.java
+│   │   │   │   ├── RefreshTokenRepository.java
+│   │   │   │   ├── RestaurantRepository.java
+│   │   │   │   └── UserRepository.java
+│   │   │   ├── security/
+│   │   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │   ├── JwtService.java
+│   │   │   │   └── UserDetailsServiceImpl.java
+│   │   │   └── service/
+│   │   │       ├── AuthService.java
+│   │   │       ├── CustomerService.java
+│   │   │       ├── OrderService.java
+│   │   │       ├── ProductService.java
+│   │   │       ├── RefreshTokenService.java
+│   │   │       └── RestaurantService.java
+│   │   └── resources/
+│   │       ├── application-render.properties
+│   │       └── application.properties
+│   └── test/
+│       ├── java/com/delivery_management_api/
+│       │   ├── integration/
+│       │   │   ├── AuthControllerIntegrationTest.java
+│       │   │   ├── CustomerAuthorizationIntegrationTest.java
+│       │   │   ├── CustomerControllerIntegrationTest.java
+│       │   │   ├── HealthControllerIntegrationTest.java
+│       │   │   ├── OrderAuthorizationIntegrationTest.java
+│       │   │   ├── OrderControllerIntegrationTest.java
+│       │   │   ├── ProductControllerIntegrationTest.java
+│       │   │   └── RestaurantControllerIntegrationTest.java
+│       │   └── service/
+│       │       ├── AuthServiceTest.java
+│       │       ├── OrderServiceTest.java
+│       │       ├── ProductServiceTest.java
+│       │       └── RefreshTokenServiceTest.java
+│       └── resources/
+│           └── application-test.properties
+├── postman/
+│   └── delivery-management-api.postman_collection.json
+├── Dockerfile
+├── docker-compose.yml
+├── render.yaml
+├── pom.xml
+└── README.md
+```
+
+</details>
+
 ---
 
 ## 🔐 Segurança e Autenticação
@@ -606,6 +730,15 @@ Abaixo é possível visualizar a documentação do endpoint de atualização de 
 
 ![Documentação de Pedidos](images/swagger-orders.png)
 
+### Collection do Postman
+
+Além do Swagger, a API também pode ser testada via [Postman](https://www.postman.com/), usando a collection disponível em [`postman/delivery-management-api.postman_collection.json`](postman/delivery-management-api.postman_collection.json):
+
+1. No Postman, clique em **Import** e selecione o arquivo acima.
+2. A collection já vem com a variável `baseUrl` apontando para a API em produção (Render). Para testar localmente, edite essa variável para `http://localhost:8080`.
+3. Chame `POST /api/auth/login` com as credenciais do ADMIN e copie o `token` da resposta.
+4. Salve o token na variável de collection `bearerToken` — os endpoints protegidos já usam essa variável automaticamente (autenticação Bearer configurada por request).
+
 ---
 
 ## ☁️ Deploy em Produção (Render)
@@ -616,6 +749,15 @@ A API está publicada em produção no [Render](https://render.com), usando o Bl
 * **Health check:** [delivery-management-api-sgex.onrender.com/api/health](https://delivery-management-api-sgex.onrender.com/api/health)
 
 > Acessar a raiz do domínio (`/`) diretamente retorna **401**, propositalmente — não existe nenhum endpoint mapeado em `/`, e a regra padrão de segurança (`anyRequest().authenticated()`) exige autenticação para qualquer rota não listada explicitamente como pública. Use sempre um caminho da API (`/api/...`) ou o Swagger.
+
+### Como testar agora
+
+> ⏱️ **No plano free do Render, a primeira requisição após ~15 minutos de inatividade pode levar de 30 a 60 segundos para responder (cold start).** Se a página parecer travada no primeiro acesso, é isso — não é um erro. Detalhes em [Limitações do plano Free do Render](#limitações-do-plano-free-do-render).
+
+1. Abra o [Swagger](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) ou importe a [collection do Postman](postman/delivery-management-api.postman_collection.json).
+2. Sem precisar de login, já dá pra ver o catálogo público: `GET /api/restaurants` e `GET /api/products`.
+3. Para testar endpoints protegidos (pedidos, clientes), registre-se como `CUSTOMER` em `POST /api/auth/register` — é público, qualquer pessoa pode criar uma conta de teste.
+4. Copie o `token` retornado e siga [Como autenticar no Swagger](#como-autenticar-no-swagger) para autorizar as próximas requisições (o mesmo token serve para a variável `bearerToken` da collection do Postman).
 
 ### O que fica público em produção
 
