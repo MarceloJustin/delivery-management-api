@@ -10,8 +10,11 @@
 ![JaCoCo](https://img.shields.io/badge/Coverage-92%25-brightgreen)
 ![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-green)
 ![CI/CD](https://img.shields.io/badge/CI-GitHub_Actions-success)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-46E3B7)](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html)
 
 API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring Boot, PostgreSQL, autenticação JWT, testes automatizados e documentação OpenAPI.
+
+🔗 **API em produção:** [delivery-management-api-sgex.onrender.com](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) (veja detalhes e limitações em [☁️ Deploy em Produção](#️-deploy-em-produção-render))
 
 ## 📌 Sobre o Projeto
 
@@ -605,6 +608,31 @@ Abaixo é possível visualizar a documentação do endpoint de atualização de 
 
 ---
 
+## ☁️ Deploy em Produção (Render)
+
+A API está publicada em produção no [Render](https://render.com), usando o Blueprint declarado em [`render.yaml`](render.yaml): um Web Service (Docker, a partir do mesmo `Dockerfile` usado localmente) e um banco PostgreSQL gerenciado, provisionados juntos e conectados automaticamente via variáveis de ambiente.
+
+* **API / Swagger:** [delivery-management-api-sgex.onrender.com/swagger-ui/index.html](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html)
+* **Health check:** [delivery-management-api-sgex.onrender.com/api/health](https://delivery-management-api-sgex.onrender.com/api/health)
+
+> Acessar a raiz do domínio (`/`) diretamente retorna **401**, propositalmente — não existe nenhum endpoint mapeado em `/`, e a regra padrão de segurança (`anyRequest().authenticated()`) exige autenticação para qualquer rota não listada explicitamente como pública. Use sempre um caminho da API (`/api/...`) ou o Swagger.
+
+### O que fica público em produção
+
+Como a aplicação está exposta na internet, é importante deixar claro **o que qualquer pessoa consegue acessar sem token** e o que continua protegido — as mesmas regras da seção [Autorização por Endpoint](#autorização-por-endpoint) valem em produção, sem exceção:
+
+* **Público, sem token:** `/api/health`, `/swagger-ui/**`, `/api/auth/register`, `/api/auth/login` (é assim que alguém vira usuário) e a leitura (`GET`) de `/api/restaurants` e `/api/products` — um catálogo público, como em qualquer app de delivery real.
+* **Nunca público:** `/api/customers` e `/api/orders`. Diferente do que se poderia supor, o cadastro de clientes é o recurso **mais** protegido, não o mais aberto — listar/criar clientes exige role `ADMIN`, e buscar/editar um cliente específico exige ser o próprio `ADMIN` ou o `CUSTOMER` dono daquele perfil.
+
+Qualquer pessoa pode se registrar como `CUSTOMER` (endpoint público, por desenho), mas a autorização por propriedade de recurso (v1.5) garante que cada `CUSTOMER` só enxerga e altera o próprio perfil e os próprios pedidos — nunca dados de outro cliente. As credenciais do usuário `ADMIN` padrão não ficam no repositório: são definidas manualmente no dashboard do Render (`ADMIN_EMAIL` / `ADMIN_PASSWORD` com `sync: false` no `render.yaml`).
+
+### Limitações do plano Free do Render
+
+* O Web Service **dorme após ~15 minutos de inatividade**. A primeira requisição depois disso pode levar de 30 a 60 segundos para responder (cold start) — se parecer que a API "não está funcionando", tente novamente após esse tempo antes de investigar outra causa.
+* O banco PostgreSQL gerenciado no plano free **expira automaticamente 30 dias após a criação**.
+
+---
+
 ## ▶️ Como Executar o Projeto
 
 ### 1. Clonar o projeto
@@ -762,7 +790,6 @@ mvnw.cmd spring-boot:run
 ## 🔮 Melhorias Futuras
 
 * Versionamento de banco com Flyway
-* Deploy em ambiente cloud
 * Versionamento da API
 * Fluxo de pagamento dos pedidos
 
