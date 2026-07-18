@@ -1,0 +1,4252 @@
+{
+  "info": {
+    "_postman_id": "e91b67d0-e9c3-457b-b4ab-6ebe21964261",
+    "name": "OpenAPI definition",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46473965",
+    "_collection_link": "https://go.postman.co/collection/46473965-e91b67d0-e9c3-457b-b4ab-6ebe21964261?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "restaurants",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "Find restaurant by ID",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/restaurants/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "restaurants",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Returns a restaurant by its ID"
+                  },
+                  "response": [
+                    {
+                      "name": "Restaurant found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/restaurants/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "restaurants",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Burger King\",\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 8.5\n}"
+                    },
+                    {
+                      "name": "Restaurant not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/restaurants/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "restaurants",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Update restaurant",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 9.9,\n  \"name\": \"Burger King\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/restaurants/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "restaurants",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Updates an existing restaurant"
+                  },
+                  "response": [
+                    {
+                      "name": "Restaurant updated",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 9.9,\n  \"name\": \"Burger King\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/restaurants/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "restaurants",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Burger King\",\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 8.5\n}"
+                    },
+                    {
+                      "name": "Invalid request data",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 9.9,\n  \"name\": \"Burger King\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/restaurants/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "restaurants",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                    },
+                    {
+                      "name": "Restaurant not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 9.9,\n  \"name\": \"Burger King\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/restaurants/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "restaurants",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Delete restaurant",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/restaurants/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "restaurants",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Deletes a restaurant by ID"
+                  },
+                  "response": [
+                    {
+                      "name": "Restaurant deleted successfully",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/restaurants/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "restaurants",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "body": ""
+                    },
+                    {
+                      "name": "Restaurant not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/restaurants/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "restaurants",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "search",
+              "item": [
+                {
+                  "name": "{name}",
+                  "item": [
+                    {
+                      "name": "Find restaurants by Name",
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/restaurants/search/:name",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "restaurants",
+                            "search",
+                            ":name"
+                          ],
+                          "variable": [
+                            {
+                              "key": "name",
+                              "value": "string"
+                            }
+                          ]
+                        },
+                        "description": "Returns restaurants matching the provided name"
+                      },
+                      "response": [
+                        {
+                          "name": "Restaurants found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/restaurants/search/:name",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "restaurants",
+                                "search",
+                                ":name"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "name",
+                                  "value": "string"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Burger King\",\n    \"category\": \"Fast Food\",\n    \"deliveryFee\": 8.5\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Burger King\",\n    \"category\": \"Fast Food\",\n    \"deliveryFee\": 8.5\n  }\n]"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "List restaurants",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/restaurants?page=5539&size=4060&sort=string,string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "restaurants"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5539"
+                    },
+                    {
+                      "key": "size",
+                      "value": "4060"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "string,string"
+                    }
+                  ]
+                },
+                "description": "Returns all registered restaurants"
+              },
+              "response": [
+                {
+                  "name": "Restaurants found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/restaurants?page=5539&size=4060&sort=string,string",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "restaurants"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "5539"
+                        },
+                        {
+                          "key": "size",
+                          "value": "4060"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "string,string"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"totalElements\": 5412,\n  \"totalPages\": 3191,\n  \"size\": 6419,\n  \"content\": [\n    {\n      \"id\": 1,\n      \"name\": \"Burger King\",\n      \"category\": \"Fast Food\",\n      \"deliveryFee\": 8.5\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Burger King\",\n      \"category\": \"Fast Food\",\n      \"deliveryFee\": 8.5\n    }\n  ],\n  \"number\": 1058,\n  \"sort\": {\n    \"empty\": true,\n    \"unsorted\": true,\n    \"sorted\": false\n  },\n  \"numberOfElements\": 462,\n  \"first\": false,\n  \"last\": false,\n  \"pageable\": {\n    \"offset\": 8557,\n    \"sort\": {\n      \"empty\": true,\n      \"unsorted\": false,\n      \"sorted\": false\n    },\n    \"unpaged\": false,\n    \"paged\": false,\n    \"pageNumber\": 1877,\n    \"pageSize\": 4797\n  },\n  \"empty\": true\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create restaurant",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 9.9,\n  \"name\": \"Burger King\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/restaurants",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "restaurants"
+                  ]
+                },
+                "description": "Creates a new restaurant"
+              },
+              "response": [
+                {
+                  "name": "Restaurant created successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 9.9,\n  \"name\": \"Burger King\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/restaurants",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "restaurants"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 1,\n  \"name\": \"Burger King\",\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 8.5\n}"
+                },
+                {
+                  "name": "Invalid request data",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"category\": \"Fast Food\",\n  \"deliveryFee\": 9.9,\n  \"name\": \"Burger King\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/restaurants",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "restaurants"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "products",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "Find product by ID",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/products/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "products",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Returns a product by its ID"
+                  },
+                  "response": [
+                    {
+                      "name": "Product found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1,\n  \"restaurantName\": \"Burger King\"\n}"
+                    },
+                    {
+                      "name": "Product not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Update product",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/products/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "products",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Updates an existing product"
+                  },
+                  "response": [
+                    {
+                      "name": "Product updated",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1,\n  \"restaurantName\": \"Burger King\"\n}"
+                    },
+                    {
+                      "name": "Invalid request data",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                    },
+                    {
+                      "name": "Product not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Delete product",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/products/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "products",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Deletes a product by ID"
+                  },
+                  "response": [
+                    {
+                      "name": "Product deleted successfully",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "body": ""
+                    },
+                    {
+                      "name": "Product not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "restaurant",
+              "item": [
+                {
+                  "name": "{restaurantId}",
+                  "item": [
+                    {
+                      "name": "List of products by restaurant",
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/restaurant/:restaurantId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            "restaurant",
+                            ":restaurantId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "restaurantId",
+                              "value": "3696"
+                            }
+                          ]
+                        },
+                        "description": "Returns all products from a specific restaurant"
+                      },
+                      "response": [
+                        {
+                          "name": "Products found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/products/restaurant/:restaurantId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "products",
+                                "restaurant",
+                                ":restaurantId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "restaurantId",
+                                  "value": "3696"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Hambúrguer\",\n    \"price\": 29.9,\n    \"restaurantId\": 1,\n    \"restaurantName\": \"Burger King\"\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Hambúrguer\",\n    \"price\": 29.9,\n    \"restaurantId\": 1,\n    \"restaurantName\": \"Burger King\"\n  }\n]"
+                        },
+                        {
+                          "name": "Restaurant not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/products/restaurant/:restaurantId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "products",
+                                "restaurant",
+                                ":restaurantId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "restaurantId",
+                                  "value": "3696"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "price",
+              "item": [
+                {
+                  "name": "{price}",
+                  "item": [
+                    {
+                      "name": "Find products by minimum price",
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/price/:price",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            "price",
+                            ":price"
+                          ],
+                          "variable": [
+                            {
+                              "key": "price",
+                              "value": "8074.11620464324"
+                            }
+                          ]
+                        },
+                        "description": "Returns products with price greater than the specified value"
+                      },
+                      "response": [
+                        {
+                          "name": "Products found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/products/price/:price",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "products",
+                                "price",
+                                ":price"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "price",
+                                  "value": "8074.11620464324"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Hambúrguer\",\n    \"price\": 29.9,\n    \"restaurantId\": 1,\n    \"restaurantName\": \"Burger King\"\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Hambúrguer\",\n    \"price\": 29.9,\n    \"restaurantId\": 1,\n    \"restaurantName\": \"Burger King\"\n  }\n]"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "price-range",
+              "item": [
+                {
+                  "name": "Find products by price between min and max",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/products/price-range?minPrice=8074.11620464324&maxPrice=8074.11620464324",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "products",
+                        "price-range"
+                      ],
+                      "query": [
+                        {
+                          "key": "minPrice",
+                          "value": "8074.11620464324"
+                        },
+                        {
+                          "key": "maxPrice",
+                          "value": "8074.11620464324"
+                        }
+                      ]
+                    },
+                    "description": "Returns products with price betweeb min and max"
+                  },
+                  "response": [
+                    {
+                      "name": "Products found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/products/price-range?minPrice=8074.11620464324&maxPrice=8074.11620464324",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "products",
+                            "price-range"
+                          ],
+                          "query": [
+                            {
+                              "key": "minPrice",
+                              "value": "8074.11620464324"
+                            },
+                            {
+                              "key": "maxPrice",
+                              "value": "8074.11620464324"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Hambúrguer\",\n    \"price\": 29.9,\n    \"restaurantId\": 1,\n    \"restaurantName\": \"Burger King\"\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Hambúrguer\",\n    \"price\": 29.9,\n    \"restaurantId\": 1,\n    \"restaurantName\": \"Burger King\"\n  }\n]"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "List products",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/products?page=5539&size=4060&sort=string,string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5539"
+                    },
+                    {
+                      "key": "size",
+                      "value": "4060"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "string,string"
+                    }
+                  ]
+                },
+                "description": "Returns all registered products"
+              },
+              "response": [
+                {
+                  "name": "Products found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/products?page=5539&size=4060&sort=string,string",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "products"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "5539"
+                        },
+                        {
+                          "key": "size",
+                          "value": "4060"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "string,string"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"totalElements\": 2771,\n  \"totalPages\": 6090,\n  \"size\": 743,\n  \"content\": [\n    {\n      \"id\": 1,\n      \"name\": \"Hambúrguer\",\n      \"price\": 29.9,\n      \"restaurantId\": 1,\n      \"restaurantName\": \"Burger King\"\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Hambúrguer\",\n      \"price\": 29.9,\n      \"restaurantId\": 1,\n      \"restaurantName\": \"Burger King\"\n    }\n  ],\n  \"number\": 18,\n  \"sort\": {\n    \"empty\": true,\n    \"unsorted\": true,\n    \"sorted\": false\n  },\n  \"numberOfElements\": 5245,\n  \"first\": false,\n  \"last\": false,\n  \"pageable\": {\n    \"offset\": 759,\n    \"sort\": {\n      \"empty\": false,\n      \"unsorted\": true,\n      \"sorted\": true\n    },\n    \"unpaged\": true,\n    \"paged\": true,\n    \"pageNumber\": 868,\n    \"pageSize\": 4605\n  },\n  \"empty\": false\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create product",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products"
+                  ]
+                },
+                "description": "Creates a new product"
+              },
+              "response": [
+                {
+                  "name": "Product created successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/products",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "products"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 1,\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1,\n  \"restaurantName\": \"Burger King\"\n}"
+                },
+                {
+                  "name": "Invalid request data",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Hambúrguer\",\n  \"price\": 29.9,\n  \"restaurantId\": 1\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/products",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "products"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "customers",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "Find customer by ID",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/customers/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "customers",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Returns a customer by its ID"
+                  },
+                  "response": [
+                    {
+                      "name": "Customer found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Marcelo Justin\",\n  \"email\": \"marcelo@email.com\"\n}"
+                    },
+                    {
+                      "name": "Customer not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Update customer",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"João da Silva\",\n  \"email\": \"joaodasilva@email.com\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/customers/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "customers",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Updates an existing customer"
+                  },
+                  "response": [
+                    {
+                      "name": "Customer updated",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"João da Silva\",\n  \"email\": \"joaodasilva@email.com\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"name\": \"Marcelo Justin\",\n  \"email\": \"marcelo@email.com\"\n}"
+                    },
+                    {
+                      "name": "Invalid request data",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"João da Silva\",\n  \"email\": \"joaodasilva@email.com\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                    },
+                    {
+                      "name": "Customer not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"João da Silva\",\n  \"email\": \"joaodasilva@email.com\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Delete customer",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/customers/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "customers",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Deletes a customer by ID"
+                  },
+                  "response": [
+                    {
+                      "name": "Customer deleted",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "body": ""
+                    },
+                    {
+                      "name": "Customer not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/customers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "customers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "List customers",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/customers?page=5539&size=4060&sort=string,string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "customers"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5539"
+                    },
+                    {
+                      "key": "size",
+                      "value": "4060"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "string,string"
+                    }
+                  ]
+                },
+                "description": "Returns all registered customers"
+              },
+              "response": [
+                {
+                  "name": "Customers found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/customers?page=5539&size=4060&sort=string,string",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "customers"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "5539"
+                        },
+                        {
+                          "key": "size",
+                          "value": "4060"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "string,string"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"totalElements\": 2160,\n  \"totalPages\": 7365,\n  \"size\": 3734,\n  \"content\": [\n    {\n      \"id\": 1,\n      \"name\": \"Marcelo Justin\",\n      \"email\": \"marcelo@email.com\"\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Marcelo Justin\",\n      \"email\": \"marcelo@email.com\"\n    }\n  ],\n  \"number\": 8679,\n  \"sort\": {\n    \"empty\": false,\n    \"unsorted\": true,\n    \"sorted\": false\n  },\n  \"numberOfElements\": 1101,\n  \"first\": true,\n  \"last\": false,\n  \"pageable\": {\n    \"offset\": 3110,\n    \"sort\": {\n      \"empty\": false,\n      \"unsorted\": true,\n      \"sorted\": true\n    },\n    \"unpaged\": false,\n    \"paged\": true,\n    \"pageNumber\": 6625,\n    \"pageSize\": 7954\n  },\n  \"empty\": true\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create customer",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"joaodasilva@email.com\",\n  \"name\": \"João da Silva\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/customers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "customers"
+                  ]
+                },
+                "description": "Creates a new customer"
+              },
+              "response": [
+                {
+                  "name": "Customer created successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"joaodasilva@email.com\",\n  \"name\": \"João da Silva\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/customers",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "customers"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 1,\n  \"name\": \"Marcelo Justin\",\n  \"email\": \"marcelo@email.com\"\n}"
+                },
+                {
+                  "name": "Invalid request data",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"joaodasilva@email.com\",\n  \"name\": \"João da Silva\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/customers",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "customers"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "orders",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "status",
+                  "item": [
+                    {
+                      "name": "Update order status",
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"status\": \"CREATED\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/orders/:id/status",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "orders",
+                            ":id",
+                            "status"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        },
+                        "description": "Updates the status of an existing order"
+                      },
+                      "response": [
+                        {
+                          "name": "Order status updated successfully",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"status\": \"CREATED\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/orders/:id/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "orders",
+                                ":id",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "3696"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": 1,\n  \"customerId\": 1,\n  \"customerName\": \"João da Silva\",\n  \"restaurantId\": 1,\n  \"restaurantName\": \"Burger King\",\n  \"deliveryFee\": 9.9,\n  \"totalAmount\": 119.9,\n  \"status\": \"CREATED\",\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"productName\": \"Hambúrguer\",\n      \"quantity\": 5\n    },\n    {\n      \"productId\": 1,\n      \"productName\": \"Hambúrguer\",\n      \"quantity\": 5\n    }\n  ]\n}"
+                        },
+                        {
+                          "name": "Order not found",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"status\": \"CREATED\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/orders/:id/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "orders",
+                                ":id",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "3696"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                        },
+                        {
+                          "name": "Invalid order status transition",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"status\": \"CREATED\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/orders/:id/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "orders",
+                                ":id",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "3696"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Conflict",
+                          "code": 409,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "cancel",
+                  "item": [
+                    {
+                      "name": "Cancel order",
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/orders/:id/cancel",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "orders",
+                            ":id",
+                            "cancel"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        },
+                        "description": "Cancels an order by ID"
+                      },
+                      "response": [
+                        {
+                          "name": "Order canceled successfully",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/orders/:id/cancel",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "orders",
+                                ":id",
+                                "cancel"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "3696"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "body": ""
+                        },
+                        {
+                          "name": "Order not found",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/orders/:id/cancel",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "orders",
+                                ":id",
+                                "cancel"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "3696"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Find order by ID",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/orders/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "orders",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3696"
+                        }
+                      ]
+                    },
+                    "description": "Returns an order by its ID"
+                  },
+                  "response": [
+                    {
+                      "name": "Order found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/orders/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "orders",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 1,\n  \"customerId\": 1,\n  \"customerName\": \"João da Silva\",\n  \"restaurantId\": 1,\n  \"restaurantName\": \"Burger King\",\n  \"deliveryFee\": 9.9,\n  \"totalAmount\": 119.9,\n  \"status\": \"CREATED\",\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"productName\": \"Hambúrguer\",\n      \"quantity\": 5\n    },\n    {\n      \"productId\": 1,\n      \"productName\": \"Hambúrguer\",\n      \"quantity\": 5\n    }\n  ]\n}"
+                    },
+                    {
+                      "name": "Order not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/orders/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "orders",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3696"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "status",
+              "item": [
+                {
+                  "name": "{status}",
+                  "item": [
+                    {
+                      "name": "Find orders by status",
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/orders/status/:status?page=5539&size=4060&sort=string,string",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "orders",
+                            "status",
+                            ":status"
+                          ],
+                          "query": [
+                            {
+                              "key": "page",
+                              "value": "5539"
+                            },
+                            {
+                              "key": "size",
+                              "value": "4060"
+                            },
+                            {
+                              "key": "sort",
+                              "value": "string,string"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "status",
+                              "value": "CONFIRMED"
+                            }
+                          ]
+                        },
+                        "description": "Returns orders filtered by status"
+                      },
+                      "response": [
+                        {
+                          "name": "Orders found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/orders/status/:status?page=5539&size=4060&sort=string,string",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "orders",
+                                "status",
+                                ":status"
+                              ],
+                              "query": [
+                                {
+                                  "key": "page",
+                                  "value": "5539"
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "4060"
+                                },
+                                {
+                                  "key": "sort",
+                                  "value": "string,string"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "status",
+                                  "value": "CONFIRMED"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"totalElements\": 2911,\n  \"totalPages\": 6223,\n  \"size\": 9452,\n  \"content\": [\n    {\n      \"id\": 1,\n      \"customerId\": 1,\n      \"customerName\": \"João da Silva\",\n      \"restaurantId\": 1,\n      \"restaurantName\": \"Burger King\",\n      \"deliveryFee\": 9.9,\n      \"totalAmount\": 119.9,\n      \"status\": \"CREATED\",\n      \"items\": [\n        {\n          \"productId\": 1,\n          \"productName\": \"Hambúrguer\",\n          \"quantity\": 5\n        },\n        {\n          \"productId\": 1,\n          \"productName\": \"Hambúrguer\",\n          \"quantity\": 5\n        }\n      ]\n    },\n    {\n      \"id\": 1,\n      \"customerId\": 1,\n      \"customerName\": \"João da Silva\",\n      \"restaurantId\": 1,\n      \"restaurantName\": \"Burger King\",\n      \"deliveryFee\": 9.9,\n      \"totalAmount\": 119.9,\n      \"status\": \"CREATED\",\n      \"items\": [\n        {\n          \"productId\": 1,\n          \"productName\": \"Hambúrguer\",\n          \"quantity\": 5\n        },\n        {\n          \"productId\": 1,\n          \"productName\": \"Hambúrguer\",\n          \"quantity\": 5\n        }\n      ]\n    }\n  ],\n  \"number\": 1468,\n  \"sort\": {\n    \"empty\": true,\n    \"unsorted\": false,\n    \"sorted\": true\n  },\n  \"numberOfElements\": 3939,\n  \"first\": true,\n  \"last\": true,\n  \"pageable\": {\n    \"offset\": 449,\n    \"sort\": {\n      \"empty\": true,\n      \"unsorted\": true,\n      \"sorted\": true\n    },\n    \"unpaged\": true,\n    \"paged\": false,\n    \"pageNumber\": 8918,\n    \"pageSize\": 2604\n  },\n  \"empty\": true\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "List orders",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/orders?page=5539&size=4060&sort=string,string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "5539"
+                    },
+                    {
+                      "key": "size",
+                      "value": "4060"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "string,string"
+                    }
+                  ]
+                },
+                "description": "Returns paginated orders"
+              },
+              "response": [
+                {
+                  "name": "Orders found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/orders?page=5539&size=4060&sort=string,string",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "orders"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "5539"
+                        },
+                        {
+                          "key": "size",
+                          "value": "4060"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "string,string"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"totalElements\": 2911,\n  \"totalPages\": 6223,\n  \"size\": 9452,\n  \"content\": [\n    {\n      \"id\": 1,\n      \"customerId\": 1,\n      \"customerName\": \"João da Silva\",\n      \"restaurantId\": 1,\n      \"restaurantName\": \"Burger King\",\n      \"deliveryFee\": 9.9,\n      \"totalAmount\": 119.9,\n      \"status\": \"CREATED\",\n      \"items\": [\n        {\n          \"productId\": 1,\n          \"productName\": \"Hambúrguer\",\n          \"quantity\": 5\n        },\n        {\n          \"productId\": 1,\n          \"productName\": \"Hambúrguer\",\n          \"quantity\": 5\n        }\n      ]\n    },\n    {\n      \"id\": 1,\n      \"customerId\": 1,\n      \"customerName\": \"João da Silva\",\n      \"restaurantId\": 1,\n      \"restaurantName\": \"Burger King\",\n      \"deliveryFee\": 9.9,\n      \"totalAmount\": 119.9,\n      \"status\": \"CREATED\",\n      \"items\": [\n        {\n          \"productId\": 1,\n          \"productName\": \"Hambúrguer\",\n          \"quantity\": 5\n        },\n        {\n          \"productId\": 1,\n          \"productName\": \"Hambúrguer\",\n          \"quantity\": 5\n        }\n      ]\n    }\n  ],\n  \"number\": 1468,\n  \"sort\": {\n    \"empty\": true,\n    \"unsorted\": false,\n    \"sorted\": true\n  },\n  \"numberOfElements\": 3939,\n  \"first\": true,\n  \"last\": true,\n  \"pageable\": {\n    \"offset\": 449,\n    \"sort\": {\n      \"empty\": true,\n      \"unsorted\": true,\n      \"sorted\": true\n    },\n    \"unpaged\": true,\n    \"paged\": false,\n    \"pageNumber\": 8918,\n    \"pageSize\": 2604\n  },\n  \"empty\": true\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create order",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": 1,\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 5\n    }\n  ],\n  \"restaurantId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders"
+                  ]
+                },
+                "description": "Creates a new order"
+              },
+              "response": [
+                {
+                  "name": "Order created successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customerId\": 1,\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 5\n    }\n  ],\n  \"restaurantId\": 1\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/orders",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "orders"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"id\": 1,\n  \"customerId\": 1,\n  \"customerName\": \"João da Silva\",\n  \"restaurantId\": 1,\n  \"restaurantName\": \"Burger King\",\n  \"deliveryFee\": 9.9,\n  \"totalAmount\": 119.9,\n  \"status\": \"CREATED\",\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"productName\": \"Hambúrguer\",\n      \"quantity\": 5\n    },\n    {\n      \"productId\": 1,\n      \"productName\": \"Hambúrguer\",\n      \"quantity\": 5\n    }\n  ]\n}"
+                },
+                {
+                  "name": "Invalid request data",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customerId\": 1,\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 5\n    }\n  ],\n  \"restaurantId\": 1\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/orders",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "orders"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "auth",
+          "item": [
+            {
+              "name": "register",
+              "item": [
+                {
+                  "name": "Register user",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"joao@email.com\",\n  \"name\": \"João da Silva\",\n  \"password\": \"senha123\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/register",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    },
+                    "description": "Creates a new user with role CUSTOMER"
+                  },
+                  "response": [
+                    {
+                      "name": "User registered successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"joao@email.com\",\n  \"name\": \"João da Silva\",\n  \"password\": \"senha123\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/register",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "register"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiJ9...\",\n  \"type\": \"Bearer\",\n  \"refreshToken\": \"b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a\",\n  \"name\": \"João da Silva\",\n  \"email\": \"joao@email.com\",\n  \"role\": \"CUSTOMER\"\n}"
+                    },
+                    {
+                      "name": "Invalid request data",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"joao@email.com\",\n  \"name\": \"João da Silva\",\n  \"password\": \"senha123\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/register",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "register"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                    },
+                    {
+                      "name": "Email already in use",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"joao@email.com\",\n  \"name\": \"João da Silva\",\n  \"password\": \"senha123\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/register",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "register"
+                          ]
+                        }
+                      },
+                      "status": "Conflict",
+                      "code": 409,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "refresh",
+              "item": [
+                {
+                  "name": "Refresh access token",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"refreshToken\": \"b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/refresh",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "refresh"
+                      ]
+                    },
+                    "description": "Exchanges a valid refresh token for a new access token and refresh token"
+                  },
+                  "response": [
+                    {
+                      "name": "Token refreshed successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"refreshToken\": \"b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/refresh",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "refresh"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiJ9...\",\n  \"type\": \"Bearer\",\n  \"refreshToken\": \"b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a\",\n  \"name\": \"João da Silva\",\n  \"email\": \"joao@email.com\",\n  \"role\": \"CUSTOMER\"\n}"
+                    },
+                    {
+                      "name": "Invalid request data",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"refreshToken\": \"b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/refresh",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "refresh"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                    },
+                    {
+                      "name": "Invalid, expired or revoked refresh token",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"refreshToken\": \"b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/refresh",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "refresh"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "login",
+              "item": [
+                {
+                  "name": "Login user",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha123\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/login",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    },
+                    "description": "Authenticates a user and returns a JWT token"
+                  },
+                  "response": [
+                    {
+                      "name": "Login successful",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha123\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/login",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "login"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiJ9...\",\n  \"type\": \"Bearer\",\n  \"refreshToken\": \"b6f1c9e2-3a4d-4e2b-9c1a-5f6e7d8c9b0a\",\n  \"name\": \"João da Silva\",\n  \"email\": \"joao@email.com\",\n  \"role\": \"CUSTOMER\"\n}"
+                    },
+                    {
+                      "name": "Invalid request data",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha123\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/login",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "login"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Validation failed\",\n  \"validationErrors\": {\n    \"key_0\": \"string\"\n  }\n}"
+                    },
+                    {
+                      "name": "Invalid credentials",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha123\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/auth/login",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "auth",
+                            "login"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"timestamp\": \"2026-06-02T20:15:30\",\n  \"status\": 404,\n  \"error\": \"Not Found\",\n  \"message\": \"Customer with id 99 not found\"\n}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "health",
+          "item": [
+            {
+              "name": "Application health check",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health"
+                  ]
+                },
+                "description": "Returns the current application status"
+              },
+              "response": [
+                {
+                  "name": "Application is running",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/health",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "health"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"key_0\": \"string\"\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://delivery-management-api-sgex.onrender.com"
+    }
+  ]
+}
