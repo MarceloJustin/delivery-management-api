@@ -16,6 +16,30 @@ API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring
 
 🔗 **API em produção:** [delivery-management-api-sgex.onrender.com](https://delivery-management-api-sgex.onrender.com/swagger-ui/index.html) (veja detalhes e limitações em [☁️ Deploy em Produção](#️-deploy-em-produção-render))
 
+## 📑 Índice
+
+* [📌 Sobre o Projeto](#sobre-o-projeto)
+* [🚀 Tecnologias Utilizadas](#tecnologias-utilizadas)
+* [🏗️ Arquitetura](#️-arquitetura)
+* [🔐 Segurança e Autenticação](#segurança-e-autenticação)
+* [📋 Funcionalidades](#funcionalidades)
+* [📦 Regras de Negócio](#regras-de-negócio)
+* [🔗 Principais Endpoints](#principais-endpoints)
+* [📨 Exemplos de Requisição](#exemplos-de-requisição)
+* [⚠️ Tratamento de Erros](#️-tratamento-de-erros)
+* [🧪 Testes](#testes)
+* [📖 Documentação Swagger](#documentação-swagger)
+* [☁️ Deploy em Produção (Render)](#️-deploy-em-produção-render)
+* [▶️ Como Executar o Projeto](#️-como-executar-o-projeto)
+* [🐳 Executando com Docker (Recomendado)](#executando-com-docker-recomendado)
+* [🔧 Variáveis de Ambiente](#variáveis-de-ambiente)
+* [💻 Executando Localmente](#executando-localmente)
+* [🔮 Melhorias Futuras](#melhorias-futuras)
+* [👨‍💻 Autor](#autor)
+* [📄 Licença](#licença)
+
+---
+
 ## 📌 Sobre o Projeto
 
 A Delivery Management API é uma aplicação REST desenvolvida com Java e Spring Boot para gerenciamento de pedidos de delivery.
