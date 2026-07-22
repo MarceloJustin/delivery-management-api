@@ -5,6 +5,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.6-green)
 ![Spring Security](https://img.shields.io/badge/Spring%20Security-JWT-brightgreen)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
+![Flyway](https://img.shields.io/badge/Flyway-DB%20Migrations-CC0200)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![JUnit 5](https://img.shields.io/badge/JUnit-5-red)
 ![JaCoCo](https://img.shields.io/badge/Coverage-92%25-brightgreen)
@@ -21,6 +22,7 @@ API REST para gerenciamento de pedidos de delivery desenvolvida com Java, Spring
 * [📌 Sobre o Projeto](#sobre-o-projeto)
 * [🚀 Tecnologias Utilizadas](#tecnologias-utilizadas)
 * [🏗️ Arquitetura](#arquitetura)
+* [🗄️ Versionamento de Banco (Flyway)](#versionamento-de-banco)
 * [🔐 Segurança e Autenticação](#seguranca-e-autenticacao)
 * [📋 Funcionalidades](#funcionalidades)
 * [📦 Regras de Negócio](#regras-de-negocio)
@@ -61,6 +63,7 @@ O projeto foi desenvolvido com foco em boas práticas de arquitetura, segurança
 * Spring Data JPA
 * Hibernate
 * PostgreSQL
+* Flyway
 * Maven
 * OpenAPI / Swagger
 * JUnit 5
@@ -215,6 +218,9 @@ delivery-management-api/
 │   │   │       ├── RefreshTokenService.java
 │   │   │       └── RestaurantService.java
 │   │   └── resources/
+│   │       ├── db/
+│   │       │   └── migration/
+│   │       │       └── V1__baseline.sql
 │   │       ├── application-render.properties
 │   │       └── application.properties
 │   └── test/
@@ -245,6 +251,20 @@ delivery-management-api/
 ```
 
 </details>
+
+---
+
+<a id="versionamento-de-banco"></a>
+## 🗄️ Versionamento de Banco (Flyway)
+
+O schema do banco é controlado por migrations versionadas com [Flyway](https://flywaydb.org/), em vez de ser gerado/alterado automaticamente pelo Hibernate.
+
+* `spring.jpa.hibernate.ddl-auto=validate`: o Hibernate apenas confere se as entidades batem com o schema existente — nunca cria, altera ou apaga tabelas.
+* As migrations ficam em `src/main/resources/db/migration`, seguindo a convenção `V{versão}__{descrição}.sql` (ex: `V1__baseline.sql`).
+* `V1__baseline.sql` é o baseline do schema original (gerado via `pg_dump --schema-only`), aplicado com `spring.flyway.baseline-on-migrate=true` — o Flyway reconhece o schema já existente como ponto de partida em vez de tentar recriá-lo do zero.
+* Novas alterações de schema entram como migrations incrementais (`V2__...`, `V3__...`), com histórico rastreável na tabela `flyway_schema_history`.
+
+No profile de teste (`application-test.properties`), o Flyway é desabilitado (`spring.flyway.enabled=false`): os testes usam H2 em memória, recriado do zero a cada execução via `ddl-auto=create-drop`.
 
 ---
 
@@ -975,7 +995,6 @@ mvnw.cmd spring-boot:run
 <a id="melhorias-futuras"></a>
 ## 🔮 Melhorias Futuras
 
-* Versionamento de banco com Flyway
 * Versionamento da API
 * Fluxo de pagamento dos pedidos
 
